@@ -1,0 +1,31 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #61B0E2;
+  --color-secondary: #FFC92B;
+  --color-accent: #0F172A;
+  
+  --font-sans: "Inter", system-ui, sans-serif;
+  --font-serif: "Outfit", serif;
+}
+
+@layer base {
+  body {
+    @apply antialiased text-slate-900 bg-white;
+    font-family: var(--font-sans);
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-sans);
+  }
+}
+
+@layer components {
+  .glass {
+    @apply backdrop-blur-xl bg-white/80 border border-white/20 shadow-xl;
+  }
+  
+  .glass-dark {
+    @apply backdrop-blur-xl bg-slate-950/80 border border-white/10 shadow-2xl;
+  }
+}
