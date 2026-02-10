@@ -1,9 +1,15 @@
 import { motion } from 'framer-motion';
 import { ShieldCheck, Lock } from 'lucide-react';
+import SEO from '../components/SEO/SEO';
 
 const Privacy = () => {
     return (
         <div className="pt-32 pb-40">
+            <SEO
+                title="Privacy Policy | Great Expectations"
+                description="Our commitment to protecting your personal health information and ensuring your privacy rights."
+                keywords="privacy, policy, hipaa, compliance, health information"
+            />
             <section className="max-w-[1000px] mx-auto px-8">
                 <div className="text-center mb-20 space-y-6">
                     <motion.div

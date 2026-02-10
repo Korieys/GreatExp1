@@ -1,9 +1,15 @@
 import { motion } from 'framer-motion';
 import { Send, MessageSquarePlus } from 'lucide-react';
+import SEO from '../components/SEO/SEO';
 
 const Feedback = () => {
     return (
         <div className="pt-32 pb-40">
+            <SEO
+                title="Feedback | Great Expectations"
+                description="Your suggestions help us grow and better serve our community. Please let us know how we can improve."
+                keywords="feedback, suggestions, input, improvement, contact"
+            />
             <section className="max-w-3xl mx-auto px-8">
                 <div className="text-center mb-16">
                     <motion.div

@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { Quote, Star } from 'lucide-react';
+import SEO from '../components/SEO/SEO';
 
 const Testimonials = () => {
     const reviews = [
@@ -31,6 +32,11 @@ const Testimonials = () => {
 
     return (
         <div className="pt-32 pb-40">
+            <SEO
+                title="Client Stories | Great Expectations"
+                description="Read real experiences from families and individuals we are honored to serve."
+                keywords="testimonials, reviews, client stories, success stories, feedback"
+            />
             <section className="max-w-[1400px] mx-auto px-8">
                 <div className="text-center mb-24">
                     <h1 className="text-5xl md:text-7xl font-black text-slate-900 tracking-tighter mb-6">

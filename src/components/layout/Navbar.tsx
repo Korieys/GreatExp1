@@ -1,13 +1,16 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
-import { Link, useLocation } from 'react-router-dom';
-import logo from '../../assets/logo.png';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import logo from '../../assets/GElogo.png';
+import { useAuth } from '../../contexts/AuthContext';
 
 const Navbar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
     const location = useLocation();
+    const navigate = useNavigate();
+    const { userLoggedIn, logout } = useAuth();
 
     useEffect(() => {
         const handleScroll = () => {
@@ -35,9 +38,9 @@ const Navbar = () => {
                     animate={{ opacity: 1, x: 0 }}
                     className="flex items-center gap-3"
                 >
-                    <Link to="/" className="flex items-center gap-3 group">
-                        <div className="w-12 h-12 rounded-2xl overflow-hidden rotate-3 group-hover:rotate-0 transition-all duration-500 shadow-xl bg-primary flex items-center justify-center">
-                            <img src={logo} alt="GE3 Logo" className="w-full h-full object-cover" />
+                    <Link to="/" className="flex items-center gap-4 group">
+                        <div className="w-24 h-24 flex items-center justify-center">
+                            <img src={logo} alt="GE3 Logo" className="w-full h-full object-contain" />
                         </div>
                         <div className="flex flex-col">
                             <span className={`text-xl font-black italic tracking-tighter leading-none transition-colors ${scrolled ? 'text-slate-900' : 'text-white'}`}>
@@ -63,7 +66,7 @@ const Navbar = () => {
                                 }`} />
                         </Link>
                     ))}
-                    <Link to="/contact">
+                    <Link to="/book">
                         <motion.button
                             whileHover={{ scale: 1.05, boxShadow: '0 20px 40px -10px rgba(97, 176, 226, 0.4)' }}
                             whileTap={{ scale: 0.98 }}
@@ -72,6 +75,35 @@ const Navbar = () => {
                             Request Intake
                         </motion.button>
                     </Link>
+
+                    {userLoggedIn && (
+                        <>
+                            {useAuth().isAdmin && (
+                                <Link
+                                    to="/admin"
+                                    className={`text-[11px] font-bold uppercase tracking-[0.15em] transition-colors relative group ${scrolled
+                                        ? (location.pathname === '/admin' ? 'text-primary' : 'text-slate-500 hover:text-primary')
+                                        : (location.pathname === '/admin' ? 'text-secondary' : 'text-white hover:text-secondary')
+                                        }`}
+                                >
+                                    Admin
+                                </Link>
+                            )}
+                            <button
+                                onClick={async () => {
+                                    try {
+                                        await logout();
+                                        navigate('/login');
+                                    } catch (e) {
+                                        console.error("Logout failed", e);
+                                    }
+                                }}
+                                className={`text-[11px] font-bold uppercase tracking-[0.15em] transition-colors ${scrolled ? 'text-slate-500 hover:text-red-500' : 'text-white hover:text-red-300'}`}
+                            >
+                                Logout
+                            </button>
+                        </>
+                    )}
                 </div>
 
                 <button className="lg:hidden" onClick={() => setIsMenuOpen(!isMenuOpen)}>
@@ -99,11 +131,34 @@ const Navbar = () => {
                                     {item.name}
                                 </Link>
                             ))}
-                            <Link to="/contact" onClick={() => setIsMenuOpen(false)} className="w-full">
+                            <Link to="/book" onClick={() => setIsMenuOpen(false)} className="w-full">
                                 <button className="w-full py-4 rounded-xl bg-secondary text-[#332a00] font-black text-[11px] uppercase tracking-widest shadow-lg">
                                     Request Intake
                                 </button>
                             </Link>
+                            {userLoggedIn && (
+                                <>
+                                    {useAuth().isAdmin && (
+                                        <Link
+                                            to="/admin"
+                                            onClick={() => setIsMenuOpen(false)}
+                                            className="text-sm font-bold uppercase tracking-widest text-slate-600 hover:text-primary transition-colors"
+                                        >
+                                            Admin Panel
+                                        </Link>
+                                    )}
+                                    <button
+                                        onClick={async () => {
+                                            setIsMenuOpen(false);
+                                            await logout();
+                                            navigate('/login');
+                                        }}
+                                        className="text-sm font-bold uppercase tracking-widest text-left text-red-500 hover:text-red-700 transition-colors"
+                                    >
+                                        Logout
+                                    </button>
+                                </>
+                            )}
                         </div>
                     </motion.div>
                 )}

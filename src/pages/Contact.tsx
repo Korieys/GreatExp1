@@ -1,8 +1,14 @@
 import { Phone, Mail, MapPin, Send, ShieldCheck } from 'lucide-react';
+import SEO from '../components/SEO/SEO';
 
 const Contact = () => {
     return (
         <div className="pt-32 pb-40">
+            <SEO
+                title="Contact Us | Great Expectations"
+                description="Get in touch with Great Expectations. We are currently accepting new patient inquiries."
+                keywords="contact, intake, appointment, consultation, location, phone, email"
+            />
             <section className="max-w-[1400px] mx-auto px-8">
                 <div className="grid lg:grid-cols-2 gap-24">
                     {/* Info Side */}

@@ -1,6 +1,7 @@
 
 import { motion } from 'framer-motion';
 import { Award, BookOpen, Heart, Star, ShieldCheck } from 'lucide-react';
+import SEO from '../components/SEO/SEO';
 
 const Practitioners = () => {
     const team = [
@@ -35,6 +36,11 @@ const Practitioners = () => {
 
     return (
         <div className="pt-32 pb-40">
+            <SEO
+                title="Our Practitioners | Great Expectations"
+                description="Meet our team of elite practitioners dedicated to clinical excellence and compassionate care."
+                keywords="team, practitioners, psychologists, therapists, speech pathology, occupational therapy"
+            />
             <section className="max-w-[1400px] mx-auto px-8">
                 <div className="text-center mb-24 space-y-6">
                     <h2 className="text-[10px] font-black uppercase tracking-[0.4em] text-primary">The Clinical Team</h2>

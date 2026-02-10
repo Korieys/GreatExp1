@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
-import logo from '../../assets/logo.png';
+import logo from '../../assets/GElogo.png';
+import Newsletter from '../Newsletter';
 
 const Footer = () => {
     return (
@@ -8,8 +9,8 @@ const Footer = () => {
                 <div className="grid lg:grid-cols-12 gap-20 pb-24 border-b border-white/10">
                     <div className="lg:col-span-5 space-y-12">
                         <div className="flex items-center gap-4">
-                            <div className="w-12 h-12 rounded-2xl overflow-hidden bg-primary flex items-center justify-center shadow-lg shadow-primary/20">
-                                <img src={logo} alt="GE3 Logo" className="w-full h-full object-cover" />
+                            <div className="w-24 h-24 flex items-center justify-center">
+                                <img src={logo} alt="GE3 Logo" className="w-full h-full object-contain" />
                             </div>
                             <div className="flex flex-col">
                                 <span className="text-2xl font-black italic tracking-tighter leading-none">
@@ -21,6 +22,7 @@ const Footer = () => {
                         <p className="text-slate-400 text-lg leading-relaxed max-w-sm font-light">
                             A premier clinical practice providing multi-disciplinary therapeutic services with a focus on holistic, data-driven outcomes.
                         </p>
+                        <Newsletter />
                     </div>
 
                     <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-3 gap-12 sm:gap-16">
@@ -68,6 +70,7 @@ const Footer = () => {
                         <Link to="/privacy" className="hover:text-white transition-colors">HIPAA Compliance</Link>
                         <Link to="/feedback" className="hover:text-white transition-colors">Suggestions</Link>
                         <Link to="/grievance" className="hover:text-white transition-colors">Grievance</Link>
+                        <Link to="/admin/login" className="hover:text-white transition-colors">Admin Login</Link>
                     </div>
                 </div>
             </div>

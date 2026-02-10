@@ -1,8 +1,21 @@
 import { motion } from 'framer-motion';
 import { BookOpen, ExternalLink, Phone } from 'lucide-react';
+import SEO from '../components/SEO/SEO';
+
+interface ResourceItem {
+    name: string;
+    desc: string;
+    contact?: string;
+    link?: string;
+}
+
+interface ResourceCategory {
+    category: string;
+    items: ResourceItem[];
+}
 
 const Resources = () => {
-    const resources = [
+    const resources: ResourceCategory[] = [
         {
             category: 'Crisis Support',
             items: [
@@ -31,6 +44,11 @@ const Resources = () => {
 
     return (
         <div className="pt-32 pb-40 text-slate-900">
+            <SEO
+                title="Community Resources | Great Expectations"
+                description="A curated library of mental health resources, crisis lines, and educational materials."
+                keywords="resources, mental health, crisis support, education, community, help"
+            />
             <section className="max-w-[1200px] mx-auto px-8">
                 <div className="text-center mb-24">
                     <motion.div

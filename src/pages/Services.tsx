@@ -3,12 +3,11 @@ import { Link } from 'react-router-dom';
 import {
     Heart,
     Users,
-    MessageCircle,
-    Accessibility,
     CheckCircle2,
     ArrowRight,
     Activity
 } from 'lucide-react';
+import SEO from '../components/SEO/SEO';
 
 const Services = () => {
     const serviceCategories = [
@@ -77,6 +76,11 @@ const Services = () => {
 
     return (
         <div className="pt-32 pb-40">
+            <SEO
+                title="Clinical Services | Great Expectations"
+                description="Comprehensive care pathways including individual, group, and family therapy. Specialized support for children, adolescents, and adults."
+                keywords="services, therapy, counseling, individual therapy, group therapy, family therapy"
+            />
             <section className="max-w-[1400px] mx-auto px-8">
                 <div className="grid lg:grid-cols-2 gap-20 items-center mb-32">
                     <div className="space-y-8">

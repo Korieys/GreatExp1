@@ -12,6 +12,7 @@ import {
     Layers
 } from 'lucide-react';
 import heroImage from '../assets/hero.jpg';
+import SEO from '../components/SEO/SEO';
 
 // Animation Variants
 const fadeInUp = {
@@ -54,6 +55,11 @@ const Home = () => {
 
     return (
         <div className="bg-white selection:bg-secondary/20">
+            <SEO
+                title="Great Expectations - Concierge Clinical Therapy"
+                description="Specialized therapy meeting uncompromising care. We partner with families to transform development from a challenge into a journey of discovery."
+                keywords="therapy, pediatric, development, speech, occupational, family, counseling"
+            />
             {/* HERO SECTION */}
             <section className="relative min-h-screen flex items-center pt-24 lg:pt-0 overflow-hidden bg-white">
                 {/* Abstract Backgrounds */}

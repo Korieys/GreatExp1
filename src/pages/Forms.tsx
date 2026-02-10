@@ -1,9 +1,15 @@
 import { motion } from 'framer-motion';
 import { FileText, Upload, Download, CheckCircle } from 'lucide-react';
+import SEO from '../components/SEO/SEO';
 
 const Forms = () => {
     return (
         <div className="pt-32 pb-40">
+            <SEO
+                title="Patient Forms | Great Expectations"
+                description="Download intake paperwork or securely upload identification and insurance documents."
+                keywords="forms, intake, patient forms, upload, download, secure, hipaa"
+            />
             <section className="max-w-[1200px] mx-auto px-8">
                 <div className="text-center mb-24">
                     <h1 className="text-5xl md:text-7xl font-black text-slate-900 tracking-tighter mb-6">

@@ -1,6 +1,7 @@
 
 import { motion } from 'framer-motion';
 import { Layers, Target, Heart, ShieldCheck, Activity, Zap, Star } from 'lucide-react';
+import SEO from '../components/SEO/SEO';
 
 const Method = () => {
     const pillars = [
@@ -28,6 +29,11 @@ const Method = () => {
 
     return (
         <div className="pt-32 pb-40 overflow-hidden">
+            <SEO
+                title="Our Methodology | Great Expectations"
+                description="Our approach combines neuro-clinical rigor with a human-centric philosophy, ensuring personalized and effective care."
+                keywords="methodology, clinical rigor, systemic integration, human-centric care, outcomes"
+            />
             <section className="max-w-[1400px] mx-auto px-8">
                 <div className="grid lg:grid-cols-2 gap-24 items-center mb-40">
                     <div className="space-y-10">

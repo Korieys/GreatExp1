@@ -1,61 +1,131 @@
+import { useEffect, useState } from 'react';
+import { useAuth } from '../contexts/AuthContext';
+import { db } from '../firebase';
+import { collection, query, where, onSnapshot } from 'firebase/firestore';
+import { Link, useNavigate } from 'react-router-dom';
+import { Calendar, FileText, LogOut, PlusCircle, Shield } from 'lucide-react';
 
-import { motion } from 'framer-motion';
-import { Lock, ArrowRight, ShieldCheck } from 'lucide-react';
-import logo from '../assets/logo.png';
+interface Appointment {
+    id: string;
+    serviceType: string;
+    date: string;
+    time: string;
+    status: string;
+    documentUrl?: string;
+    notes?: string;
+}
 
 const Portal = () => {
+    const { currentUser, logout } = useAuth();
+    const navigate = useNavigate();
+    const [appointments, setAppointments] = useState<Appointment[]>([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        if (!currentUser) return;
+
+        const q = query(
+            collection(db, 'appointments'),
+            where('userId', '==', currentUser.uid),
+            // orderBy('date', 'desc') // Requires index, simpler to sort client-side for now or create index later
+        );
+
+        const unsubscribe = onSnapshot(q, (snapshot) => {
+            const apps = snapshot.docs.map(doc => ({
+                id: doc.id,
+                ...doc.data()
+            })) as Appointment[];
+
+            // Client-side sort to avoid index creation requirement error immediately
+            apps.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
+            setAppointments(apps);
+            setLoading(false);
+        });
+
+        return unsubscribe;
+    }, [currentUser]);
+
+    const handleLogout = async () => {
+        try {
+            await logout();
+            navigate('/login');
+        } catch {
+            console.error('Failed to log out');
+        }
+    };
+
     return (
-        <div className="min-h-screen flex items-center justify-center bg-slate-50 pt-20">
-            <div className="absolute top-0 left-0 w-full h-full -z-10 opacity-20 pointer-events-none"
-                style={{ background: `radial-gradient(circle at top right, #61B0E233 0%, transparent 60%), radial-gradient(circle at bottom left, #FFC92B11 0%, transparent 60%)` }} />
+        <div className="min-h-screen bg-gray-50 pt-32 pb-12 px-4 sm:px-6 lg:px-8">
+            <div className="max-w-4xl mx-auto space-y-8">
 
-            <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="max-w-md w-full mx-8"
-            >
-                <div className="glass rounded-[2.5rem] md:rounded-[3.5rem] p-8 md:p-12 space-y-12">
-                    <div className="text-center space-y-4">
-                        <div className="w-16 h-16 rounded-2xl bg-primary mx-auto shadow-xl flex items-center justify-center overflow-hidden rotate-3">
-                            <img src={logo} alt="GE3 Logo" className="w-full h-full object-cover" />
-                        </div>
-                        <h1 className="text-3xl font-black text-slate-900 tracking-tight">Patient Portal</h1>
-                        <p className="text-sm text-slate-500 font-medium">Access your therapeutic records and scheduling.</p>
+                {/* Header */}
+                <div className="bg-white rounded-2xl shadow-sm p-6 flex flex-col md:flex-row justify-between items-center gap-4">
+                    <div>
+                        <h1 className="text-2xl font-bold text-gray-900">Welcome, {currentUser?.email}</h1>
+                        <p className="text-sm text-gray-500">Manage your appointments and documents</p>
                     </div>
-
-                    <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
-                        <div className="space-y-4">
-                            <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2">Access Email</label>
-                            <input type="email" className="w-full bg-slate-50 border border-slate-100 rounded-2xl px-6 py-4 outline-none focus:border-primary transition-colors font-medium" placeholder="parent@example.com" />
-                        </div>
-
-                        <div className="space-y-4">
-                            <div className="flex justify-between items-center ml-2">
-                                <label className="text-[10px] font-black uppercase tracking-widest text-slate-400">Security Key</label>
-                                <a href="#" className="text-[9px] font-black uppercase tracking-widest text-primary hover:underline">Forgot?</a>
-                            </div>
-                            <div className="relative">
-                                <input type="password" className="w-full bg-slate-50 border border-slate-100 rounded-2xl px-6 py-4 outline-none focus:border-primary transition-colors font-medium" placeholder="••••••••" />
-                                <Lock className="absolute right-6 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-300" />
-                            </div>
-                        </div>
-
-                        <button className="w-full py-5 rounded-2xl bg-slate-900 text-white font-black text-xs uppercase tracking-[0.3em] shadow-2xl hover:bg-primary transition-all flex items-center justify-center gap-3 group">
-                            Decrypt & Enter <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                    <div className="flex gap-3">
+                        <Link to="/book" className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700">
+                            <PlusCircle className="mr-2 h-4 w-4" />
+                            New Appointment
+                        </Link>
+                        {/* Temporary Admin Link for testing/demo */}
+                        {currentUser?.email && ['korieydixon@yahoo.com'].includes(currentUser.email.toLowerCase()) && (
+                            <Link to="/admin" className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
+                                <Shield className="mr-2 h-4 w-4" />
+                                Admin Panel
+                            </Link>
+                        )}
+                        <button onClick={handleLogout} className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-red-700 bg-white hover:bg-red-50">
+                            <LogOut className="mr-2 h-4 w-4" />
+                            Logout
                         </button>
-                    </form>
-
-                    <div className="pt-8 border-t border-slate-100">
-                        <div className="flex items-center gap-3 justify-center mb-6">
-                            <ShieldCheck className="w-5 h-5 text-green-500" />
-                            <span className="text-[9px] font-black uppercase tracking-[0.2em] text-slate-400">Secure AES-256 Authentication</span>
-                        </div>
-                        <p className="text-[10px] text-center text-slate-400 font-medium px-4">
-                            Locked for your protection. If you are a new family, please complete an <a href="/contact" className="text-primary font-bold">intake form</a> first.
-                        </p>
                     </div>
                 </div>
-            </motion.div>
+
+                {/* Appointments List */}
+                <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
+                    <div className="px-6 py-4 border-b border-gray-200">
+                        <h2 className="text-lg font-medium text-gray-900">Your Appointments</h2>
+                    </div>
+                    <ul className="divide-y divide-gray-200">
+                        {loading ? (
+                            <li className="p-6 text-center text-gray-500">Loading appointments...</li>
+                        ) : appointments.length === 0 ? (
+                            <li className="p-6 text-center text-gray-500">No appointments found. Book your first one!</li>
+                        ) : (
+                            appointments.map((app) => (
+                                <li key={app.id} className="p-6 hover:bg-gray-50 transition-colors">
+                                    <div className="flex flex-col md:flex-row justify-between gap-4">
+                                        <div className="flex gap-4">
+                                            <div className="flex-shrink-0">
+                                                <div className="h-12 w-12 rounded-full bg-indigo-100 flex items-center justify-center">
+                                                    <Calendar className="h-6 w-6 text-indigo-600" />
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <p className="text-sm font-medium text-indigo-600">{app.serviceType}</p>
+                                                <p className="text-xl font-semibold text-gray-900">{app.date} at {app.time}</p>
+                                                <p className="text-sm text-gray-500 mt-1">Status: <span className={`capitalize font-medium ${app.status === 'confirmed' ? 'text-green-600' : 'text-amber-600'}`}>{app.status}</span></p>
+                                            </div>
+                                        </div>
+                                        <div className="flex flex-col items-end gap-2">
+                                            {app.documentUrl && (
+                                                <a href={app.documentUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center text-sm text-gray-600 hover:text-indigo-600">
+                                                    <FileText className="mr-1 h-4 w-4" />
+                                                    View Document
+                                                </a>
+                                            )}
+                                        </div>
+                                    </div>
+                                </li>
+                            ))
+                        )}
+                    </ul>
+                </div>
+
+            </div>
         </div>
     );
 };

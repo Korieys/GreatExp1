@@ -1,8 +1,14 @@
 import { AlertTriangle, FileWarning } from 'lucide-react';
+import SEO from '../components/SEO/SEO';
 
 const Grievance = () => {
     return (
         <div className="pt-32 pb-40">
+            <SEO
+                title="Grievance Procedure | Great Expectations"
+                description="Submit a formal grievance or complaint. We take all concerns seriously and will address them immediately."
+                keywords="grievance, complaint, feedback, concern, report"
+            />
             <section className="max-w-3xl mx-auto px-8">
                 <div className="text-center mb-16">
                     <div className="w-16 h-16 mx-auto bg-red-50 text-red-500 rounded-2xl flex items-center justify-center mb-6">
