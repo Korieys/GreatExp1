@@ -21,10 +21,11 @@ const Navbar = () => {
     }, []);
 
     const navItems = [
-        { name: 'Clinical Care', path: '/services' },
-        { name: 'Our Method', path: '/method' },
+        { name: 'Services', path: '/services' },
+        { name: 'Method', path: '/method' },
         { name: 'Practitioners', path: '/practitioners' },
-        { name: 'Portal', path: '/portal' },
+        { name: 'Blog', path: '/blog' },
+        { name: 'Resources', path: '/resources' },
     ];
 
     return (

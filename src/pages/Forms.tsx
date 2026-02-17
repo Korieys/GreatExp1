@@ -1,8 +1,45 @@
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { FileText, Upload, Download, CheckCircle } from 'lucide-react';
 import SEO from '../components/SEO/SEO';
+import { patientFormService } from '../services/patientFormService';
+import { useAuth } from '../contexts/AuthContext';
 
 const Forms = () => {
+    const { currentUser } = useAuth();
+    const [file, setFile] = useState<File | null>(null);
+    const [formData, setFormData] = useState({
+        patientName: '',
+        documentType: 'Driver\'s License / ID'
+    });
+    const [uploadStatus, setUploadStatus] = useState<'idle' | 'uploading' | 'success' | 'error'>('idle');
+    const [error, setError] = useState('');
+
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files && e.target.files[0]) {
+            setFile(e.target.files[0]);
+        }
+    };
+
+    const handleUpload = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!file) return;
+
+        setUploadStatus('uploading');
+        setError('');
+
+        try {
+            await patientFormService.uploadPatientForm(file, {
+                ...formData,
+                uploadedBy: currentUser ? currentUser.uid : null
+            });
+            setUploadStatus('success');
+        } catch (err) {
+            console.error(err);
+            setUploadStatus('error');
+            setError('Failed to upload document. Please try again.');
+        }
+    };
     return (
         <div className="pt-32 pb-40">
             <SEO
@@ -65,38 +102,93 @@ const Forms = () => {
                             </div>
                         </div>
 
-                        <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
-                            <div className="space-y-2">
-                                <label className="text-xs font-black uppercase tracking-wider text-slate-500 pl-4">Patient Name</label>
-                                <input type="text" className="w-full h-14 px-6 rounded-2xl border-none bg-white shadow-sm focus:ring-2 focus:ring-primary/20 outline-none" placeholder="Full Legal Name" />
+                        {uploadStatus === 'success' ? (
+                            <div className="bg-green-100 border border-green-200 text-green-800 rounded-2xl p-8 text-center">
+                                <CheckCircle className="w-12 h-12 mx-auto mb-4 text-green-600" />
+                                <h3 className="text-xl font-bold mb-2">Upload Complete!</h3>
+                                <p>Your documents have been securely transmitted to our intake team.</p>
+                                <button
+                                    onClick={() => {
+                                        setUploadStatus('idle');
+                                        setFile(null);
+                                        setFormData({ patientName: '', documentType: 'Driver\'s License / ID' });
+                                    }}
+                                    className="mt-6 text-sm font-bold underline hover:text-primary transition-colors"
+                                >
+                                    Upload another document
+                                </button>
                             </div>
+                        ) : (
+                            <form className="space-y-6" onSubmit={handleUpload}>
+                                <div className="space-y-2">
+                                    <label className="text-xs font-black uppercase tracking-wider text-slate-500 pl-4">Patient Name</label>
+                                    <input
+                                        type="text"
+                                        required
+                                        value={formData.patientName}
+                                        onChange={(e) => setFormData({ ...formData, patientName: e.target.value })}
+                                        className="w-full h-14 px-6 rounded-2xl border-none bg-white shadow-sm focus:ring-2 focus:ring-primary/20 outline-none"
+                                        placeholder="Full Legal Name"
+                                    />
+                                </div>
 
-                            <div className="space-y-2">
-                                <label className="text-xs font-black uppercase tracking-wider text-slate-500 pl-4">Document Type</label>
-                                <select className="w-full h-14 px-6 rounded-2xl border-none bg-white shadow-sm focus:ring-2 focus:ring-primary/20 outline-none text-slate-600">
-                                    <option>Driver's License / ID</option>
-                                    <option>Insurance Card (Front & Back)</option>
-                                    <option>Completed Intake Forms</option>
-                                    <option>Other</option>
-                                </select>
-                            </div>
+                                <div className="space-y-2">
+                                    <label className="text-xs font-black uppercase tracking-wider text-slate-500 pl-4">Document Type</label>
+                                    <select
+                                        value={formData.documentType}
+                                        onChange={(e) => setFormData({ ...formData, documentType: e.target.value })}
+                                        className="w-full h-14 px-6 rounded-2xl border-none bg-white shadow-sm focus:ring-2 focus:ring-primary/20 outline-none text-slate-600"
+                                    >
+                                        <option>Driver's License / ID</option>
+                                        <option>Insurance Card (Front & Back)</option>
+                                        <option>Completed Intake Forms</option>
+                                        <option>Other</option>
+                                    </select>
+                                </div>
 
-                            <div className="p-8 border-2 border-dashed border-slate-300 rounded-3xl bg-white/50 text-center hover:bg-white hover:border-primary/50 transition-all cursor-pointer group">
-                                <Upload className="w-10 h-10 text-slate-300 mx-auto mb-4 group-hover:text-primary transition-colors" />
-                                <p className="text-slate-500 font-medium text-sm">Drag and drop details here, or click to browse</p>
-                                <p className="text-xs text-slate-400 mt-2">PDF, JPG, PNG up to 10MB</p>
-                            </div>
+                                <div
+                                    className={`p-8 border-2 border-dashed rounded-3xl text-center transition-all cursor-pointer group relative
+                                        ${file ? 'border-primary bg-primary/5' : 'border-slate-300 bg-white/50 hover:bg-white hover:border-primary/50'}`}
+                                >
+                                    <input
+                                        type="file"
+                                        required
+                                        onChange={handleFileChange}
+                                        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+                                    />
+                                    <Upload className={`w-10 h-10 mx-auto mb-4 transition-colors ${file ? 'text-primary' : 'text-slate-300 group-hover:text-primary'}`} />
+                                    <p className="text-slate-500 font-medium text-sm">
+                                        {file ? file.name : "Drag and drop details here, or click to browse"}
+                                    </p>
+                                    <p className="text-xs text-slate-400 mt-2">PDF, JPG, PNG up to 10MB</p>
+                                </div>
 
-                            <button className="w-full py-5 rounded-2xl bg-slate-900 text-white font-black text-xs uppercase tracking-[0.25em] shadow-xl shadow-slate-900/10 hover:shadow-slate-900/20 hover:-translate-y-1 transition-all flex items-center justify-center gap-3">
-                                <CheckCircle className="w-4 h-4" />
-                                Secure Submit
-                            </button>
+                                {error && (
+                                    <div className="p-3 bg-red-50 text-red-600 rounded-xl text-xs font-medium text-center">
+                                        {error}
+                                    </div>
+                                )}
 
-                            <p className="text-center text-[10px] text-slate-400 font-medium flex items-center justify-center gap-2">
-                                <span className="w-2 h-2 bg-green-400 rounded-full" />
-                                256-bit SSL Encrypted Transmission
-                            </p>
-                        </form>
+                                <button
+                                    disabled={uploadStatus === 'uploading' || !file}
+                                    className="w-full py-5 rounded-2xl bg-slate-900 text-white font-black text-xs uppercase tracking-[0.25em] shadow-xl shadow-slate-900/10 hover:shadow-slate-900/20 hover:-translate-y-1 transition-all flex items-center justify-center gap-3 disabled:opacity-70 disabled:cursor-not-allowed"
+                                >
+                                    {uploadStatus === 'uploading' ? (
+                                        <span>Encrypting & Uploading...</span>
+                                    ) : (
+                                        <>
+                                            <CheckCircle className="w-4 h-4" />
+                                            Secure Submit
+                                        </>
+                                    )}
+                                </button>
+
+                                <p className="text-center text-[10px] text-slate-400 font-medium flex items-center justify-center gap-2">
+                                    <span className="w-2 h-2 bg-green-400 rounded-full" />
+                                    256-bit SSL Encrypted Transmission
+                                </p>
+                            </form>
+                        )}
                     </div>
                 </div>
             </section>

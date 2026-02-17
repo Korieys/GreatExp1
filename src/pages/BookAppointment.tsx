@@ -1,9 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { db, storage } from '../firebase';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
+
+import { practitionerService } from '../services/practitionerService';
+import type { Practitioner } from '../types';
 
 const BookAppointment = () => {
     const { currentUser } = useAuth();
@@ -16,6 +19,21 @@ const BookAppointment = () => {
     const [file, setFile] = useState<File | null>(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
+
+    const [practitioners, setPractitioners] = useState<Practitioner[]>([]);
+    const [selectedPractitionerId, setSelectedPractitionerId] = useState('');
+
+    useEffect(() => {
+        const loadPractitioners = async () => {
+            try {
+                const data = await practitionerService.getAll();
+                setPractitioners(data);
+            } catch (err) {
+                console.error("Failed to load practitioners", err);
+            }
+        };
+        loadPractitioners();
+    }, []);
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files[0]) {
@@ -52,6 +70,7 @@ const BookAppointment = () => {
                 documentUrl: fileUrl,
                 status: 'pending', // pending, confirmed, completed, cancelled
                 createdAt: serverTimestamp(),
+                practitionerId: selectedPractitionerId || null,
             });
 
             alert('Appointment booked successfully!');
@@ -70,6 +89,22 @@ const BookAppointment = () => {
             {error && <div className="mb-4 text-red-600 bg-red-50 p-3 rounded">{error}</div>}
 
             <form onSubmit={handleSubmit} className="space-y-6 bg-white p-6 rounded-lg shadow">
+                <div>
+                    <label className="block text-sm font-medium text-gray-700">Practitioner (Optional)</label>
+                    <select
+                        value={selectedPractitionerId}
+                        onChange={(e) => setSelectedPractitionerId(e.target.value)}
+                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm border p-2"
+                    >
+                        <option value="">Any Available Practitioner</option>
+                        {practitioners.map(p => (
+                            <option key={p.id} value={p.id}>
+                                {p.name} ({p.role})
+                            </option>
+                        ))}
+                    </select>
+                </div>
+
                 <div>
                     <label className="block text-sm font-medium text-gray-700">Service Type</label>
                     <select

@@ -15,11 +15,19 @@ import Forms from './pages/Forms';
 import Testimonials from './pages/Testimonials';
 import Feedback from './pages/Feedback';
 import Grievance from './pages/Grievance';
+import Archive from './pages/Archive';
+import Article from './pages/Article';
 import Login from './pages/Login';
 import AdminLogin from './pages/AdminLogin';
 import Signup from './pages/Signup';
 import BookAppointment from './pages/BookAppointment';
 import AdminDashboard from './pages/AdminDashboard';
+import AdminPractitioners from './pages/AdminPractitioners';
+import AdminServices from './pages/AdminServices';
+import AdminBlog from './pages/AdminBlog';
+import AdminPatients from './pages/AdminPatients';
+import AdminAnalytics from './pages/AdminAnalytics';
+import AdminLayout from './components/layout/AdminLayout';
 import ProtectedRoute from './components/ProtectedRoute';
 import { AuthProvider } from './contexts/AuthContext';
 
@@ -44,6 +52,9 @@ const App = () => {
               <Route path="/feedback" element={<Feedback />} />
               <Route path="/grievance" element={<Grievance />} />
 
+              <Route path="/blog" element={<Archive />} />
+              <Route path="/blog/:slug" element={<Article />} />
+
               {/* Public Auth Routes */}
               <Route path="/login" element={<Login />} />
               <Route path="/admin/login" element={<AdminLogin />} />
@@ -56,7 +67,14 @@ const App = () => {
               </Route>
 
               <Route element={<ProtectedRoute adminOnly={true} />}>
-                <Route path="/admin" element={<AdminDashboard />} />
+                <Route path="/admin" element={<AdminLayout />}>
+                  <Route index element={<AdminDashboard />} />
+                  <Route path="analytics" element={<AdminAnalytics />} />
+                  <Route path="patients" element={<AdminPatients />} />
+                  <Route path="practitioners" element={<AdminPractitioners />} />
+                  <Route path="services" element={<AdminServices />} />
+                  <Route path="blog" element={<AdminBlog />} />
+                </Route>
               </Route>
             </Routes>
           </main>

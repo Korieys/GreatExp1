@@ -1,5 +1,8 @@
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import { serviceService } from '../services/serviceService';
+import type { Service } from '../types/service';
 import {
     Heart,
     Users,
@@ -10,57 +13,6 @@ import {
 import SEO from '../components/SEO/SEO';
 
 const Services = () => {
-    const serviceCategories = [
-        {
-            title: 'Individual Therapy',
-            icon: <Heart className="w-10 h-10" />,
-            description: 'One-on-one sessions tailored to address personal challenges, emotional growth, and mental well-being.',
-            features: [
-                'Personalized Treatment Plans',
-                'Emotional Regulation',
-                'Coping Strategies',
-                'Self-Discovery'
-            ],
-            color: 'bg-blue-500'
-        },
-        {
-            title: 'Group Therapy',
-            icon: <Users className="w-10 h-10" />,
-            description: 'Supportive group environments to foster shared experiences, social skills, and mutual growth.',
-            features: [
-                'Social Skills Building',
-                'Peer Support',
-                'Shared Experiences',
-                'Collaborative Healing'
-            ],
-            color: 'bg-primary'
-        },
-        {
-            title: 'Family Therapy',
-            icon: <Users className="w-10 h-10" />,
-            description: 'Strengthening family bonds and resolving conflicts through guided therapeutic sessions.',
-            features: [
-                'Conflict Resolution',
-                'Communication Enhancement',
-                'Systemic Support',
-                'Relationship Building'
-            ],
-            color: 'bg-secondary'
-        },
-        {
-            title: 'Anger Management',
-            icon: <Activity className="w-10 h-10" />,
-            description: 'Tools and techniques to understand, regulate, and express anger in healthy, constructive ways.',
-            features: [
-                'Trigger Identification',
-                'Emotional Regulation',
-                'Stress Management',
-                'Behavioral Change'
-            ],
-            color: 'bg-slate-900'
-        }
-    ];
-
     const populations = [
         { group: 'Children', age: '6-12', desc: 'Play-based and developmental focused interventions.' },
         { group: 'Adolescents', age: '13-17', desc: 'Navigating identity, peer relationships, and academic pressure.' },
@@ -73,6 +25,36 @@ const Services = () => {
         'Specialty Support Groups',
         'Youth Mental Health Camp'
     ];
+
+    const [services, setServices] = useState<Service[]>([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const loadServices = async () => {
+            try {
+                const data = await serviceService.getAll();
+                setServices(data);
+            } catch (error) {
+                console.error("Failed to load services", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        loadServices();
+    }, []);
+
+    // Helper to get icon based on title/category if not stored
+    const getIcon = (title: string, category: string) => {
+        if (title.includes('Individual') || category === 'Clinical') return <Heart className="w-10 h-10" />;
+        if (title.includes('Group')) return <Users className="w-10 h-10" />;
+        if (title.includes('Family')) return <Users className="w-10 h-10" />;
+        return <Activity className="w-10 h-10" />;
+    };
+
+    const getServiceColor = (index: number) => {
+        const colors = ['bg-blue-500', 'bg-primary', 'bg-secondary', 'bg-slate-900'];
+        return colors[index % colors.length];
+    };
 
     return (
         <div className="pt-32 pb-40">
@@ -96,17 +78,19 @@ const Services = () => {
                 </div>
 
                 <div className="grid md:grid-cols-2 gap-10 mb-32">
-                    {serviceCategories.map((service, idx) => (
+                    {loading ? (
+                        <div>Loading services...</div>
+                    ) : services.map((service, idx) => (
                         <motion.div
-                            key={idx}
+                            key={service.id || idx}
                             initial={{ opacity: 0, scale: 0.95 }}
                             whileInView={{ opacity: 1, scale: 1 }}
                             viewport={{ once: true }}
                             transition={{ delay: idx * 0.1 }}
                             className="bg-white rounded-[2.5rem] md:rounded-[4rem] p-8 md:p-12 border border-slate-100 hover:border-primary/20 hover:shadow-2xl hover:shadow-primary/5 transition-all group"
                         >
-                            <div className={`w-20 h-20 rounded-3xl flex items-center justify-center mb-10 text-white shadow-xl ${service.color} transition-transform group-hover:rotate-6 group-hover:scale-110`}>
-                                {service.icon}
+                            <div className={`w-20 h-20 rounded-3xl flex items-center justify-center mb-10 text-white shadow-xl ${getServiceColor(idx)} transition-transform group-hover:rotate-6 group-hover:scale-110`}>
+                                {getIcon(service.title, service.category)}
                             </div>
                             <h3 className="text-3xl font-black text-slate-900 mb-6">{service.title}</h3>
                             <p className="text-slate-500 text-lg font-light leading-relaxed mb-10">

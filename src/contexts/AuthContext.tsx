@@ -37,11 +37,28 @@ export function AuthProvider({ children }: AuthProviderProps) {
     const ADMIN_EMAILS = ['korieydixon@yahoo.com'];
 
     useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, (user) => {
+        const unsubscribe = onAuthStateChanged(auth, async (user) => {
             if (user) {
                 setCurrentUser(user);
                 setUserLoggedIn(true);
-                setIsAdmin(user.email ? ADMIN_EMAILS.includes(user.email.toLowerCase()) : false);
+
+                // Check if user has admin role in Firestore
+                try {
+                    const { doc, getDoc } = await import('firebase/firestore');
+                    const { db } = await import('../firebase');
+                    const userDocRef = doc(db, 'users', user.uid);
+                    const userDoc = await getDoc(userDocRef);
+
+                    if (userDoc.exists() && userDoc.data().role === 'admin') {
+                        setIsAdmin(true);
+                    } else {
+                        // Fallback to hardcoded list for initial setup/safety
+                        setIsAdmin(user.email ? ADMIN_EMAILS.includes(user.email.toLowerCase()) : false);
+                    }
+                } catch (error) {
+                    console.error("Error checking admin status:", error);
+                    setIsAdmin(false);
+                }
             } else {
                 setCurrentUser(null);
                 setUserLoggedIn(false);

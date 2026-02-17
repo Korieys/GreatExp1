@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '../firebase';
+import { auth, db } from '../firebase';
+import { doc, setDoc, serverTimestamp } from 'firebase/firestore';
 import { useNavigate, Link } from 'react-router-dom';
 import SEO from '../components/SEO/SEO';
 
 const Signup = () => {
     const navigate = useNavigate();
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
@@ -22,8 +25,19 @@ const Signup = () => {
         setLoading(true);
         setError('');
         try {
-            await createUserWithEmailAndPassword(auth, email, password);
-            // Optionally add user to Firestore 'users' collection here if needed for roles
+            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+            const user = userCredential.user;
+
+            // Create user profile in Firestore
+            await setDoc(doc(db, 'users', user.uid), {
+                uid: user.uid,
+                email: user.email,
+                firstName,
+                lastName,
+                role: 'user',
+                createdAt: serverTimestamp(),
+            });
+
             navigate('/portal');
         } catch (err: any) {
             setError(err.message || 'Failed to create an account');
@@ -53,7 +67,35 @@ const Signup = () => {
                 </div>
                 {error && <div className="text-red-500 text-center">{error}</div>}
                 <form className="mt-8 space-y-6" onSubmit={onSignup}>
-                    <div className="-space-y-px rounded-md shadow-sm">
+                    <div className="rounded-md shadow-sm -space-y-px">
+                        <div className="grid grid-cols-2 gap-px">
+                            <div>
+                                <label htmlFor="first-name" className="sr-only">First Name</label>
+                                <input
+                                    id="first-name"
+                                    name="firstName"
+                                    type="text"
+                                    required
+                                    className="relative block w-full rounded-tl-md border-0 py-1.5 text-slate-900 ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6 px-3"
+                                    placeholder="First Name"
+                                    value={firstName}
+                                    onChange={(e) => setFirstName(e.target.value)}
+                                />
+                            </div>
+                            <div>
+                                <label htmlFor="last-name" className="sr-only">Last Name</label>
+                                <input
+                                    id="last-name"
+                                    name="lastName"
+                                    type="text"
+                                    required
+                                    className="relative block w-full rounded-tr-md border-0 py-1.5 text-slate-900 ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6 px-3"
+                                    placeholder="Last Name"
+                                    value={lastName}
+                                    onChange={(e) => setLastName(e.target.value)}
+                                />
+                            </div>
+                        </div>
                         <div>
                             <label htmlFor="email-address" className="sr-only">Email address</label>
                             <input
@@ -62,7 +104,7 @@ const Signup = () => {
                                 type="email"
                                 autoComplete="email"
                                 required
-                                className="relative block w-full rounded-t-md border-0 py-1.5 text-slate-900 ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6 px-3"
+                                className="relative block w-full border-0 py-1.5 text-slate-900 ring-1 ring-inset ring-slate-300 placeholder:text-slate-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-primary sm:text-sm sm:leading-6 px-3"
                                 placeholder="Email address"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
