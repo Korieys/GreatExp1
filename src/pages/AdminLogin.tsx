@@ -15,7 +15,7 @@ const AdminLogin = () => {
     const [loading, setLoading] = useState(false);
 
     // Hardcoded check for immediate feedback, though AuthContext also handles it
-    const ADMIN_EMAILS = ['korieydixon@yahoo.com', 'Denean24@hotmail.com', 'southernlpc@yahoo.com'];
+    const ADMIN_EMAILS = ['korieydixon@yahoo.com', 'denean24@hotmail.com', 'southernlpc@yahoo.com'];
 
     const onLogin = async (e: React.FormEvent) => {
         e.preventDefault();

@@ -34,7 +34,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     const [isAdmin, setIsAdmin] = useState(false);
     const [loading, setLoading] = useState(true);
 
-    const ADMIN_EMAILS = ['korieydixon@yahoo.com', 'Denean24@hotmail.com', 'southernlpc@yahoo.com'];
+    const ADMIN_EMAILS = ['korieydixon@yahoo.com', 'denean24@hotmail.com', 'southernlpc@yahoo.com'];
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, async (user) => {
