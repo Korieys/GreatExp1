@@ -4,6 +4,8 @@ import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../firebase';
 import { Shield } from 'lucide-react';
 
+import { getFirebaseErrorMessage } from '../utils/firebaseErrors';
+
 const AdminLogin = () => {
     const navigate = useNavigate();
     // const { isAdmin } = useAuth(); // We'll check this after login
@@ -29,7 +31,9 @@ const AdminLogin = () => {
             await signInWithEmailAndPassword(auth, email, password);
             navigate('/admin');
         } catch (err: any) {
-            setError(err.message || 'Failed to sign in');
+            // If it's a firebase error with a code, use the mapper. Otherwise use the message (for our custom error)
+            const message = err.code ? getFirebaseErrorMessage(err) : (err.message || 'Failed to sign in');
+            setError(message);
         } finally {
             setLoading(false);
         }

@@ -20,6 +20,10 @@ const Navbar = () => {
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
+    if (location.pathname.startsWith('/admin')) {
+        return null;
+    }
+
     const navItems = [
         { name: 'Services', path: '/services' },
         { name: 'Method', path: '/method' },

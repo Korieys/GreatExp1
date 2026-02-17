@@ -4,6 +4,8 @@ import { auth } from '../firebase';
 import { useNavigate, Link } from 'react-router-dom';
 import SEO from '../components/SEO/SEO';
 
+import { getFirebaseErrorMessage } from '../utils/firebaseErrors';
+
 const Login = () => {
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
@@ -19,7 +21,7 @@ const Login = () => {
             await signInWithEmailAndPassword(auth, email, password);
             navigate('/portal');
         } catch (err: any) {
-            setError(err.message || 'Failed to sign in');
+            setError(getFirebaseErrorMessage(err));
         } finally {
             setLoading(false);
         }

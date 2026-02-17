@@ -84,7 +84,7 @@ const BookAppointment = () => {
     };
 
     return (
-        <div className="max-w-2xl mx-auto pt-32 pb-12 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-2xl mx-auto pt-48 pb-12 px-4 sm:px-6 lg:px-8">
             <h1 className="text-3xl font-bold text-gray-900 mb-8">Book an Appointment</h1>
             {error && <div className="mb-4 text-red-600 bg-red-50 p-3 rounded">{error}</div>}
 
@@ -171,7 +171,7 @@ const BookAppointment = () => {
                 <button
                     type="submit"
                     disabled={loading}
-                    className={`w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ${loading ? 'opacity-50' : ''}`}
+                    className={`w-full flex justify-center py-3 px-4 border border-transparent rounded-xl shadow-sm text-sm font-black uppercase tracking-wider text-[#332a00] bg-secondary hover:bg-secondary/80 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-secondary ${loading ? 'opacity-50' : 'transition-transform hover:scale-[1.02]'}`}
                 >
                     {loading ? 'Booking...' : 'Book Appointment'}
                 </button>

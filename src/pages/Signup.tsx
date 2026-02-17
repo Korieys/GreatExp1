@@ -5,6 +5,10 @@ import { doc, setDoc, serverTimestamp } from 'firebase/firestore';
 import { useNavigate, Link } from 'react-router-dom';
 import SEO from '../components/SEO/SEO';
 
+
+
+import { getFirebaseErrorMessage } from '../utils/firebaseErrors';
+
 const Signup = () => {
     const navigate = useNavigate();
     const [firstName, setFirstName] = useState('');
@@ -40,7 +44,7 @@ const Signup = () => {
 
             navigate('/portal');
         } catch (err: any) {
-            setError(err.message || 'Failed to create an account');
+            setError(getFirebaseErrorMessage(err));
         } finally {
             setLoading(false);
         }

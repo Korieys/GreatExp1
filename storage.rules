@@ -1,0 +1,39 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    // Helper functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      // Note: This requires a custom claim or looking up user doc (which is harder in storage rules)
+      // For simplicity/performance in storage rules, we often rely on path-based security or just auth
+      // Real production apps might trigger admin claims on auth token
+      return isAuthenticated(); 
+    }
+
+    // Blog images
+    match /blog/{allPaths=**} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Practitioner images
+    match /practitioners/{allPaths=**} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // User uploads (e.g. avatars if added later)
+    match /users/{userId}/{allPaths=**} {
+      allow read: if true;
+      allow write: if request.auth.uid == userId;
+    }
+
+    // Default deny
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}

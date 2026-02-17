@@ -56,7 +56,7 @@ const Portal = () => {
     };
 
     return (
-        <div className="min-h-screen bg-gray-50 pt-32 pb-12 px-4 sm:px-6 lg:px-8">
+        <div className="min-h-screen bg-gray-50 pt-48 pb-12 px-4 sm:px-6 lg:px-8">
             <div className="max-w-4xl mx-auto space-y-8">
 
                 {/* Header */}
@@ -66,18 +66,18 @@ const Portal = () => {
                         <p className="text-sm text-gray-500">Manage your appointments and documents</p>
                     </div>
                     <div className="flex gap-3">
-                        <Link to="/book" className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700">
+                        <Link to="/book" className="inline-flex items-center px-6 py-3 border border-transparent rounded-xl shadow-sm text-xs font-black uppercase tracking-wider text-[#332a00] bg-secondary hover:bg-secondary/80 transition-all">
                             <PlusCircle className="mr-2 h-4 w-4" />
                             New Appointment
                         </Link>
                         {/* Temporary Admin Link for testing/demo */}
                         {currentUser?.email && ['korieydixon@yahoo.com'].includes(currentUser.email.toLowerCase()) && (
-                            <Link to="/admin" className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
+                            <Link to="/admin" className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-lg shadow-sm text-xs font-bold uppercase tracking-wider text-gray-700 bg-white hover:bg-gray-50 transition-all">
                                 <Shield className="mr-2 h-4 w-4" />
                                 Admin Panel
                             </Link>
                         )}
-                        <button onClick={handleLogout} className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-red-700 bg-white hover:bg-red-50">
+                        <button onClick={handleLogout} className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-lg shadow-sm text-xs font-bold uppercase tracking-wider text-red-700 bg-white hover:bg-red-50 transition-all">
                             <LogOut className="mr-2 h-4 w-4" />
                             Logout
                         </button>

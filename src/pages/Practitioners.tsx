@@ -15,22 +15,13 @@ const Practitioners = () => {
             image: 'https://images.unsplash.com/photo-1559839734-2b71f1536783?auto=format&fit=crop&q=80&w=800',
         },
         {
-            name: 'Sarah Chen',
-            role: 'Clinical Director - Speech & Language',
-            credentials: 'MS, CCC-SLP',
-            status: 'Waitlist Open (Limited)',
-            bio: 'Sarah leads our communication sciences department, focusing on complex articulation and social communication challenges.',
-            specialties: ['Early Childhood Language', 'AAC Systems Implementation', 'Social Pragmatics'],
-            image: 'https://images.unsplash.com/photo-1594824476967-48c8b964273f?auto=format&fit=crop&q=80&w=800',
-        },
-        {
-            name: 'Marcus Thorne',
-            role: 'Lead Occupational Therapist',
-            credentials: 'OTD, OTR/L',
-            status: 'Consultations Open',
-            bio: 'Dr. Thorne specializes in sensory integration and motor coordination, helping children navigate their worlds with confidence.',
-            specialties: ['Sensory Processing Integration', 'Fine Motor Development', 'Self-Regulation Methods'],
-            image: 'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&fit=crop&q=80&w=800',
+            name: 'Tonya Haynes',
+            role: 'Clinical Director',
+            credentials: 'LPC',
+            status: 'Accepting New Patients',
+            bio: 'Tonya Haynes brings a wealth of experience in clinical counseling, specializing in adolescent development and family dynamics. Her practice is built on fostering resilience and emotional growth.',
+            specialties: ['Adolescent Counseling', 'Family Systems', 'Cognitive Behavioral Therapy'],
+            image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=800', // Placeholder image
         }
     ];
 
