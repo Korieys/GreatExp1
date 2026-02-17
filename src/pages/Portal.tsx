@@ -20,6 +20,7 @@ const Portal = () => {
     const navigate = useNavigate();
     const [appointments, setAppointments] = useState<Appointment[]>([]);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState('');
 
     useEffect(() => {
         if (!currentUser) return;
@@ -30,18 +31,25 @@ const Portal = () => {
             // orderBy('date', 'desc') // Requires index, simpler to sort client-side for now or create index later
         );
 
-        const unsubscribe = onSnapshot(q, (snapshot) => {
-            const apps = snapshot.docs.map(doc => ({
-                id: doc.id,
-                ...doc.data()
-            })) as Appointment[];
+        const unsubscribe = onSnapshot(q,
+            (snapshot) => {
+                const apps = snapshot.docs.map(doc => ({
+                    id: doc.id,
+                    ...doc.data()
+                })) as Appointment[];
 
-            // Client-side sort to avoid index creation requirement error immediately
-            apps.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+                // Client-side sort to avoid index creation requirement error immediately
+                apps.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
-            setAppointments(apps);
-            setLoading(false);
-        });
+                setAppointments(apps);
+                setLoading(false);
+            },
+            (err) => {
+                console.error("Error fetching appointments:", err);
+                setError("Failed to load appointments. Please try again later.");
+                setLoading(false);
+            }
+        );
 
         return unsubscribe;
     }, [currentUser]);
@@ -92,6 +100,8 @@ const Portal = () => {
                     <ul className="divide-y divide-gray-200">
                         {loading ? (
                             <li className="p-6 text-center text-gray-500">Loading appointments...</li>
+                        ) : error ? (
+                            <li className="p-6 text-center text-red-500">{error}</li>
                         ) : appointments.length === 0 ? (
                             <li className="p-6 text-center text-gray-500">No appointments found. Book your first one!</li>
                         ) : (
