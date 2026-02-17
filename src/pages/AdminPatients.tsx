@@ -22,7 +22,7 @@ const AdminPatients = () => {
         loadUsers();
     }, []);
 
-    const filteredUsers = users.filter(user =>
+    const filteredUsers = users.filter(user => user.role !== 'admin').filter(user =>
         user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
         (user.firstName && user.firstName.toLowerCase().includes(searchTerm.toLowerCase())) ||
         (user.lastName && user.lastName.toLowerCase().includes(searchTerm.toLowerCase()))
