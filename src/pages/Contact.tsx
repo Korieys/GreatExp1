@@ -59,7 +59,7 @@ const Contact = () => {
                                 </div>
                                 <div>
                                     <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Direct Line</p>
-                                    <p className="text-xl font-bold text-slate-900">(555) 010-8888</p>
+                                    <p className="text-xl font-bold text-slate-900">832-399-6141</p>
                                 </div>
                             </div>
 

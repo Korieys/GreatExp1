@@ -77,7 +77,7 @@ const Navbar = () => {
                             whileTap={{ scale: 0.98 }}
                             className="px-8 py-3.5 rounded-2xl text-[11px] font-black uppercase tracking-[0.2em] shadow-lg transition-all bg-secondary text-[#332a00]"
                         >
-                            Request Intake
+                            Schedule an Assessment
                         </motion.button>
                     </Link>
 
@@ -138,7 +138,7 @@ const Navbar = () => {
                             ))}
                             <Link to="/book" onClick={() => setIsMenuOpen(false)} className="w-full">
                                 <button className="w-full py-4 rounded-xl bg-secondary text-[#332a00] font-black text-[11px] uppercase tracking-widest shadow-lg">
-                                    Request Intake
+                                    Schedule an Assessment
                                 </button>
                             </Link>
                             {userLoggedIn && (

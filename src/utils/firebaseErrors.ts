@@ -1,5 +1,19 @@
 export const getFirebaseErrorMessage = (error: any): string => {
+    // Check if error is a string
+    if (typeof error === 'string') {
+        if (error.includes('auth/invalid-credential') || error.includes('auth/wrong-password')) {
+            return "Invalid credentials. Please check your email and password.";
+        }
+        return error; // Return the string as is if we don't recognize it, or map it generic? User wants plain english.
+        // Actually best to return a generic if it looks like a code, but if it's already a message...
+        // Let's assume if it includes "Firebase: Error" we want to mask it.
+    }
+
     if (!error || !error.code) {
+        // Fallback: Check if error message contains the code
+        if (error && error.message && error.message.includes('auth/invalid-credential')) {
+            return "Invalid credentials. Please check your email and password.";
+        }
         return "An unknown error occurred. Please try again.";
     }
 

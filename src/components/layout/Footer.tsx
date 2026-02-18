@@ -39,7 +39,7 @@ const Footer = () => {
                         <div className="space-y-8">
                             <h4 className="text-[10px] font-black uppercase tracking-[0.4em] text-slate-500">Intake</h4>
                             <ul className="space-y-5 text-slate-400 text-sm font-medium">
-                                <li>(555) 010-8888</li>
+                                <li>832-399-6141</li>
                                 <li>office@ge-therapeutic.com</li>
                                 <li><Link to="/forms" className="hover:text-primary transition-colors">Patient Forms</Link></li>
                                 <li><Link to="/portal" className="hover:text-primary transition-colors">Patient Portal</Link></li>
