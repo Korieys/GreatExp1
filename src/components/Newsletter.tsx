@@ -46,7 +46,7 @@ const Newsletter = () => {
                     <button
                         type="submit"
                         disabled={status === 'loading' || status === 'success'}
-                        className={`w-full bg-indigo-500 border border-transparent rounded-md py-2 px-4 flex items-center justify-center text-base font-medium text-white hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-indigo-500 ${status === 'success' ? 'bg-green-600 hover:bg-green-700' : ''}`}
+                        className={`w-full bg-primary border border-transparent rounded-md py-2 px-4 flex items-center justify-center text-base font-medium text-white hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-primary ${status === 'success' ? 'bg-green-600 hover:bg-green-700' : ''}`}
                     >
                         {status === 'loading' ? 'Subscribing...' : status === 'success' ? 'Subscribed!' : 'Subscribe'}
                     </button>
