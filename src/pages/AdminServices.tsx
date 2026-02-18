@@ -60,12 +60,12 @@ const AdminServices = () => {
     }
 
     return (
-        <div className="space-y-6">
+        <div className="space-y-8">
             <div className="flex justify-between items-center">
-                <h1 className="text-2xl font-bold text-gray-800">Services</h1>
+                <h1 className="text-3xl font-black text-slate-900 tracking-tight">Services</h1>
                 <button
                     onClick={handleAddNew}
-                    className="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition"
+                    className="flex items-center gap-2 px-6 py-3 bg-slate-900 text-white rounded-xl hover:bg-slate-800 transition-all font-bold text-sm shadow-lg shadow-slate-200"
                 >
                     <Plus className="w-4 h-4" />
                     Add Service
@@ -73,34 +73,48 @@ const AdminServices = () => {
             </div>
 
             {loading ? (
-                <div>Loading...</div>
+                <div className="text-center py-12 text-slate-400 font-medium">Loading services...</div>
             ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {services.map((service) => (
-                        <div key={service.id} className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden p-6">
-                            <h3 className="font-bold text-lg text-gray-900 mb-2">{service.title}</h3>
-                            <div className="flex justify-between items-center text-sm text-gray-500 mb-4">
-                                <span>{service.category}</span>
-                                <span className="font-medium text-indigo-600">{service.price}</span>
+                        <div key={service.id} className="bg-white rounded-[2rem] shadow-xl shadow-slate-100 border border-slate-100 overflow-hidden p-8 group hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
+                            <div className="flex justify-between items-start mb-4">
+                                <span className="inline-block px-3 py-1 rounded-full bg-slate-50 text-slate-500 text-[10px] font-black uppercase tracking-widest">
+                                    {service.category}
+                                </span>
+                                <span className="font-black text-primary text-lg">{service.price}</span>
                             </div>
-                            <p className="text-gray-500 text-sm line-clamp-3 mb-6">{service.description}</p>
 
-                            <div className="flex justify-end gap-2 pt-4 border-t border-gray-50">
+                            <h3 className="font-black text-2xl text-slate-900 mb-4 tracking-tight">{service.title}</h3>
+                            <p className="text-slate-500 text-sm leading-relaxed line-clamp-3 mb-8 font-light">{service.description}</p>
+
+                            <div className="flex justify-end gap-2 pt-6 border-t border-slate-50">
                                 <button
                                     onClick={() => handleEdit(service)}
-                                    className="p-2 text-gray-600 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition"
+                                    className="p-2.5 text-slate-400 hover:text-primary hover:bg-slate-50 rounded-xl transition-all"
                                 >
                                     <Edit2 className="w-4 h-4" />
                                 </button>
                                 <button
                                     onClick={() => handleDelete(service.id!)}
-                                    className="p-2 text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-lg transition"
+                                    className="p-2.5 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-xl transition-all"
                                 >
                                     <Trash2 className="w-4 h-4" />
                                 </button>
                             </div>
                         </div>
                     ))}
+
+                    {/* Add New Card (Empty State) */}
+                    <button
+                        onClick={handleAddNew}
+                        className="rounded-[2rem] border-2 border-dashed border-slate-200 flex flex-col items-center justify-center p-8 text-slate-400 hover:border-primary/50 hover:bg-primary/5 hover:text-primary transition-all group h-full min-h-[300px]"
+                    >
+                        <div className="w-14 h-14 rounded-full bg-slate-50 group-hover:bg-white flex items-center justify-center mb-4 transition-colors shadow-sm">
+                            <Plus className="w-6 h-6" />
+                        </div>
+                        <span className="font-bold text-sm uppercase tracking-widest">Add New Service</span>
+                    </button>
                 </div>
             )}
         </div>

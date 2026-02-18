@@ -106,14 +106,14 @@ const BlogForm = ({ initialData, onSave, onCancel }: BlogFormProps) => {
                             name="published"
                             checked={formData.published}
                             onChange={handleCheckboxChange}
-                            className="rounded text-indigo-600 focus:ring-indigo-500"
+                            className="rounded text-primary focus:ring-primary"
                         />
                         Published
                     </label>
                     <button
                         type="submit"
                         disabled={loading}
-                        className="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 disabled:opacity-50"
+                        className="flex items-center gap-2 px-6 py-2.5 bg-primary text-white rounded-xl font-bold shadow-lg shadow-primary/20 hover:bg-blue-500 disabled:opacity-50 transition-all"
                     >
                         <Save className="w-4 h-4" />
                         {loading ? 'Saving...' : 'Save Post'}
@@ -132,7 +132,7 @@ const BlogForm = ({ initialData, onSave, onCancel }: BlogFormProps) => {
                             value={formData.title}
                             onChange={handleInputChange}
                             required
-                            className="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 border p-2.5"
+                            className="mt-1 block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary focus:ring-primary border p-3"
                         />
                     </div>
                     <div>
@@ -143,7 +143,7 @@ const BlogForm = ({ initialData, onSave, onCancel }: BlogFormProps) => {
                             value={formData.slug}
                             onChange={handleInputChange}
                             required
-                            className="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 border p-2.5 bg-gray-50"
+                            className="mt-1 block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary focus:ring-primary border p-3 bg-slate-50"
                         />
                     </div>
                 </div>
@@ -176,7 +176,7 @@ const BlogForm = ({ initialData, onSave, onCancel }: BlogFormProps) => {
                             name="category"
                             value={formData.category}
                             onChange={handleInputChange}
-                            className="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 border p-2.5"
+                            className="mt-1 block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary focus:ring-primary border p-3"
                         >
                             {CATEGORIES.map(cat => <option key={cat} value={cat}>{cat}</option>)}
                         </select>
@@ -188,17 +188,17 @@ const BlogForm = ({ initialData, onSave, onCancel }: BlogFormProps) => {
                             value={tagInput}
                             onChange={(e) => setTagInput(e.target.value)}
                             onKeyDown={addTag}
-                            className="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 border p-2.5"
+                            className="mt-1 block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary focus:ring-primary border p-3"
                             placeholder="Add tags..."
                         />
                         <div className="flex flex-wrap gap-2 mt-2">
                             {formData.tags?.map(tag => (
-                                <span key={tag} className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800">
+                                <span key={tag} className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-slate-100 text-primary">
                                     {tag}
                                     <button
                                         type="button"
                                         onClick={() => removeTag(tag)}
-                                        className="ml-1 text-indigo-600 hover:text-indigo-900"
+                                        className="ml-1 text-slate-400 hover:text-red-500"
                                     >
                                         &times;
                                     </button>
@@ -216,7 +216,7 @@ const BlogForm = ({ initialData, onSave, onCancel }: BlogFormProps) => {
                         value={formData.excerpt}
                         onChange={handleInputChange}
                         rows={2}
-                        className="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 border p-2.5"
+                        className="mt-1 block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary focus:ring-primary border p-3"
                         placeholder="Short summary for list view..."
                     />
                 </div>
@@ -230,7 +230,7 @@ const BlogForm = ({ initialData, onSave, onCancel }: BlogFormProps) => {
                         onChange={handleInputChange}
                         rows={15}
                         required
-                        className="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 border p-2.5 font-mono text-sm"
+                        className="mt-1 block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary focus:ring-primary border p-3 font-mono text-sm"
                         placeholder="Write your article content here..."
                     />
                 </div>

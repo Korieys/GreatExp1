@@ -95,7 +95,7 @@ const PractitionerForm = ({ initialData, onSave, onCancel }: PractitionerFormPro
                     {/* Image Upload */}
                     <div className="col-span-1">
                         <label className="block text-sm font-medium text-gray-700 mb-2">Profile Image</label>
-                        <div className="relative aspect-square bg-gray-100 rounded-xl overflow-hidden border-2 border-dashed border-gray-300 hover:border-indigo-500 transition-colors group">
+                        <div className="relative aspect-square bg-slate-50 rounded-xl overflow-hidden border-2 border-dashed border-slate-300 hover:border-primary transition-colors group">
                             {previewUrl ? (
                                 <img src={previewUrl} alt="Preview" className="w-full h-full object-cover" />
                             ) : (
@@ -126,7 +126,7 @@ const PractitionerForm = ({ initialData, onSave, onCancel }: PractitionerFormPro
                                 value={formData.name}
                                 onChange={handleInputChange}
                                 required
-                                className="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 border p-2.5"
+                                className="mt-1 block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary focus:ring-primary border p-3"
                             />
                         </div>
                         <div>
@@ -138,7 +138,7 @@ const PractitionerForm = ({ initialData, onSave, onCancel }: PractitionerFormPro
                                 onChange={handleInputChange}
                                 required
                                 placeholder="e.g. Clinical Psychologist"
-                                className="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 border p-2.5"
+                                className="mt-1 block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary focus:ring-primary border p-3"
                             />
                         </div>
                         <div>
@@ -148,7 +148,7 @@ const PractitionerForm = ({ initialData, onSave, onCancel }: PractitionerFormPro
                                 value={formData.bio}
                                 onChange={handleInputChange}
                                 rows={4}
-                                className="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 border p-2.5"
+                                className="mt-1 block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary focus:ring-primary border p-3"
                             />
                         </div>
                     </div>
@@ -161,7 +161,7 @@ const PractitionerForm = ({ initialData, onSave, onCancel }: PractitionerFormPro
                         <button
                             type="button"
                             onClick={addAvailability}
-                            className="text-sm text-indigo-600 hover:text-indigo-700 font-medium flex items-center gap-1"
+                            className="text-sm text-primary hover:text-blue-700 font-bold flex items-center gap-1"
                         >
                             <Plus className="w-4 h-4" /> Add Slot
                         </button>
@@ -175,7 +175,7 @@ const PractitionerForm = ({ initialData, onSave, onCancel }: PractitionerFormPro
                                     <select
                                         value={slot.day}
                                         onChange={(e) => updateAvailability(index, 'day', e.target.value)}
-                                        className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm border p-2"
+                                        className="block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary focus:ring-primary sm:text-sm border p-2"
                                     >
                                         {DAYS.map(day => <option key={day} value={day}>{day}</option>)}
                                     </select>
@@ -186,7 +186,7 @@ const PractitionerForm = ({ initialData, onSave, onCancel }: PractitionerFormPro
                                         type="time"
                                         value={slot.startTime}
                                         onChange={(e) => updateAvailability(index, 'startTime', e.target.value)}
-                                        className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm border p-2"
+                                        className="block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary focus:ring-primary sm:text-sm border p-2"
                                     />
                                 </div>
                                 <div className="self-center">to</div>
@@ -196,7 +196,7 @@ const PractitionerForm = ({ initialData, onSave, onCancel }: PractitionerFormPro
                                         type="time"
                                         value={slot.endTime}
                                         onChange={(e) => updateAvailability(index, 'endTime', e.target.value)}
-                                        className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm border p-2"
+                                        className="block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary focus:ring-primary sm:text-sm border p-2"
                                     />
                                 </div>
                                 <div className="flex-1 text-right">
@@ -220,14 +220,14 @@ const PractitionerForm = ({ initialData, onSave, onCancel }: PractitionerFormPro
                     <button
                         type="button"
                         onClick={onCancel}
-                        className="px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                        className="px-6 py-2.5 border border-slate-300 rounded-xl text-sm font-bold text-slate-700 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500"
                     >
                         Cancel
                     </button>
                     <button
                         type="submit"
                         disabled={loading}
-                        className={`px-4 py-2 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 flex items-center gap-2 ${loading ? 'opacity-50' : ''}`}
+                        className={`px-6 py-2.5 border border-transparent rounded-xl shadow-lg shadow-primary/20 text-sm font-bold text-white bg-primary hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary flex items-center gap-2 ${loading ? 'opacity-50' : ''}`}
                     >
                         {loading && <span className="animate-spin">⏳</span>}
                         Save Practitioner

@@ -60,12 +60,12 @@ const AdminBlog = () => {
     }
 
     return (
-        <div className="space-y-6">
+        <div className="space-y-8">
             <div className="flex justify-between items-center">
-                <h1 className="text-2xl font-bold text-gray-800">Blog Manager</h1>
+                <h1 className="text-3xl font-black text-slate-900 tracking-tight">Blog Manager</h1>
                 <button
                     onClick={handleAddNew}
-                    className="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition"
+                    className="flex items-center gap-2 px-6 py-3 bg-slate-900 text-white rounded-xl hover:bg-slate-800 transition-all font-bold text-sm shadow-lg shadow-slate-200"
                 >
                     <Plus className="w-4 h-4" />
                     New Post
@@ -73,45 +73,50 @@ const AdminBlog = () => {
             </div>
 
             {loading ? (
-                <div>Loading posts...</div>
+                <div className="bg-white p-12 rounded-3xl text-center">
+                    <div className="inline-block animate-spin rounded-full h-8 w-8 border-4 border-slate-100 border-t-primary mb-4"></div>
+                    <p className="text-slate-400 font-medium">Loading posts...</p>
+                </div>
             ) : (
-                <div className="bg-white rounded-xl shadow-sm overflow-hidden">
-                    <table className="min-w-full divide-y divide-gray-200">
-                        <thead className="bg-gray-50">
+                <div className="bg-white rounded-3xl shadow-xl shadow-slate-200/50 border border-slate-100 overflow-hidden">
+                    <table className="min-w-full divide-y divide-slate-100">
+                        <thead className="bg-slate-50/50">
                             <tr>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Title</th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Category</th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
-                                <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                                <th className="px-8 py-5 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest">Title</th>
+                                <th className="px-8 py-5 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest">Status</th>
+                                <th className="px-8 py-5 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest">Category</th>
+                                <th className="px-8 py-5 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest">Date</th>
+                                <th className="px-8 py-5 text-right text-[10px] font-black text-slate-400 uppercase tracking-widest">Actions</th>
                             </tr>
                         </thead>
-                        <tbody className="bg-white divide-y divide-gray-200">
+                        <tbody className="bg-white divide-y divide-slate-50">
                             {posts.map((post) => (
-                                <tr key={post.id}>
-                                    <td className="px-6 py-4 whitespace-nowrap">
+                                <tr key={post.id} className="hover:bg-slate-50/80 transition-colors group">
+                                    <td className="px-8 py-5 whitespace-nowrap">
                                         <div className="flex items-center">
                                             {post.coverImage && (
-                                                <img className="h-10 w-10 rounded object-cover mr-3" src={post.coverImage} alt="" />
+                                                <img className="h-12 w-16 rounded-lg object-cover mr-4 shadow-sm" src={post.coverImage} alt="" />
                                             )}
-                                            <div className="text-sm font-medium text-gray-900">{post.title}</div>
+                                            <div className="text-sm font-bold text-slate-900">{post.title}</div>
                                         </div>
                                     </td>
-                                    <td className="px-6 py-4 whitespace-nowrap">
-                                        <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${post.published ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}`}>
+                                    <td className="px-8 py-5 whitespace-nowrap">
+                                        <span className={`px-3 py-1 inline-flex text-[10px] uppercase tracking-widest font-black rounded-full ${post.published ? 'bg-green-100 text-green-700' : 'bg-amber-100 text-amber-700'}`}>
                                             {post.published ? 'Published' : 'Draft'}
                                         </span>
                                     </td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                        {post.category}
+                                    <td className="px-8 py-5 whitespace-nowrap">
+                                        <span className="inline-block px-2 py-1 rounded-md bg-slate-100 text-slate-600 text-xs font-bold">
+                                            {post.category}
+                                        </span>
                                     </td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                    <td className="px-8 py-5 whitespace-nowrap text-sm text-slate-500 font-medium">
                                         {post.createdAt?.seconds ? new Date(post.createdAt.seconds * 1000).toLocaleDateString() : 'N/A'}
                                     </td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                        <div className="flex justify-end gap-2">
-                                            <button onClick={() => handleEdit(post)} className="text-indigo-600 hover:text-indigo-900"><Edit2 className="w-4 h-4" /></button>
-                                            <button onClick={() => handleDelete(post.id!)} className="text-red-600 hover:text-red-900"><Trash2 className="w-4 h-4" /></button>
+                                    <td className="px-8 py-5 whitespace-nowrap text-right text-sm font-medium">
+                                        <div className="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                            <button onClick={() => handleEdit(post)} className="p-2 text-slate-400 hover:text-primary hover:bg-slate-50 rounded-lg transition-colors"><Edit2 className="w-4 h-4" /></button>
+                                            <button onClick={() => handleDelete(post.id!)} className="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"><Trash2 className="w-4 h-4" /></button>
                                         </div>
                                     </td>
                                 </tr>

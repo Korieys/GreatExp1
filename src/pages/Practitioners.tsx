@@ -1,29 +1,25 @@
-
+import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Award, BookOpen, Heart, Star, ShieldCheck } from 'lucide-react';
 import SEO from '../components/SEO/SEO';
+import { practitionerService } from '../services/practitionerService';
+import type { Practitioner } from '../types';
 
 const Practitioners = () => {
-    const team = [
-        {
-            name: 'Dr. Regan Boyd',
-            role: 'Owner & Lead Pediatric Psychologist',
-            credentials: 'Psy.D., BCBA-D',
-            status: 'Accepting New Patients',
-            bio: 'Dr. Boyd is a visionary clinical leader with over 15 years of experience in pediatric development and family systems. Her approach integrates evidence-based neuro-psychology with a compassionate, human-centric focus.',
-            specialties: ['Neuro-Developmental Assessment', 'Family Systems Therapy', 'Early Start Denver Model'],
-            image: 'https://images.unsplash.com/photo-1559839734-2b71f1536783?auto=format&fit=crop&q=80&w=800',
-        },
-        {
-            name: 'Tonya Haynes',
-            role: 'Clinical Director',
-            credentials: 'LPC',
-            status: 'Accepting New Patients',
-            bio: 'Tonya Haynes brings a wealth of experience in clinical counseling, specializing in adolescent development and family dynamics. Her practice is built on fostering resilience and emotional growth.',
-            specialties: ['Adolescent Counseling', 'Family Systems', 'Cognitive Behavioral Therapy'],
-            image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=800', // Placeholder image
-        }
-    ];
+    const [team, setTeam] = useState<Practitioner[]>([]);
+
+
+    useEffect(() => {
+        const loadPractitioners = async () => {
+            try {
+                const data = await practitionerService.getAll();
+                setTeam(data);
+            } catch (error) {
+                console.error("Failed to load practitioners", error);
+            }
+        };
+        loadPractitioners();
+    }, []);
 
     return (
         <div className="pt-32 pb-40">
@@ -55,7 +51,7 @@ const Practitioners = () => {
                         >
                             {/* Image side */}
                             <div className="w-full lg:w-1/3 aspect-square lg:aspect-[4/5] rounded-[2rem] md:rounded-[3rem] overflow-hidden shadow-2xl relative group">
-                                <img src={member.image} alt={member.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                                <img src={member.imageUrl || 'https://images.unsplash.com/photo-1559839734-2b71f1536783?auto=format&fit=crop&q=80&w=800'} alt={member.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                                 <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-8">
                                     <div className="flex gap-4">
                                         <Award className="text-white w-6 h-6" />
@@ -82,7 +78,7 @@ const Practitioners = () => {
                                 </p>
 
                                 <div className="grid sm:grid-cols-3 gap-6 pt-6 border-t border-slate-200">
-                                    {member.specialties.map((spec, i) => (
+                                    {member.specialties && member.specialties.map((spec, i) => (
                                         <div key={i} className="flex items-center gap-3">
                                             <div className="p-2 rounded-lg bg-white shadow-sm text-primary">
                                                 <ShieldCheck className="w-4 h-4" />

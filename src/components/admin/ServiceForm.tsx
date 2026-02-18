@@ -86,7 +86,7 @@ const ServiceForm = ({ initialData, onSave, onCancel }: ServiceFormProps) => {
                                 value={formData.title}
                                 onChange={handleInputChange}
                                 required
-                                className="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 border p-2.5"
+                                className="mt-1 block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary focus:ring-primary border p-3"
                             />
                         </div>
                         <div>
@@ -95,7 +95,7 @@ const ServiceForm = ({ initialData, onSave, onCancel }: ServiceFormProps) => {
                                 name="category"
                                 value={formData.category}
                                 onChange={handleInputChange}
-                                className="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 border p-2.5"
+                                className="mt-1 block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary focus:ring-primary border p-3"
                             >
                                 {CATEGORIES.map(cat => <option key={cat} value={cat}>{cat}</option>)}
                             </select>
@@ -109,7 +109,7 @@ const ServiceForm = ({ initialData, onSave, onCancel }: ServiceFormProps) => {
                                     value={formData.price}
                                     onChange={handleInputChange}
                                     placeholder="$150"
-                                    className="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 border p-2.5"
+                                    className="mt-1 block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary focus:ring-primary border p-3"
                                 />
                             </div>
                             <div>
@@ -120,7 +120,7 @@ const ServiceForm = ({ initialData, onSave, onCancel }: ServiceFormProps) => {
                                     value={formData.duration}
                                     onChange={handleInputChange}
                                     placeholder="50 min"
-                                    className="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 border p-2.5"
+                                    className="mt-1 block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary focus:ring-primary border p-3"
                                 />
                             </div>
                         </div>
@@ -132,7 +132,7 @@ const ServiceForm = ({ initialData, onSave, onCancel }: ServiceFormProps) => {
                                 onChange={handleInputChange}
                                 rows={4}
                                 required
-                                className="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 border p-2.5"
+                                className="mt-1 block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary focus:ring-primary border p-3"
                             />
                         </div>
                     </div>
@@ -145,7 +145,7 @@ const ServiceForm = ({ initialData, onSave, onCancel }: ServiceFormProps) => {
                                     type="text"
                                     value={featureInput}
                                     onChange={(e) => setFeatureInput(e.target.value)}
-                                    className="flex-1 rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 border p-2.5"
+                                    className="flex-1 rounded-xl border-slate-200 shadow-sm focus:border-primary focus:ring-primary border p-3"
                                     placeholder="Add a feature..."
                                     onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), addFeature())}
                                 />
@@ -182,14 +182,14 @@ const ServiceForm = ({ initialData, onSave, onCancel }: ServiceFormProps) => {
                     <button
                         type="button"
                         onClick={onCancel}
-                        className="px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                        className="px-6 py-2.5 border border-slate-300 rounded-xl text-sm font-bold text-slate-700 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500"
                     >
                         Cancel
                     </button>
                     <button
                         type="submit"
                         disabled={loading}
-                        className={`px-4 py-2 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 flex items-center gap-2 ${loading ? 'opacity-50' : ''}`}
+                        className={`px-6 py-2.5 border border-transparent rounded-xl shadow-lg shadow-primary/20 text-sm font-bold text-white bg-primary hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary flex items-center gap-2 ${loading ? 'opacity-50' : ''}`}
                     >
                         {loading && <span className="animate-spin">⏳</span>}
                         Save Service

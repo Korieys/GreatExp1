@@ -12,6 +12,9 @@ export interface Practitioner {
     bio: string;
     email: string; // For linking to auth if needed later
     imageUrl?: string;
+    credentials?: string;
+    status?: string;
+    specialties?: string[];
     availability: Availability[];
     createdAt?: any;
 }
