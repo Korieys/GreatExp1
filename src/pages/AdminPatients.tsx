@@ -8,14 +8,14 @@ const AdminPatients = () => {
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
     const [editingId, setEditingId] = useState<string | null>(null);
-    const [editForm, setEditForm] = useState<{ firstName: string, lastName: string, role: 'user' | 'admin' }>({ firstName: '', lastName: '', role: 'user' });
+    const [editForm, setEditForm] = useState<{ firstName: string, lastName: string, role: UserProfile['role'] }>({ firstName: '', lastName: '', role: 'patient' });
 
     const handleEdit = (user: UserProfile) => {
         setEditingId(user.uid);
         setEditForm({
             firstName: user.firstName || '',
             lastName: user.lastName || '',
-            role: user.role || 'user'
+            role: user.role || 'patient'
         });
     };
 
@@ -154,7 +154,7 @@ const AdminPatients = () => {
                                         {editingId === user.uid ? (
                                             <select
                                                 value={editForm.role}
-                                                onChange={e => setEditForm({ ...editForm, role: e.target.value as 'user' | 'admin' })}
+                                                onChange={e => setEditForm({ ...editForm, role: e.target.value as UserProfile['role'] })}
                                                 className="px-2 py-1 text-sm border rounded bg-white outline-none focus:border-primary"
                                             >
                                                 <option value="patient">Patient</option>
