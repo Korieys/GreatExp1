@@ -12,7 +12,7 @@ const Newsletter = () => {
 
         setStatus('loading');
         try {
-            await addDoc(collection(db, 'newsletter_subscribers'), {
+            await addDoc(collection(db, 'subscribers'), {
                 email,
                 subscribedAt: serverTimestamp()
             });

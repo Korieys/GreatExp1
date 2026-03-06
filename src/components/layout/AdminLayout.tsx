@@ -1,18 +1,21 @@
 import { Link, useLocation, Outlet } from 'react-router-dom';
-import { LayoutDashboard, Users, Settings, LogOut, FileText, Activity, UserPlus } from 'lucide-react';
+import { LayoutDashboard, Users, Settings, LogOut, FileText, Activity, UserPlus, Mail, UsersRound } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 
 const AdminLayout = () => {
     const location = useLocation();
-    const { logout } = useAuth();
+    const { logout, userPermissions } = useAuth(); // null = Super Admin
 
     const navItems = [
-        { name: 'Dashboard', path: '/admin', icon: LayoutDashboard },
+        { name: 'Dashboard', path: '/admin', icon: LayoutDashboard }, // Anyone can view dashboard
         { name: 'Analytics', path: '/admin/analytics', icon: Activity },
-        { name: 'Patients', path: '/admin/patients', icon: UserPlus },
-        { name: 'Practitioners', path: '/admin/practitioners', icon: Users },
-        { name: 'Services', path: '/admin/services', icon: Settings },
-        { name: 'Blog', path: '/admin/blog', icon: FileText },
+        { name: 'Patients', path: '/admin/patients', icon: UserPlus, perm: 'users' },
+        { name: 'Practitioners', path: '/admin/practitioners', icon: Users, perm: 'users' },
+        { name: 'Services', path: '/admin/services', icon: Settings, perm: 'settings' },
+        { name: 'Site Content', path: '/admin/content', icon: LayoutDashboard, perm: 'content' },
+        { name: 'Blog', path: '/admin/blog', icon: FileText, perm: 'blog' },
+        { name: 'Inquiries', path: '/admin/inquiries', icon: Mail, perm: 'inquiries' },
+        { name: 'Subscribers', path: '/admin/subscribers', icon: UsersRound, perm: 'users' },
     ];
 
     return (
@@ -28,6 +31,11 @@ const AdminLayout = () => {
 
                 <nav className="flex-1 p-4 space-y-2 mt-4">
                     {navItems.map((item) => {
+                        // Check if item has a specific permission requirement and if user lacks it
+                        if (item.perm && userPermissions && !userPermissions.includes(item.perm)) {
+                            return null;
+                        }
+
                         const Icon = item.icon;
                         const isActive = location.pathname === item.path;
                         return (

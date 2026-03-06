@@ -1,4 +1,4 @@
-import { collection, getDocs, doc, getDoc, query, orderBy } from 'firebase/firestore';
+import { collection, getDocs, doc, getDoc, query, orderBy, updateDoc, deleteDoc } from 'firebase/firestore';
 import { db } from '../firebase';
 import type { UserProfile } from '../types/user';
 
@@ -27,5 +27,17 @@ export const userService = {
     getCount: async (): Promise<number> => {
         const snapshot = await getDocs(collection(db, COLLECTION_NAME));
         return snapshot.size;
+    },
+
+    // Update user
+    updateUser: async (uid: string, data: Partial<UserProfile>): Promise<void> => {
+        const docRef = doc(db, COLLECTION_NAME, uid);
+        await updateDoc(docRef, data);
+    },
+
+    // Delete user
+    deleteUser: async (uid: string): Promise<void> => {
+        const docRef = doc(db, COLLECTION_NAME, uid);
+        await deleteDoc(docRef);
     }
 };

@@ -1,7 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Phone, Mail, MapPin, Send, ShieldCheck } from 'lucide-react';
 import SEO from '../components/SEO/SEO';
 import { contactService } from '../services/contactService';
+import { contentService, defaultSiteContent } from '../services/contentService';
+import type { SiteContent } from '../services/contentService';
 
 const Contact = () => {
     const [formData, setFormData] = useState({
@@ -13,6 +15,11 @@ const Contact = () => {
     const [loading, setLoading] = useState(false);
     const [submitted, setSubmitted] = useState(false);
     const [error, setError] = useState('');
+    const [content, setContent] = useState<SiteContent>(defaultSiteContent);
+
+    useEffect(() => {
+        contentService.getMainContent().then(setContent).catch(console.error);
+    }, []);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -59,7 +66,7 @@ const Contact = () => {
                                 </div>
                                 <div>
                                     <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Direct Line</p>
-                                    <p className="text-xl font-bold text-slate-900">832-399-6141</p>
+                                    <p className="text-xl font-bold text-slate-900">{content.contactPhone}</p>
                                 </div>
                             </div>
 
@@ -69,7 +76,7 @@ const Contact = () => {
                                 </div>
                                 <div>
                                     <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Clinical Desk</p>
-                                    <p className="text-xl font-bold text-slate-900">office@ge-therapeutic.com</p>
+                                    <p className="text-xl font-bold text-slate-900">{content.contactEmail}</p>
                                 </div>
                             </div>
 
@@ -79,7 +86,7 @@ const Contact = () => {
                                 </div>
                                 <div>
                                     <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Practice HQ</p>
-                                    <p className="text-xl font-bold text-slate-900 leading-snug">The Sterling Building, Suite 1400<br />Austin, Texas 78701</p>
+                                    <p className="text-xl font-bold text-slate-900 leading-snug whitespace-pre-line">{content.contactAddress}</p>
                                 </div>
                             </div>
                         </div>

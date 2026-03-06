@@ -1,0 +1,26 @@
+
+[1m[37m===[39m Deploying to 'greatexp-a3b99'...[22m
+
+[36m[1mi [22m[39m deploying [1mstorage, firestore[22m
+[36m[1mi  storage:[22m[39m ensuring required API [1mfirebasestorage.googleapis.com[22m is enabled...
+[36m[1mi  firebase.storage:[22m[39m checking [1mstorage.rules[22m for compilation errors...
+[32m[1m+  firebase.storage:[22m[39m rules file [1mstorage.rules[22m compiled successfully
+[36m[1mi  firestore:[22m[39m ensuring required API [1mfirestore.googleapis.com[22m is enabled...
+[36m[1mi  firestore:[22m[39m ensuring required API [1mfirestore.googleapis.com[22m is enabled...
+[36m[1mi  cloud.firestore:[22m[39m checking [1mfirestore.rules[22m for compilation errors...
+[32m[1m+  cloud.firestore:[22m[39m rules file [1mfirestore.rules[22m compiled successfully
+[34m?[39m [1mCloud Storage for Firebase needs an IAM Role to use cross-service rules. Grant[22m
+[1m the new role?[22m [2m(Y/n)[22m[1A[102G[103G[1B[2K[1A[2K[G[34m?[39m [1mCloud Storage for Firebase needs an IAM Role to use cross-service rules. Grant[22m
+[1m the new role?[22m [2m(Y/n)[22m y[1A[103G[104G[1B[2K[1A[2K[G[34m?[39m [1mCloud Storage for Firebase needs an IAM Role to use cross-service rules. Grant[22m
+[1m the new role?[22m [2m(Y/n)[22m y\[1A[104G[105G[1B[2K[1A[2K[G[34m?[39m [1mCloud Storage for Firebase needs an IAM Role to use cross-service rules. Grant[22m
+[1m the new role?[22m [2m(Y/n)[22m y\n[1A[105G[102G[1B[2K[1A[2K[G[32m✔[39m [1mCloud Storage for Firebase needs an IAM Role to use cross-service rules. Grant[22m
+[1m the new role?[22m [36mYes[39m[1A[99G[1B
+[?25h[36m[1mi  storage:[22m[39m updated service account for cross-service rules...
+[36m[1mi  storage:[22m[39m uploading rules [1mstorage.rules[22m...
+[36m[1mi  firestore:[22m[39m uploading rules [1mfirestore.rules[22m...
+[32m[1m+  storage:[22m[39m released rules [1mstorage.rules[22m to [1mfirebase.storage[22m
+[32m[1m+  firestore:[22m[39m released rules [1mfirestore.rules[22m to [1mcloud.firestore[22m
+
+[32m[1m+ [22m[39m [1m[4mDeploy complete![24m[22m
+
+[1mProject Console:[22m https://console.firebase.google.com/project/greatexp-a3b99/overview

@@ -26,6 +26,9 @@ import AdminServices from './pages/AdminServices';
 import AdminBlog from './pages/AdminBlog';
 import AdminPatients from './pages/AdminPatients';
 import AdminAnalytics from './pages/AdminAnalytics';
+import AdminContent from './pages/AdminContent';
+import AdminInquiries from './pages/AdminInquiries';
+import AdminSubscribers from './pages/AdminSubscribers';
 import AdminLayout from './components/layout/AdminLayout';
 import ProtectedRoute from './components/ProtectedRoute';
 import { AuthProvider } from './contexts/AuthContext';
@@ -76,6 +79,9 @@ const App = () => {
                     <Route path="practitioners" element={<AdminPractitioners />} />
                     <Route path="services" element={<AdminServices />} />
                     <Route path="blog" element={<AdminBlog />} />
+                    <Route path="content" element={<AdminContent />} />
+                    <Route path="inquiries" element={<AdminInquiries />} />
+                    <Route path="subscribers" element={<AdminSubscribers />} />
                   </Route>
                 </Route>
 

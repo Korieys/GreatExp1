@@ -10,6 +10,7 @@ interface AuthContextType {
     currentUser: User | null;
     userLoggedIn: boolean;
     isAdmin: boolean;
+    userPermissions: string[] | null;
     loading: boolean;
     logout: () => Promise<void>;
 }
@@ -32,6 +33,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     const [currentUser, setCurrentUser] = useState<User | null>(null);
     const [userLoggedIn, setUserLoggedIn] = useState(false);
     const [isAdmin, setIsAdmin] = useState(false);
+    const [userPermissions, setUserPermissions] = useState<string[] | null>(null);
     const [loading, setLoading] = useState(true);
 
     const ADMIN_EMAILS = ['korieydixon@yahoo.com', 'denean24@hotmail.com', 'southernlpc@yahoo.com'];
@@ -49,11 +51,17 @@ export function AuthProvider({ children }: AuthProviderProps) {
                     const userDocRef = doc(db, 'users', user.uid);
                     const userDoc = await getDoc(userDocRef);
 
-                    if (userDoc.exists() && userDoc.data().role === 'admin') {
-                        setIsAdmin(true);
-                    } else {
-                        // Fallback to hardcoded list for initial setup/safety
-                        setIsAdmin(user.email ? ADMIN_EMAILS.includes(user.email.toLowerCase()) : false);
+                    if (userDoc.exists()) {
+                        const data = userDoc.data();
+
+                        if (data.role === 'admin') {
+                            setIsAdmin(true);
+                        } else {
+                            // Fallback to hardcoded list for initial setup/safety
+                            setIsAdmin(user.email ? ADMIN_EMAILS.includes(user.email.toLowerCase()) : false);
+                        }
+
+                        setUserPermissions(data.permissions || null); // null indicates SuperAdmin with all access
                     }
                 } catch (error) {
                     console.error("Error checking admin status:", error);
@@ -78,6 +86,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         currentUser,
         userLoggedIn,
         isAdmin,
+        userPermissions,
         loading,
         logout
     };

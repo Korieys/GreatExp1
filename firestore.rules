@@ -12,7 +12,7 @@ service cloud.firestore {
         get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
     }
 
-    // User profiles
+    // User profiles - Users can read/write their own profiles, Admins manage all
     match /users/{userId} {
       allow read: if isAuthenticated() && (request.auth.uid == userId || isAdmin());
       allow create: if isAuthenticated() && request.auth.uid == userId;
@@ -20,30 +20,47 @@ service cloud.firestore {
       allow delete: if isAdmin();
     }
 
-    // Blog posts
+    // Blog posts - Public readable, Admin writable
     match /posts/{postId} {
-      allow read: if true; // Public can read posts
-      allow write: if isAdmin(); // Only admins can write
+      allow read: if true;
+      allow write: if isAdmin();
     }
 
-    // Practitioners
+    // Practitioners directory - Public readable, Admin writable
     match /practitioners/{practitionerId} {
       allow read: if true;
       allow write: if isAdmin();
     }
 
-    // Services
+    // Services directory - Public readable, Admin writable
     match /services/{serviceId} {
       allow read: if true;
       allow write: if isAdmin();
     }
 
-
-    // Appointments
+    // Appointments - Users read/manage their own. Admins manage all.
     match /appointments/{appointmentId} {
       allow read: if isAuthenticated() && (resource.data.userId == request.auth.uid || isAdmin());
-      allow create: if isAuthenticated() && request.resource.data.userId == request.auth.uid;
+      allow create: if isAuthenticated() && (request.resource.data.userId == request.auth.uid || isAdmin());
       allow update, delete: if isAuthenticated() && (resource.data.userId == request.auth.uid || isAdmin());
+    }
+
+    // Site Content CMS - Public readable for the frontend, Admin writable
+    match /siteContent/{document=**} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Contact form submissions - Public can submit, Admins can read/manage
+    match /inquiries/{inquiryId} {
+      allow create: if true;
+      allow read, update, delete: if isAdmin();
+    }
+
+    // Newsletter Subscribers - Public can subscribe
+    match /subscribers/{subscriberId} {
+    	allow create: if true;
+      allow read, update, delete: if isAdmin();
     }
 
     // Default deny

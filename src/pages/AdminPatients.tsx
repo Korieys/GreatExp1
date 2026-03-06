@@ -1,12 +1,45 @@
 import { useEffect, useState } from 'react';
 import type { UserProfile } from '../types/user';
 import { userService } from '../services/userService';
-import { Search, Mail, Calendar } from 'lucide-react';
+import { Search, Mail, Calendar, Edit2, Trash2, Save, X } from 'lucide-react';
 
 const AdminPatients = () => {
     const [users, setUsers] = useState<UserProfile[]>([]);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
+    const [editingId, setEditingId] = useState<string | null>(null);
+    const [editForm, setEditForm] = useState<{ firstName: string, lastName: string, role: 'user' | 'admin' }>({ firstName: '', lastName: '', role: 'user' });
+
+    const handleEdit = (user: UserProfile) => {
+        setEditingId(user.uid);
+        setEditForm({
+            firstName: user.firstName || '',
+            lastName: user.lastName || '',
+            role: user.role || 'user'
+        });
+    };
+
+    const handleSave = async (uid: string) => {
+        try {
+            await userService.updateUser(uid, editForm);
+            setUsers(users.map(u => u.uid === uid ? { ...u, ...editForm } : u));
+            setEditingId(null);
+        } catch (error) {
+            console.error("Failed to update user", error);
+            alert("Failed to update user");
+        }
+    };
+
+    const handleDelete = async (uid: string) => {
+        if (!window.confirm("Are you sure you want to delete this patient permanently?")) return;
+        try {
+            await userService.deleteUser(uid);
+            setUsers(users.filter(u => u.uid !== uid));
+        } catch (error) {
+            console.error("Failed to delete user", error);
+            alert("Failed to delete user");
+        }
+    };
 
     useEffect(() => {
         const loadUsers = async () => {
@@ -59,6 +92,7 @@ const AdminPatients = () => {
                                 <th className="px-8 py-5 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest">Contact</th>
                                 <th className="px-8 py-5 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest">Since</th>
                                 <th className="px-8 py-5 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest">Role</th>
+                                <th className="px-8 py-5 text-left text-[10px] font-black text-slate-400 uppercase tracking-widest">Actions</th>
                             </tr>
                         </thead>
                         <tbody className="bg-white divide-y divide-slate-50">
@@ -75,9 +109,28 @@ const AdminPatients = () => {
                                                 <div className="bg-slate-900 text-white text-[10px] font-bold px-2 py-0.5 rounded-md inline-block mb-1 opacity-0 group-hover:opacity-100 transition-opacity">
                                                     ID: {user.uid.slice(0, 8)}
                                                 </div>
-                                                <div className="text-base font-bold text-slate-900">
-                                                    {user.firstName} {user.lastName}
-                                                </div>
+                                                {editingId === user.uid ? (
+                                                    <div className="flex gap-2">
+                                                        <input
+                                                            type="text"
+                                                            value={editForm.firstName}
+                                                            onChange={e => setEditForm({ ...editForm, firstName: e.target.value })}
+                                                            className="w-24 px-2 py-1 text-sm border rounded outline-none focus:border-primary"
+                                                            placeholder="First Name"
+                                                        />
+                                                        <input
+                                                            type="text"
+                                                            value={editForm.lastName}
+                                                            onChange={e => setEditForm({ ...editForm, lastName: e.target.value })}
+                                                            className="w-24 px-2 py-1 text-sm border rounded outline-none focus:border-primary"
+                                                            placeholder="Last Name"
+                                                        />
+                                                    </div>
+                                                ) : (
+                                                    <div className="text-base font-bold text-slate-900">
+                                                        {user.firstName} {user.lastName}
+                                                    </div>
+                                                )}
                                             </div>
                                         </div>
                                     </td>
@@ -98,9 +151,44 @@ const AdminPatients = () => {
                                         </div>
                                     </td>
                                     <td className="px-8 py-5 whitespace-nowrap">
-                                        <span className={`px-4 py-1.5 inline-flex text-[10px] uppercase tracking-widest font-black rounded-full ${user.role === 'admin' ? 'bg-primary/10 text-primary border border-primary/20' : 'bg-slate-50 text-slate-600 border border-slate-100'}`}>
-                                            {user.role}
-                                        </span>
+                                        {editingId === user.uid ? (
+                                            <select
+                                                value={editForm.role}
+                                                onChange={e => setEditForm({ ...editForm, role: e.target.value as 'user' | 'admin' })}
+                                                className="px-2 py-1 text-sm border rounded bg-white outline-none focus:border-primary"
+                                            >
+                                                <option value="patient">Patient</option>
+                                                <option value="admin">Admin</option>
+                                                <option value="practitioner">Practitioner</option>
+                                            </select>
+                                        ) : (
+                                            <span className={`px-4 py-1.5 inline-flex text-[10px] uppercase tracking-widest font-black rounded-full ${user.role === 'admin' ? 'bg-primary/10 text-primary border border-primary/20' : 'bg-slate-50 text-slate-600 border border-slate-100'}`}>
+                                                {user.role}
+                                            </span>
+                                        )}
+                                    </td>
+                                    <td className="px-8 py-5 whitespace-nowrap">
+                                        <div className="flex items-center gap-2">
+                                            {editingId === user.uid ? (
+                                                <>
+                                                    <button onClick={() => handleSave(user.uid)} className="p-2 bg-green-50 text-green-600 hover:bg-green-100 rounded-lg transition-colors" title="Save">
+                                                        <Save className="w-4 h-4" />
+                                                    </button>
+                                                    <button onClick={() => setEditingId(null)} className="p-2 bg-slate-50 text-slate-600 hover:bg-slate-100 rounded-lg transition-colors" title="Cancel">
+                                                        <X className="w-4 h-4" />
+                                                    </button>
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <button onClick={() => handleEdit(user)} className="p-2 bg-slate-50 text-slate-600 hover:bg-slate-100 rounded-lg transition-colors" title="Edit">
+                                                        <Edit2 className="w-4 h-4" />
+                                                    </button>
+                                                    <button onClick={() => handleDelete(user.uid)} className="p-2 bg-red-50 text-red-600 hover:bg-red-100 rounded-lg transition-colors" title="Delete">
+                                                        <Trash2 className="w-4 h-4" />
+                                                    </button>
+                                                </>
+                                            )}
+                                        </div>
                                     </td>
                                 </tr>
                             ))}

@@ -7,31 +7,42 @@ service firebase.storage {
     }
 
     function isAdmin() {
-      // Note: This requires a custom claim or looking up user doc (which is harder in storage rules)
-      // For simplicity/performance in storage rules, we often rely on path-based security or just auth
-      // Real production apps might trigger admin claims on auth token
-      return isAuthenticated(); 
+      // Uses Firebase Storage cross-service rule to check the user's role in Firestore
+      return isAuthenticated() && 
+        firestore.get(/databases/(default)/documents/users/$(request.auth.uid)).data.role == 'admin';
     }
 
-    // Blog images
+    // Blog images - Public readable, Admin writable
     match /blog/{allPaths=**} {
       allow read: if true;
       allow write: if isAdmin();
     }
 
-    // Practitioner images
+    // Practitioner images - Public readable, Admin writable
     match /practitioners/{allPaths=**} {
       allow read: if true;
       allow write: if isAdmin();
     }
 
-    // User uploads (e.g. avatars if added later)
-    match /users/{userId}/{allPaths=**} {
+    // Services assets - Public readable, Admin writable
+    match /services/{allPaths=**} {
       allow read: if true;
-      allow write: if request.auth.uid == userId;
+      allow write: if isAdmin();
     }
 
-    // Default deny
+    // User profile uploads (avatars)
+    match /users/{userId}/{allPaths=**} {
+      allow read: if true;
+      allow write: if request.auth.uid == userId || isAdmin();
+    }
+
+    // Appointment Documents (Insurance cards, IDs, Intake forms)
+    match /appointments/{userId}/{allPaths=**} {
+      allow read: if request.auth.uid == userId || isAdmin();
+      allow write: if request.auth.uid == userId || isAdmin();
+    }
+
+    // Default deny for anything else to prevent unauthorized uploads
     match /{allPaths=**} {
       allow read, write: if false;
     }

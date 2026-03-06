@@ -1,4 +1,5 @@
 
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import {
     Heart,
@@ -11,6 +12,10 @@ import {
 } from 'lucide-react';
 import heroImage from '../assets/hero.jpg';
 import SEO from '../components/SEO/SEO';
+import { contentService, defaultSiteContent } from '../services/contentService';
+import type { SiteContent } from '../services/contentService';
+import { serviceService } from '../services/serviceService';
+import type { Service } from '../types/service';
 
 // Animation Variants
 const fadeInUp = {
@@ -24,7 +29,15 @@ const staggerContainer = {
 };
 
 const Home = () => {
-    const services = [
+    const [content, setContent] = useState<SiteContent>(defaultSiteContent);
+    const [dbServices, setDbServices] = useState<Service[]>([]);
+
+    useEffect(() => {
+        contentService.getMainContent().then(setContent).catch(console.error);
+        serviceService.getAll().then(setDbServices).catch(console.error);
+    }, []);
+
+    const fallbackServices = [
         {
             title: 'Pediatric Development',
             category: 'Child & Adolescent',
@@ -51,11 +64,20 @@ const Home = () => {
         },
     ];
 
+    const displayServices = dbServices.length > 0
+        ? dbServices.slice(0, 4).map(s => ({
+            title: s.title,
+            category: s.category,
+            description: s.description || '',
+            icon: <Activity className="w-6 h-6" />
+        }))
+        : fallbackServices;
+
     return (
         <div className="bg-white selection:bg-secondary/20">
             <SEO
-                title="Great Expectations - Concierge Clinical Therapy"
-                description="Specialized therapy meeting uncompromising care. We partner with families to transform development from a challenge into a journey of discovery."
+                title={content.seoTitle || "Great Expectations - Concierge Clinical Therapy"}
+                description={content.seoDescription || "Specialized therapy meeting uncompromising care. We partner with families to transform development from a challenge into a journey of discovery."}
                 keywords="therapy, pediatric, development, speech, occupational, family, counseling"
             />
             {/* HERO SECTION */}
@@ -78,12 +100,12 @@ const Home = () => {
                                 className="space-y-8"
                             >
                                 <h1 className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tight leading-[0.95] text-slate-900">
-                                    Exceeding <br />
-                                    <span className="italic font-serif font-light text-primary">the expected.</span>
+                                    {content.heroTitleLine1} <br />
+                                    <span className="italic font-serif font-light text-primary">{content.heroTitleLine2}</span>
                                 </h1>
 
                                 <p className="text-xl text-slate-500 max-w-xl leading-relaxed font-light">
-                                    A concierge clinical practice where specialized therapy meets uncompromising care. We partner with families to transform development from a challenge into a journey of discovery.
+                                    {content.heroSubtitle}
                                 </p>
 
                                 <div className="flex flex-col sm:flex-row gap-6 pt-6">
@@ -164,10 +186,10 @@ const Home = () => {
                                     className="absolute bottom-20 -right-8 glass-dark p-7 rounded-[2.5rem] w-64 text-white hidden md:block z-20"
                                 >
                                     <div className="flex items-center gap-2.5 mb-4">
-                                        <span className="h-2 w-2 rounded-full bg-green-400" />
+                                        <span className={`h-2 w-2 rounded-full ${content.clinicAcceptingNew ? 'bg-green-400' : 'bg-red-400'}`} />
                                         <span className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 underline decoration-primary underline-offset-4">Practitioner Status</span>
                                     </div>
-                                    <p className="text-base font-bold leading-snug mb-6">Now Accepting New Patient Intakes</p>
+                                    <p className="text-base font-bold leading-snug mb-6">{content.clinicStatusText}</p>
                                     <button className="w-full py-3 bg-white/10 hover:bg-white/20 transition-all rounded-2xl text-[10px] font-black uppercase tracking-[0.25em] border border-white/10">View Slots</button>
                                 </motion.div>
                             </motion.div>
@@ -212,7 +234,7 @@ const Home = () => {
                         viewport={{ once: true }}
                         className="grid md:grid-cols-2 lg:grid-cols-4 gap-6"
                     >
-                        {services.map((service, idx) => (
+                        {displayServices.map((service, idx) => (
                             <motion.div
                                 key={idx}
                                 variants={fadeInUp}

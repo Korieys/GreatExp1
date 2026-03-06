@@ -1,8 +1,16 @@
 import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 import logo from '../../assets/GElogo.png';
 import Newsletter from '../Newsletter';
+import { contentService, defaultSiteContent } from '../../services/contentService';
+import type { SiteContent } from '../../services/contentService';
 
 const Footer = () => {
+    const [content, setContent] = useState<SiteContent>(defaultSiteContent);
+
+    useEffect(() => {
+        contentService.getMainContent().then(setContent).catch(console.error);
+    }, []);
     return (
         <footer className="bg-slate-950 text-white pt-32 pb-16">
             <div className="max-w-[1400px] mx-auto px-8">
@@ -39,18 +47,16 @@ const Footer = () => {
                         <div className="space-y-8">
                             <h4 className="text-[10px] font-black uppercase tracking-[0.4em] text-slate-500">Intake</h4>
                             <ul className="space-y-5 text-slate-400 text-sm font-medium">
-                                <li>832-399-6141</li>
-                                <li>office@ge-therapeutic.com</li>
+                                <li>{content.contactPhone}</li>
+                                <li>{content.contactEmail}</li>
                                 <li><Link to="/forms" className="hover:text-primary transition-colors">Patient Forms</Link></li>
                                 <li><Link to="/portal" className="hover:text-primary transition-colors">Patient Portal</Link></li>
                             </ul>
                         </div>
                         <div className="space-y-8">
                             <h4 className="text-[10px] font-black uppercase tracking-[0.4em] text-slate-500">Practice HQ</h4>
-                            <p className="text-slate-400 leading-loose text-sm font-medium">
-                                The Sterling Building <br />
-                                Suite 1400 <br />
-                                Austin, Texas 78701
+                            <p className="text-slate-400 leading-loose text-sm font-medium whitespace-pre-line">
+                                {content.contactAddress}
                             </p>
                             <div className="flex gap-4">
                                 <a href="#" className="w-8 h-8 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-400 hover:text-white hover:border-primary transition-all">
