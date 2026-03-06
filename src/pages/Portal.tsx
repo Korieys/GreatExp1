@@ -4,6 +4,7 @@ import { db } from '../firebase';
 import { collection, query, where, onSnapshot } from 'firebase/firestore';
 import { Link, useNavigate } from 'react-router-dom';
 import { Calendar, FileText, LogOut, PlusCircle, Shield } from 'lucide-react';
+import ChangePassword from '../components/auth/ChangePassword';
 
 interface Appointment {
     id: string;
@@ -133,6 +134,11 @@ const Portal = () => {
                             ))
                         )}
                     </ul>
+                </div>
+
+                {/* Security Settings */}
+                <div className="pt-8 border-t border-gray-200">
+                    <ChangePassword />
                 </div>
 
             </div>

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { db } from '../firebase';
 import { collection, query, onSnapshot, doc, updateDoc, deleteDoc, addDoc, serverTimestamp } from 'firebase/firestore';
 import { FileText, CheckCircle, User, XCircle, Trash2, Plus, Calendar as CalendarIcon, Clock, Loader2 } from 'lucide-react';
+import ChangePassword from '../components/auth/ChangePassword';
 
 interface Appointment {
     id: string;
@@ -275,6 +276,11 @@ const AdminDashboard = () => {
                         </tbody>
                     </table>
                 </div>
+            </div>
+
+            {/* Admin Security Settings */}
+            <div className="max-w-xl">
+                <ChangePassword />
             </div>
         </div>
     );
