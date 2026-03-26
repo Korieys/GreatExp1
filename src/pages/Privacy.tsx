@@ -9,6 +9,7 @@ const Privacy = () => {
                 title="Privacy Policy | Great Expectations"
                 description="Our commitment to protecting your personal health information and ensuring your privacy rights."
                 keywords="privacy, policy, hipaa, compliance, health information"
+                url="https://greatexpectations.clinic/privacy"
             />
             <section className="max-w-[1000px] mx-auto px-8">
                 <div className="text-center mb-20 space-y-6">

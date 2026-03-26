@@ -27,12 +27,29 @@ const Practitioners = () => {
         return text.substr(0, maxLength).trim() + '...';
     };
 
+    const schemaData = JSON.stringify(
+        team.map(member => ({
+            "@context": "https://schema.org",
+            "@type": "Person",
+            "name": member.name,
+            "jobTitle": member.role,
+            "description": member.summary || member.bio?.substring(0, 150),
+            "image": member.imageUrl || "https://greatexpectations.clinic/hero.jpg",
+            "affiliation": {
+                "@type": "MedicalClinic",
+                "name": "Great Expectations"
+            }
+        }))
+    );
+
     return (
         <div className="pt-32 pb-40">
             <SEO
                 title="Our Practitioners | Great Expectations"
                 description="Meet our team of elite practitioners dedicated to clinical excellence and compassionate care."
                 keywords="team, practitioners, psychologists, therapists, speech pathology, occupational therapy"
+                url="https://greatexpectations.clinic/practitioners"
+                schema={team.length > 0 ? schemaData : undefined}
             />
             <section className="max-w-[1400px] mx-auto px-8">
                 <div className="text-center mb-24 space-y-6">
@@ -57,7 +74,7 @@ const Practitioners = () => {
                         >
                             {/* Image side */}
                             <div className="w-full lg:w-1/3 aspect-square lg:aspect-[4/5] rounded-[2rem] md:rounded-[3rem] overflow-hidden shadow-2xl relative group">
-                                <img src={member.imageUrl || 'https://images.unsplash.com/photo-1559839734-2b71f1536783?auto=format&fit=crop&q=80&w=800'} alt={member.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                                <img src={member.imageUrl || 'https://images.unsplash.com/photo-1559839734-2b71f1536783?auto=format&fit=crop&q=80&w=800'} alt={member.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" />
                                 <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-8">
                                     <div className="flex gap-4">
                                         <Award className="text-white w-6 h-6" />

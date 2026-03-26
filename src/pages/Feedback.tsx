@@ -9,6 +9,7 @@ const Feedback = () => {
                 title="Feedback | Great Expectations"
                 description="Your suggestions help us grow and better serve our community. Please let us know how we can improve."
                 keywords="feedback, suggestions, input, improvement, contact"
+                url="https://greatexpectations.clinic/feedback"
             />
             <section className="max-w-3xl mx-auto px-8">
                 <div className="text-center mb-16">

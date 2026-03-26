@@ -8,6 +8,7 @@ const Grievance = () => {
                 title="Grievance Procedure | Great Expectations"
                 description="Submit a formal grievance or complaint. We take all concerns seriously and will address them immediately."
                 keywords="grievance, complaint, feedback, concern, report"
+                url="https://greatexpectations.clinic/grievance"
             />
             <section className="max-w-3xl mx-auto px-8">
                 <div className="text-center mb-16">

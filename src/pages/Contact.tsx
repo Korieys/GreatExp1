@@ -37,12 +37,29 @@ const Contact = () => {
             setLoading(false);
         }
     };
+    const clinicSchema = JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "MedicalClinic",
+        "name": "Great Expectations",
+        "image": "https://greatexpectations.clinic/hero.jpg",
+        "url": "https://greatexpectations.clinic/contact",
+        "telephone": content.contactPhone,
+        "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Houston",
+            "addressRegion": "TX",
+            "addressCountry": "US"
+        }
+    });
+
     return (
         <div className="pt-32 pb-40">
             <SEO
                 title="Contact Us | Great Expectations"
                 description="Get in touch with Great Expectations. We are currently accepting new patient inquiries."
                 keywords="contact, intake, appointment, consultation, location, phone, email"
+                url="https://greatexpectations.clinic/contact"
+                schema={clinicSchema}
             />
             <section className="max-w-[1400px] mx-auto px-8">
                 <div className="grid lg:grid-cols-2 gap-24">

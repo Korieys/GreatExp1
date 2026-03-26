@@ -48,6 +48,7 @@ const Resources = () => {
                 title="Community Resources | Great Expectations"
                 description="A curated library of mental health resources, crisis lines, and educational materials."
                 keywords="resources, mental health, crisis support, education, community, help"
+                url="https://greatexpectations.clinic/resources"
             />
             <section className="max-w-[1200px] mx-auto px-8">
                 <div className="text-center mb-24">

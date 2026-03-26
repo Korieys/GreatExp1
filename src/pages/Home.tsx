@@ -73,12 +73,28 @@ const Home = () => {
         }))
         : fallbackServices;
 
+    const clinicSchema = JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "MedicalClinic",
+        "name": "Great Expectations",
+        "image": "https://greatexpectations.clinic/hero.jpg",
+        "url": "https://greatexpectations.clinic/",
+        "telephone": content.contactPhone,
+        "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Houston",
+            "addressRegion": "TX",
+            "addressCountry": "US"
+        }
+    });
+
     return (
         <div className="bg-white selection:bg-secondary/20">
             <SEO
                 title={content.seoTitle || "Great Expectations - Concierge Clinical Therapy"}
                 description={content.seoDescription || "Specialized therapy meeting uncompromising care. We partner with families to transform development from a challenge into a journey of discovery."}
                 keywords="therapy, pediatric, development, speech, occupational, family, counseling"
+                schema={clinicSchema}
             />
             {/* HERO SECTION */}
             <section className="relative min-h-screen flex items-center pt-24 lg:pt-0 overflow-hidden bg-white">
@@ -234,6 +250,7 @@ const Home = () => {
                             src="/GreatEscapeSummerProgram.png" 
                             alt="Great Escape Summer Program June 8th - Aug 7th" 
                             className="w-full h-auto object-cover"
+                            loading="lazy"
                         />
                     </motion.div>
                 </div>
@@ -329,6 +346,7 @@ const Home = () => {
                                     src="https://images.unsplash.com/photo-1544027993-37dbfe43562a?auto=format&fit=crop&q=80&w=800"
                                     alt="Therapeutic Connection"
                                     className="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:scale-105 transition-transform duration-700"
+                                    loading="lazy"
                                 />
                                 <div className="absolute inset-0 bg-slate-950/50" />
 

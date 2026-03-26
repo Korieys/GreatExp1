@@ -29,6 +29,7 @@ const Archive = () => {
                 title="Blog | Great Expectations"
                 description="Insights, tips, and news about mental health and wellness from the Great Expectations team."
                 keywords="blog, mental health, wellness, articles"
+                url="https://greatexpectations.clinic/blog"
             />
             <div className="max-w-[1400px] mx-auto px-8">
                 <div className="mb-20">

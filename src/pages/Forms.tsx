@@ -46,6 +46,7 @@ const Forms = () => {
                 title="Patient Forms | Great Expectations"
                 description="Download intake paperwork or securely upload identification and insurance documents."
                 keywords="forms, intake, patient forms, upload, download, secure, hipaa"
+                url="https://greatexpectations.clinic/forms"
             />
             <section className="max-w-[1200px] mx-auto px-8">
                 <div className="text-center mb-24">

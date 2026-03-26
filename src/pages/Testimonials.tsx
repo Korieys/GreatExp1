@@ -36,6 +36,7 @@ const Testimonials = () => {
                 title="Client Stories | Great Expectations"
                 description="Read real experiences from families and individuals we are honored to serve."
                 keywords="testimonials, reviews, client stories, success stories, feedback"
+                url="https://greatexpectations.clinic/testimonials"
             />
             <section className="max-w-[1400px] mx-auto px-8">
                 <div className="text-center mb-24">

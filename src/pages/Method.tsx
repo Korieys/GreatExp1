@@ -33,6 +33,7 @@ const Method = () => {
                 title="Our Methodology | Great Expectations"
                 description="Our approach combines neuro-clinical rigor with a human-centric philosophy, ensuring personalized and effective care."
                 keywords="methodology, clinical rigor, systemic integration, human-centric care, outcomes"
+                url="https://greatexpectations.clinic/method"
             />
             <section className="max-w-[1400px] mx-auto px-8">
                 <div className="grid lg:grid-cols-2 gap-24 items-center mb-40">

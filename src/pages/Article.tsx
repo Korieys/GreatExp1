@@ -36,12 +36,35 @@ const Article = () => {
         </div>
     );
 
+    const schemaData = JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": post.title,
+        "image": post.coverImage ? [post.coverImage] : [],
+        "author": {
+            "@type": "Person",
+            "name": post.author || "Great Expectations Staff"
+        },
+        "publisher": {
+            "@type": "Organization",
+            "name": "Great Expectations",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https://greatexpectations.clinic/hero.jpg"
+            }
+        },
+        "datePublished": post.publishedAt?.seconds ? new Date(post.publishedAt.seconds * 1000).toISOString() : new Date().toISOString()
+    });
+
     return (
         <div className="pt-32 pb-40">
             <SEO
                 title={`${post.title} | Great Expectations`}
                 description={post.excerpt}
                 keywords={post.tags?.join(', ') || 'blog, article'}
+                url={`https://greatexpectations.clinic/blog/${post.slug}`}
+                image={post.coverImage || undefined}
+                schema={schemaData}
             />
 
             <article className="max-w-4xl mx-auto px-6 h-full">
@@ -77,6 +100,7 @@ const Article = () => {
                             src={post.coverImage}
                             alt={post.title}
                             className="w-full h-full object-cover"
+                            loading="lazy"
                         />
                     </div>
                 )}

@@ -62,6 +62,7 @@ const Services = () => {
                 title="Clinical Services | Great Expectations"
                 description="Comprehensive care pathways including individual, group, and family therapy. Specialized support for children, adolescents, and adults."
                 keywords="services, therapy, counseling, individual therapy, group therapy, family therapy"
+                url="https://greatexpectations.clinic/services"
             />
             <section className="max-w-[1400px] mx-auto px-8">
                 <div className="grid lg:grid-cols-2 gap-20 items-center mb-32">
