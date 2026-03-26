@@ -61,7 +61,7 @@ const AdminServices = () => {
 
     return (
         <div className="space-y-8">
-            <div className="flex justify-between items-center">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <h1 className="text-3xl font-black text-slate-900 tracking-tight">Services</h1>
                 <button
                     onClick={handleAddNew}

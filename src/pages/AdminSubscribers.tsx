@@ -88,7 +88,7 @@ const AdminSubscribers = () => {
             </div>
 
             <div className="bg-white rounded-3xl shadow-xl shadow-slate-200/50 border border-slate-100 overflow-hidden">
-                <div className="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
+                <div className="p-6 border-b border-slate-100 flex flex-col md:flex-row md:justify-between md:items-center gap-4 bg-slate-50/50">
                     <div className="flex items-center gap-2">
                         <div className="w-8 h-8 rounded-lg bg-green-100 text-green-600 flex items-center justify-center">
                             <Users className="w-4 h-4" />
@@ -96,7 +96,7 @@ const AdminSubscribers = () => {
                         <span className="font-bold text-slate-900">{subscribers.length} Total Subscribers</span>
                     </div>
 
-                    <div className="relative">
+                    <div className="relative w-full md:w-auto">
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 w-4 h-4" />
                         <input
                             type="text"

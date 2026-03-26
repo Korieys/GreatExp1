@@ -56,7 +56,7 @@ const AdminContent = () => {
 
     return (
         <div className="space-y-8 max-w-4xl">
-            <div className="flex justify-between items-center">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <h1 className="text-3xl font-black text-slate-900 tracking-tight">Site Content Manager</h1>
                 <button
                     onClick={handleSave}

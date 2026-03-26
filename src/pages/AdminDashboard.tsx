@@ -3,6 +3,7 @@ import { db } from '../firebase';
 import { collection, query, onSnapshot, doc, updateDoc, deleteDoc, addDoc, serverTimestamp } from 'firebase/firestore';
 import { FileText, CheckCircle, User, XCircle, Trash2, Plus, Calendar as CalendarIcon, Clock, Loader2 } from 'lucide-react';
 import ChangePassword from '../components/auth/ChangePassword';
+import ChangeEmail from '../components/auth/ChangeEmail';
 
 interface Appointment {
     id: string;
@@ -117,9 +118,9 @@ const AdminDashboard = () => {
     return (
 
         <div className="space-y-8">
-            <div className="flex justify-between items-center mb-6">
+            <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-6">
                 <h1 className="text-3xl font-black text-slate-900 tracking-tight">Dashboard Overview</h1>
-                <div className="flex gap-4">
+                <div className="flex flex-wrap gap-4">
                     <button
                         onClick={() => setShowCreate(!showCreate)}
                         className="bg-primary text-white text-sm font-bold px-4 py-2 rounded-xl flex items-center gap-2 hover:bg-blue-600 transition-colors shadow-lg shadow-primary/20"
@@ -279,8 +280,15 @@ const AdminDashboard = () => {
             </div>
 
             {/* Admin Security Settings */}
-            <div className="max-w-xl">
-                <ChangePassword />
+            <div className="pt-8 border-t border-slate-200/60">
+                <div className="mb-6">
+                    <h2 className="text-2xl font-black text-slate-900 tracking-tight">Account & Security</h2>
+                    <p className="text-slate-500 font-medium mt-1">Manage your team member profile credentials.</p>
+                </div>
+                <div className="grid md:grid-cols-2 gap-6 max-w-5xl">
+                    <ChangeEmail />
+                    <ChangePassword />
+                </div>
             </div>
         </div>
     );

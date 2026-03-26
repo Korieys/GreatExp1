@@ -211,6 +211,34 @@ const Home = () => {
                 </div>
             </div>
 
+            {/* Summer Program Announcement */}
+            <section className="py-20 bg-primary/5 overflow-hidden relative">
+                <div className="max-w-5xl mx-auto px-8 relative z-10">
+                    <div className="text-center mb-10">
+                        <span className="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary text-[10px] font-black uppercase tracking-[0.2em] mb-4">
+                            New Registration Open
+                        </span>
+                        <h2 className="text-4xl md:text-5xl font-black text-slate-900 tracking-tight">
+                            Great Escape <span className="font-serif italic font-light text-primary">Summer Program</span>
+                        </h2>
+                        <p className="mt-4 text-slate-500 font-light">Join us from June 8th to August 7th</p>
+                    </div>
+                    <motion.div
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.8 }}
+                        className="rounded-[2.5rem] overflow-hidden shadow-2xl border-[12px] border-white relative group bg-white"
+                    >
+                        <img 
+                            src="/GreatEscapeSummerProgram.png" 
+                            alt="Great Escape Summer Program June 8th - Aug 7th" 
+                            className="w-full h-auto object-cover"
+                        />
+                    </motion.div>
+                </div>
+            </section>
+
             {/* Services Section */}
             <section id="clinical-care" className="py-32 bg-white">
                 <div className="max-w-[1400px] mx-auto px-8">

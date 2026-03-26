@@ -1,10 +1,12 @@
+import { useState } from 'react';
 import { Link, useLocation, Outlet } from 'react-router-dom';
-import { LayoutDashboard, Users, Settings, LogOut, FileText, Activity, UserPlus, Mail, UsersRound } from 'lucide-react';
+import { LayoutDashboard, Users, Settings, LogOut, FileText, Activity, UserPlus, Mail, UsersRound, Menu, X } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 
 const AdminLayout = () => {
     const location = useLocation();
     const { logout, userPermissions } = useAuth(); // null = Super Admin
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
     const navItems = [
         { name: 'Dashboard', path: '/admin', icon: LayoutDashboard }, // Anyone can view dashboard
@@ -20,16 +22,29 @@ const AdminLayout = () => {
 
     return (
         <div className="min-h-screen bg-slate-50 flex">
+            {/* Sidebar Overlay for Mobile */}
+            {isMobileMenuOpen && (
+                <div 
+                    className="fixed inset-0 bg-slate-950/50 z-20 md:hidden backdrop-blur-sm"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                />
+            )}
+
             {/* Sidebar */}
-            <aside className="w-64 bg-slate-950 text-white hidden md:flex flex-col fixed h-full z-10 transition-all duration-300 shadow-xl">
-                <div className="p-8 border-b border-slate-800/50">
-                    <h1 className="text-xl font-black tracking-tight text-white uppercase">
-                        Great <span className="text-primary">Exp.</span>
-                    </h1>
-                    <p className="text-[10px] font-bold text-slate-500 uppercase tracking-[0.2em] mt-1">Admin Portal</p>
+            <aside className={`w-64 bg-slate-950 text-white flex flex-col fixed h-full z-30 transition-transform duration-300 shadow-xl ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}`}>
+                <div className="p-8 border-b border-slate-800/50 flex justify-between items-center">
+                    <div>
+                        <h1 className="text-xl font-black tracking-tight text-white uppercase">
+                            Great <span className="text-primary">Exp.</span>
+                        </h1>
+                        <p className="text-[10px] font-bold text-slate-500 uppercase tracking-[0.2em] mt-1">Admin Portal</p>
+                    </div>
+                    <button className="md:hidden p-2 hover:bg-slate-800 rounded-lg" onClick={() => setIsMobileMenuOpen(false)}>
+                        <X className="w-5 h-5" />
+                    </button>
                 </div>
 
-                <nav className="flex-1 p-4 space-y-2 mt-4">
+                <nav className="flex-1 p-4 space-y-2 mt-4 overflow-y-auto">
                     {navItems.map((item) => {
                         // Check if item has a specific permission requirement and if user lacks it
                         if (item.perm && userPermissions && !userPermissions.includes(item.perm)) {
@@ -42,6 +57,7 @@ const AdminLayout = () => {
                             <Link
                                 key={item.path}
                                 to={item.path}
+                                onClick={() => setIsMobileMenuOpen(false)}
                                 className={`flex items-center gap-3 px-4 py-3.5 text-sm font-bold rounded-xl transition-all duration-200 group ${isActive
                                     ? 'bg-primary text-white shadow-lg shadow-primary/25 translate-x-1'
                                     : 'text-slate-400 hover:bg-white/5 hover:text-white hover:translate-x-1'
@@ -66,11 +82,13 @@ const AdminLayout = () => {
             </aside>
 
             {/* Mobile Header (visible on small screens) */}
-            <div className="md:hidden fixed w-full bg-slate-950 text-white z-20 border-b border-slate-800 p-4 flex justify-between items-center shadow-lg">
+            <div className="md:hidden fixed w-full bg-slate-950 text-white z-10 border-b border-slate-800 p-4 flex justify-between items-center shadow-lg">
                 <div>
                     <h1 className="text-lg font-black tracking-tight">Great <span className="text-primary">Exp.</span></h1>
                 </div>
-                {/* Mobile menu toggle would go here */}
+                <button onClick={() => setIsMobileMenuOpen(true)} className="p-2 hover:bg-slate-800 rounded-lg">
+                    <Menu className="w-6 h-6" />
+                </button>
             </div>
 
             {/* Main Content */}

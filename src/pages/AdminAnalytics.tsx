@@ -65,7 +65,7 @@ const AdminAnalytics = () => {
 
     return (
         <div className="space-y-8">
-            <div className="flex justify-between items-center">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <h1 className="text-3xl font-black text-slate-900 tracking-tight">Analytics Overview</h1>
                 <span className="bg-white border border-slate-200 text-slate-600 shadow-sm text-sm font-bold px-4 py-1.5 rounded-full flex items-center gap-2">
                     <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
