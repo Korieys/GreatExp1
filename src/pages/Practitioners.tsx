@@ -89,7 +89,9 @@ const Practitioners = () => {
                                     <div className="flex flex-wrap items-center gap-4 mb-2">
                                         <h2 className="text-4xl font-black text-slate-900">{member.name}</h2>
                                         <div className="flex flex-wrap gap-2">
-                                            <span className="px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-[10px] font-black uppercase tracking-widest">{member.credentials}</span>
+                                            {member.credentials?.split(',').map((cred, i) => (
+                                                <span key={`cred-${i}`} className="px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-[10px] font-black uppercase tracking-widest">{cred.trim()}</span>
+                                            ))}
                                             <span className="px-4 py-1.5 rounded-full bg-green-50 border border-green-100 text-green-600 text-[9px] font-black uppercase tracking-widest">{member.status}</span>
                                         </div>
                                     </div>
@@ -156,7 +158,9 @@ const Practitioners = () => {
                                 <h2 className="text-3xl font-black text-slate-900 mb-2">{selectedPractitioner.name}</h2>
                                 <p className="text-primary font-bold uppercase tracking-widest text-xs mb-4">{selectedPractitioner.role}</p>
                                 <div className="flex flex-wrap gap-2 justify-center md:justify-start">
-                                    <span className="px-3 py-1 rounded-full bg-slate-100 text-slate-600 text-[10px] font-bold uppercase tracking-wide">{selectedPractitioner.credentials}</span>
+                                    {selectedPractitioner.credentials?.split(',').map((cred, i) => (
+                                        <span key={`modal-cred-${i}`} className="px-3 py-1 rounded-full bg-slate-100 text-slate-600 text-[10px] font-bold uppercase tracking-wide">{cred.trim()}</span>
+                                    ))}
                                     {selectedPractitioner.status && <span className="px-3 py-1 rounded-full bg-green-100 text-green-700 text-[10px] font-bold uppercase tracking-wide">{selectedPractitioner.status}</span>}
                                 </div>
                             </div>

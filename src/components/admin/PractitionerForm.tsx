@@ -142,6 +142,17 @@ const PractitionerForm = ({ initialData, onSave, onCancel }: PractitionerFormPro
                             />
                         </div>
                         <div>
+                            <label className="block text-sm font-medium text-gray-700">Credentials</label>
+                            <input
+                                type="text"
+                                name="credentials"
+                                value={formData.credentials || ''}
+                                onChange={handleInputChange}
+                                placeholder="e.g. LPC-Associate, LCDC-I"
+                                className="mt-1 block w-full rounded-xl border-slate-200 shadow-sm focus:border-primary focus:ring-primary border p-3"
+                            />
+                        </div>
+                        <div>
                             <label className="block text-sm font-medium text-gray-700">Bio</label>
                             <textarea
                                 name="bio"
