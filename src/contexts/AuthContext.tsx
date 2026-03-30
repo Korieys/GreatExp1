@@ -41,6 +41,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, async (user) => {
             if (user) {
+                setLoading(true); // IMPORTANT: Set loading to true while checking Firestore
                 setCurrentUser(user);
                 setUserLoggedIn(true);
 
@@ -62,6 +63,9 @@ export function AuthProvider({ children }: AuthProviderProps) {
                         }
 
                         setUserPermissions(data.permissions || null); // null indicates SuperAdmin with all access
+                    } else {
+                        // Fallback if no Firestore user document exists at all
+                        setIsAdmin(user.email ? ADMIN_EMAILS.includes(user.email.toLowerCase()) : false);
                     }
                 } catch (error) {
                     console.error("Error checking admin status:", error);
