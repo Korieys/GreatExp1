@@ -246,12 +246,14 @@ const Home = () => {
                         transition={{ duration: 0.8 }}
                         className="rounded-[2.5rem] overflow-hidden shadow-2xl border-[12px] border-white relative group bg-white"
                     >
-                        <img 
-                            src="/GreatEscapeSummerProgram.png" 
-                            alt="Great Escape Summer Program June 8th - Aug 7th" 
-                            className="w-full h-auto object-cover"
-                            loading="lazy"
-                        />
+                        <a href="https://www.jotform.com/build/260664906622157" target="_blank" rel="noopener noreferrer" className="block cursor-pointer">
+                            <img 
+                                src="/GreatEscapeSummerProgram.png" 
+                                alt="Great Escape Summer Program June 8th - Aug 7th" 
+                                className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-[1.02]"
+                                loading="lazy"
+                            />
+                        </a>
                     </motion.div>
                 </div>
             </section>
