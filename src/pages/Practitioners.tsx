@@ -136,8 +136,8 @@ const Practitioners = () => {
                         "Clinical excellence is our baseline; human resilience is our destination. We believe every child has a unique brilliance waiting to be unlocked."
                     </p>
                     <div className="pt-10 border-t border-white/20 w-48 mx-auto">
-                        <p className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400">Dr. Regan Boyd</p>
-                        <p className="text-[9px] font-black uppercase tracking-[0.3em] text-primary mt-1">Founding Partner</p>
+                        <p className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400">Regan Boyd</p>
+                        <p className="text-[9px] font-black uppercase tracking-[0.3em] text-primary mt-1">Director/co-founder</p>
                     </div>
                 </div>
             </section>

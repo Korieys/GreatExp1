@@ -10,6 +10,7 @@ import {
     Activity,
     Layers
 } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import heroImage from '../assets/hero.jpg';
 import SEO from '../components/SEO/SEO';
 import { contentService, defaultSiteContent } from '../services/contentService';
@@ -125,13 +126,15 @@ const Home = () => {
                                 </p>
 
                                 <div className="flex flex-col sm:flex-row gap-6 pt-6">
-                                    <motion.button
-                                        whileHover={{ x: 8 }}
-                                        className="px-10 py-5 rounded-2xl bg-slate-900 text-white font-bold text-lg flex items-center gap-4 group shadow-2xl transition-all"
-                                    >
-                                        Private Consultation
-                                        <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                                    </motion.button>
+                                    <Link to="/forms">
+                                        <motion.button
+                                            whileHover={{ x: 8 }}
+                                            className="px-10 py-5 rounded-2xl bg-slate-900 text-white font-bold text-lg flex items-center gap-4 group shadow-2xl transition-all"
+                                        >
+                                            Private Consultation
+                                            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                                        </motion.button>
+                                    </Link>
 
                                     <div className="flex items-center gap-4 px-6 py-4">
                                         <div className="p-3 rounded-xl bg-blue-50 text-primary">
@@ -248,7 +251,7 @@ const Home = () => {
                     >
                         <a href="https://www.jotform.com/build/260664906622157" target="_blank" rel="noopener noreferrer" className="block cursor-pointer">
                             <img 
-                                src="/GreatEscapeSummerProgram.png" 
+                                src="/GreatEscapeSummerProgramQR.jpg" 
                                 alt="Great Escape Summer Program June 8th - Aug 7th" 
                                 className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-[1.02]"
                                 loading="lazy"
@@ -378,12 +381,14 @@ const Home = () => {
                         Join a practice where your progress is our only priority. Private intakes are currently available by appointment.
                     </p>
                     <div className="flex flex-col sm:flex-row justify-center gap-6 pt-10 px-4">
-                        <motion.button
-                            whileHover={{ y: -5, boxShadow: '0 30px 60px -15px rgba(0,0,0,0.2)' }}
-                            className="px-10 md:px-14 py-6 md:py-7 rounded-[1.5rem] md:rounded-[2rem] bg-slate-950 text-white font-black text-[10px] md:text-xs uppercase tracking-[0.3em] transition-all"
-                        >
-                            Initiate Consultation
-                        </motion.button>
+                        <Link to="/forms">
+                            <motion.button
+                                whileHover={{ y: -5, boxShadow: '0 30px 60px -15px rgba(0,0,0,0.2)' }}
+                                className="px-10 md:px-14 py-6 md:py-7 rounded-[1.5rem] md:rounded-[2rem] bg-slate-950 text-white font-black text-[10px] md:text-xs uppercase tracking-[0.3em] transition-all"
+                            >
+                                Initiate Consultation
+                            </motion.button>
+                        </Link>
                         <button className="px-10 md:px-14 py-6 md:py-7 rounded-[1.5rem] md:rounded-[2rem] border-2 border-slate-100 font-black text-[10px] md:text-xs uppercase tracking-[0.3em] text-slate-900 hover:bg-slate-50 transition-all">
                             The Clinicians
                         </button>

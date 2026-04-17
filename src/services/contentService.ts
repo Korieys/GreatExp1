@@ -20,9 +20,9 @@ export const defaultSiteContent: SiteContent = {
     heroSubtitle: "A concierge clinical practice where specialized therapy meets uncompromising care. We partner with families to transform development from a challenge into a journey of discovery.",
     clinicStatusText: "Now Accepting New Patient Intakes",
     clinicAcceptingNew: true,
-    contactPhone: "(555) 123-4567",
+    contactPhone: "832.399.6141",
     contactEmail: "hello@greatexpectations.com",
-    contactAddress: "123 Therapy Lane, Suite 100\nAustin, TX 78701",
+    contactAddress: "1500 S. Dairy Ashford Rd. Suite 295\nHouston Texas 77077",
     seoTitle: "Great Expectations Therapy",
     seoDescription: "A concierge clinical practice where specialized therapy meets uncompromising care.",
 };

@@ -71,7 +71,7 @@ const Navbar = () => {
                                 }`} />
                         </Link>
                     ))}
-                    <Link to="/book">
+                    <Link to="/forms">
                         <motion.button
                             whileHover={{ scale: 1.05, boxShadow: '0 20px 40px -10px rgba(97, 176, 226, 0.4)' }}
                             whileTap={{ scale: 0.98 }}
@@ -136,7 +136,7 @@ const Navbar = () => {
                                     {item.name}
                                 </Link>
                             ))}
-                            <Link to="/book" onClick={() => setIsMenuOpen(false)} className="w-full">
+                            <Link to="/forms" onClick={() => setIsMenuOpen(false)} className="w-full">
                                 <button className="w-full py-4 rounded-xl bg-secondary text-[#332a00] font-black text-[11px] uppercase tracking-widest shadow-lg">
                                     Schedule an Assessment
                                 </button>
