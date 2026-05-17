@@ -6,6 +6,7 @@ import Services from './pages/Services';
 import Method from './pages/Method';
 import Practitioners from './pages/Practitioners';
 import Contact from './pages/Contact';
+import NewPatientContact from './pages/NewPatientContact';
 import Portal from './pages/Portal';
 import ScrollToTop from './components/ui/ScrollToTop';
 import Privacy from './pages/Privacy';
@@ -50,6 +51,7 @@ const App = () => {
                 <Route path="/method" element={<Method />} />
                 <Route path="/practitioners" element={<Practitioners />} />
                 <Route path="/contact" element={<Contact />} />
+                <Route path="/new-patient" element={<NewPatientContact />} />
                 <Route path="/privacy" element={<Privacy />} />
                 <Route path="/resources" element={<Resources />} />
                 <Route path="/forms" element={<Forms />} />

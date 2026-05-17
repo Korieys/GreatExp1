@@ -43,7 +43,7 @@ const Practitioners = () => {
     );
 
     return (
-        <div className="pt-32 pb-40">
+        <div className="pt-48 pb-40">
             <SEO
                 title="Our Practitioners | Great Expectations"
                 description="Meet our team of elite practitioners dedicated to clinical excellence and compassionate care."

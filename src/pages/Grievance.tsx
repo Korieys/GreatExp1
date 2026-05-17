@@ -3,7 +3,7 @@ import SEO from '../components/SEO/SEO';
 
 const Grievance = () => {
     return (
-        <div className="pt-32 pb-40">
+        <div className="pt-48 pb-40">
             <SEO
                 title="Grievance Procedure | Great Expectations"
                 description="Submit a formal grievance or complaint. We take all concerns seriously and will address them immediately."

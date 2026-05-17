@@ -24,7 +24,7 @@ const Archive = () => {
     }, []);
 
     return (
-        <div className="pt-32 pb-40">
+        <div className="pt-48 pb-40">
             <SEO
                 title="Blog | Great Expectations"
                 description="Insights, tips, and news about mental health and wellness from the Great Expectations team."

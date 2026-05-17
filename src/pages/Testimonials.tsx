@@ -31,7 +31,7 @@ const Testimonials = () => {
     ];
 
     return (
-        <div className="pt-32 pb-40">
+        <div className="pt-48 pb-40">
             <SEO
                 title="Client Stories | Great Expectations"
                 description="Read real experiences from families and individuals we are honored to serve."

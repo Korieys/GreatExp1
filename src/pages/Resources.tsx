@@ -43,7 +43,7 @@ const Resources = () => {
     ];
 
     return (
-        <div className="pt-32 pb-40 text-slate-900">
+        <div className="pt-48 pb-40 text-slate-900">
             <SEO
                 title="Community Resources | Great Expectations"
                 description="A curated library of mental health resources, crisis lines, and educational materials."

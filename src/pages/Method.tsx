@@ -28,7 +28,7 @@ const Method = () => {
     ];
 
     return (
-        <div className="pt-32 pb-40 overflow-hidden">
+        <div className="pt-48 pb-40 overflow-hidden">
             <SEO
                 title="Our Methodology | Great Expectations"
                 description="Our approach combines neuro-clinical rigor with a human-centric philosophy, ensuring personalized and effective care."

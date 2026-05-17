@@ -57,7 +57,7 @@ const Services = () => {
     };
 
     return (
-        <div className="pt-32 pb-40">
+        <div className="pt-48 pb-40">
             <SEO
                 title="Clinical Services | Great Expectations"
                 description="Comprehensive care pathways including individual, group, and family therapy. Specialized support for children, adolescents, and adults."

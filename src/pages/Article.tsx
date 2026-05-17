@@ -26,10 +26,10 @@ const Article = () => {
         loadPost();
     }, [slug]);
 
-    if (loading) return <div className="pt-32 text-center">Loading article...</div>;
+    if (loading) return <div className="pt-48 text-center">Loading article...</div>;
 
     if (!post) return (
-        <div className="pt-32 pb-20 text-center px-4">
+        <div className="pt-48 pb-20 text-center px-4">
             <h1 className="text-4xl font-black text-slate-900 mb-4">Article Not Found</h1>
             <p className="text-slate-500 mb-8">The article you are looking for does not exist or has been removed.</p>
             <Link to="/blog" className="text-primary font-bold hover:underline">Back to Blog</Link>
@@ -57,7 +57,7 @@ const Article = () => {
     });
 
     return (
-        <div className="pt-32 pb-40">
+        <div className="pt-48 pb-40">
             <SEO
                 title={`${post.title} | Great Expectations`}
                 description={post.excerpt}

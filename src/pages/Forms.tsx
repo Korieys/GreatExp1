@@ -4,7 +4,7 @@ import SEO from '../components/SEO/SEO';
 
 const Forms = () => {
     return (
-        <div className="pt-32 pb-40">
+        <div className="pt-48 pb-40">
             <SEO
                 title="Patient Forms | Great Expectations"
                 description="Complete your intake paperwork securely online."

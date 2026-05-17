@@ -4,7 +4,7 @@ import SEO from '../components/SEO/SEO';
 
 const Feedback = () => {
     return (
-        <div className="pt-32 pb-40">
+        <div className="pt-48 pb-40">
             <SEO
                 title="Feedback | Great Expectations"
                 description="Your suggestions help us grow and better serve our community. Please let us know how we can improve."

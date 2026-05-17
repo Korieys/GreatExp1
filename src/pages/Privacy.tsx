@@ -4,7 +4,7 @@ import SEO from '../components/SEO/SEO';
 
 const Privacy = () => {
     return (
-        <div className="pt-32 pb-40">
+        <div className="pt-48 pb-40">
             <SEO
                 title="Privacy Policy | Great Expectations"
                 description="Our commitment to protecting your personal health information and ensuring your privacy rights."

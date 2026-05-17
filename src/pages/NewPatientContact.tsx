@@ -5,7 +5,7 @@ import { contactService } from '../services/contactService';
 import { contentService, defaultSiteContent } from '../services/contentService';
 import type { SiteContent } from '../services/contentService';
 
-const Contact = () => {
+const NewPatientContact = () => {
     const [formData, setFormData] = useState({
         parentName: '',
         email: '',
@@ -42,7 +42,7 @@ const Contact = () => {
         "@type": "MedicalClinic",
         "name": "Great Expectations",
         "image": "https://greatexpectations.clinic/hero.jpg",
-        "url": "https://greatexpectations.clinic/contact",
+        "url": "https://greatexpectations.clinic/new-patient",
         "telephone": content.contactPhone,
         "address": {
             "@type": "PostalAddress",
@@ -55,10 +55,10 @@ const Contact = () => {
     return (
         <div className="pt-48 pb-40">
             <SEO
-                title="Contact Us | Great Expectations"
+                title="New Patient Inquiry | Great Expectations"
                 description="Get in touch with Great Expectations. We are currently accepting new patient inquiries."
-                keywords="contact, intake, appointment, consultation, location, phone, email"
-                url="https://greatexpectations.clinic/contact"
+                keywords="contact, new patient, potential customer, appointment, consultation"
+                url="https://greatexpectations.clinic/new-patient"
                 schema={clinicSchema}
             />
             <section className="max-w-[1400px] mx-auto px-8">
@@ -66,13 +66,13 @@ const Contact = () => {
                     {/* Info Side */}
                     <div className="space-y-16">
                         <div className="space-y-6">
-                            <h2 className="text-[10px] font-black uppercase tracking-[0.4em] text-primary">Intake & Contact</h2>
+                            <h2 className="text-[10px] font-black uppercase tracking-[0.4em] text-primary">New Patient Inquiry</h2>
                             <h1 className="text-5xl md:text-7xl lg:text-8xl font-black text-slate-900 tracking-tighter leading-none">
                                 Begin the <br />
-                                <span className="font-serif italic font-light text-primary">Conversation.</span>
+                                <span className="font-serif italic font-light text-primary">Journey.</span>
                             </h1>
                             <p className="text-xl text-slate-500 font-light leading-relaxed max-w-xl">
-                                We are currently accepting new patient inquiries. Our intake desk will review your initial information and reach out for a private consultation.
+                                We are currently accepting new patient and potential customer inquiries. Reach out today and our intake desk will contact you to discuss how we can help.
                             </p>
                         </div>
 
@@ -124,7 +124,7 @@ const Contact = () => {
 
                     {/* Form Side */}
                     <div className="bg-slate-50 rounded-[2.5rem] md:rounded-[4rem] p-8 lg:p-16">
-                        <h2 className="text-2xl font-black text-slate-900 mb-10">Initial Intake Request</h2>
+                        <h2 className="text-2xl font-black text-slate-900 mb-10">New Patient Form</h2>
                         {submitted ? (
                             <div className="bg-green-100 border border-green-200 text-green-800 rounded-2xl p-8 text-center">
                                 <h3 className="text-xl font-bold mb-2">Message Sent!</h3>
@@ -140,18 +140,18 @@ const Contact = () => {
                             <form className="space-y-8" onSubmit={handleSubmit}>
                                 <div className="grid sm:grid-cols-2 gap-8">
                                     <div className="space-y-4">
-                                        <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2">Parent/Guardian Name</label>
+                                        <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2">Name</label>
                                         <input
                                             type="text"
                                             required
                                             value={formData.parentName}
                                             onChange={(e) => setFormData({ ...formData, parentName: e.target.value })}
                                             className="w-full bg-white border border-slate-200 rounded-2xl px-6 py-4 outline-none focus:border-primary transition-colors font-medium"
-                                            placeholder="Jane Doe"
+                                            placeholder="Your Name"
                                         />
                                     </div>
                                     <div className="space-y-4">
-                                        <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2">Email Address</label>
+                                        <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2">Email</label>
                                         <input
                                             type="email"
                                             required
@@ -175,18 +175,19 @@ const Contact = () => {
                                         <option value="Speech & Language">Speech & Language</option>
                                         <option value="Occupational Therapy">Occupational Therapy</option>
                                         <option value="Family Dynamics">Family Dynamics</option>
+                                        <option value="Other">Other</option>
                                     </select>
                                 </div>
 
                                 <div className="space-y-4">
-                                    <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2">How can we help?</label>
+                                    <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2">Message</label>
                                     <textarea
                                         rows={6}
                                         required
                                         value={formData.message}
                                         onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                                         className="w-full bg-white border border-slate-200 rounded-2xl px-6 py-4 outline-none focus:border-primary transition-colors font-medium resize-none"
-                                        placeholder="Brief description of your child's needs..."
+                                        placeholder="How can we help?"
                                     ></textarea>
                                 </div>
 
@@ -213,4 +214,4 @@ const Contact = () => {
     );
 };
 
-export default Contact;
+export default NewPatientContact;
