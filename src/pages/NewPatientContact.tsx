@@ -175,6 +175,11 @@ const NewPatientContact = () => {
                                         <option value="Speech & Language">Speech & Language</option>
                                         <option value="Occupational Therapy">Occupational Therapy</option>
                                         <option value="Family Dynamics">Family Dynamics</option>
+                                        <option value="Traditional Outpatient Services">Traditional Outpatient Services</option>
+                                        <option value="Partial Hospitalization Program">Partial Hospitalization Program</option>
+                                        <option value="Intensive Outpatient Program">Intensive Outpatient Program</option>
+                                        <option value="Wraparound Services">Wraparound Services</option>
+                                        <option value="Supervised Visitation Services">Supervised Visitation Services</option>
                                         <option value="Other">Other</option>
                                     </select>
                                 </div>

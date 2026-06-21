@@ -215,7 +215,9 @@ const Home = () => {
                                         <span className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 underline decoration-primary underline-offset-4">Practitioner Status</span>
                                     </div>
                                     <p className="text-base font-bold leading-snug mb-6">{content.clinicStatusText}</p>
-                                    <button className="w-full py-3 bg-white/10 hover:bg-white/20 transition-all rounded-2xl text-[10px] font-black uppercase tracking-[0.25em] border border-white/10">View Slots</button>
+                                    <Link to="/book" className="w-full block">
+                                        <button className="w-full py-3 bg-white/10 hover:bg-white/20 transition-all rounded-2xl text-[10px] font-black uppercase tracking-[0.25em] border border-white/10 cursor-pointer">View Slots</button>
+                                    </Link>
                                 </motion.div>
                             </motion.div>
                         </div>
@@ -588,9 +590,11 @@ const Home = () => {
                                 Initiate Consultation
                             </motion.button>
                         </Link>
-                        <button className="px-10 md:px-14 py-6 md:py-7 rounded-[1.5rem] md:rounded-[2rem] border-2 border-slate-100 font-black text-[10px] md:text-xs uppercase tracking-[0.3em] text-slate-900 hover:bg-slate-50 transition-all">
-                            The Clinicians
-                        </button>
+                        <Link to="/practitioners">
+                            <button className="px-10 md:px-14 py-6 md:py-7 rounded-[1.5rem] md:rounded-[2rem] border-2 border-slate-100 font-black text-[10px] md:text-xs uppercase tracking-[0.3em] text-slate-900 hover:bg-slate-50 transition-all cursor-pointer">
+                                The Clinicians
+                            </button>
+                        </Link>
                     </div>
                 </div>
             </section>

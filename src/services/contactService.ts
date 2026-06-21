@@ -6,6 +6,9 @@ export interface InquiryData {
     email: string;
     serviceOfInterest: string;
     message: string;
+    type?: 'inquiry' | 'feedback' | 'grievance';
+    phoneNumber?: string;
+    dateOfIncident?: string;
 }
 
 export interface Inquiry extends InquiryData {

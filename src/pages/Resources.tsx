@@ -27,16 +27,16 @@ const Resources = () => {
         {
             category: 'Mental Health Education',
             items: [
-                { name: 'NAMI (National Alliance on Mental Illness)', desc: 'The nation’s largest grassroots mental health organization.', link: '#' },
-                { name: 'MentalHealth.gov', desc: 'One-stop access to U.S. government mental health information.', link: '#' },
-                { name: 'Psychology Today', desc: 'Find detailed listings for mental health professionals.', link: '#' }
+                { name: 'NAMI (National Alliance on Mental Illness)', desc: 'The nation’s largest grassroots mental health organization.', link: 'https://www.nami.org' },
+                { name: 'MentalHealth.gov', desc: 'One-stop access to U.S. government mental health information.', link: 'https://www.samhsa.gov' },
+                { name: 'Psychology Today', desc: 'Find detailed listings for mental health professionals.', link: 'https://www.psychologytoday.com' }
             ]
         },
         {
             category: 'Child & Family',
             items: [
-                { name: 'Child Mind Institute', desc: 'Transforming the lives of children and families struggling with mental health and learning disorders.', link: '#' },
-                { name: 'Zero to Three', desc: 'Ensuring all babies and toddlers have a strong start in life.', link: '#' }
+                { name: 'Child Mind Institute', desc: 'Transforming the lives of children and families struggling with mental health and learning disorders.', link: 'https://childmind.org' },
+                { name: 'Zero to Three', desc: 'Ensuring all babies and toddlers have a strong start in life.', link: 'https://www.zerotothree.org' }
 
             ]
         }
@@ -83,8 +83,16 @@ const Resources = () => {
                                 {section.items.map((item, i) => (
                                     <div key={i} className="group">
                                         <h3 className="font-bold text-lg mb-2 flex items-center gap-2">
-                                            {item.name}
-                                            {item.link && <ExternalLink className="w-4 h-4 text-slate-400 group-hover:text-primary transition-colors" />}
+                                            {item.link ? (
+                                                <a href={item.link} target="_blank" rel="noopener noreferrer" className="hover:text-primary hover:underline flex items-center gap-2 transition-all">
+                                                    {item.name}
+                                                    <ExternalLink className="w-4 h-4 text-slate-400 group-hover:text-primary transition-colors" />
+                                                </a>
+                                            ) : (
+                                                <>
+                                                    {item.name}
+                                                </>
+                                            )}
                                         </h3>
                                         <p className="text-slate-500 text-sm font-light mb-4 leading-relaxed">{item.desc}</p>
                                         {item.contact && (

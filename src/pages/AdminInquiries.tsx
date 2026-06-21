@@ -46,7 +46,8 @@ const AdminInquiries = () => {
         const matchesSearch =
             inq.parentName.toLowerCase().includes(searchTerm.toLowerCase()) ||
             inq.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            inq.serviceOfInterest.toLowerCase().includes(searchTerm.toLowerCase());
+            inq.serviceOfInterest.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            (inq.type && inq.type.toLowerCase().includes(searchTerm.toLowerCase()));
 
         const matchesFilter = filter === 'all' || inq.status === filter;
 
@@ -128,8 +129,21 @@ const AdminInquiries = () => {
                                             {inq.parentName.charAt(0).toUpperCase()}
                                         </div>
                                         <div>
-                                            <h3 className="text-base font-bold text-slate-900">{inq.parentName}</h3>
-                                            <a href={`mailto:${inq.email}`} className="text-sm font-medium text-primary hover:underline">{inq.email}</a>
+                                            <div className="flex items-center gap-2">
+                                                <h3 className="text-base font-bold text-slate-900">{inq.parentName}</h3>
+                                                <span className={`px-2 py-0.5 rounded-full text-[9px] font-black uppercase tracking-wider ${
+                                                    inq.type === 'feedback' ? 'bg-indigo-100 text-indigo-700' :
+                                                    inq.type === 'grievance' ? 'bg-red-100 text-red-700 border border-red-200' :
+                                                    'bg-blue-100 text-blue-700'
+                                                }`}>
+                                                    {inq.type || 'inquiry'}
+                                                </span>
+                                            </div>
+                                            {inq.type === 'grievance' && inq.phoneNumber ? (
+                                                <a href={`tel:${inq.phoneNumber}`} className="text-sm font-medium text-primary hover:underline">{inq.phoneNumber}</a>
+                                            ) : (
+                                                inq.email !== 'N/A' && <a href={`mailto:${inq.email}`} className="text-sm font-medium text-primary hover:underline">{inq.email}</a>
+                                            )}
                                         </div>
                                         <div className="ml-auto md:ml-4 text-xs font-bold text-slate-400 uppercase tracking-wider">
                                             {inq.createdAt?.seconds ? new Date(inq.createdAt.seconds * 1000).toLocaleDateString() : 'N/A'}
@@ -137,8 +151,18 @@ const AdminInquiries = () => {
                                     </div>
 
                                     <div className="bg-slate-50 rounded-xl p-4 border border-slate-100">
-                                        <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Interest: <span className="text-slate-700">{inq.serviceOfInterest}</span></p>
-                                        <p className="text-slate-700 text-sm whitespace-pre-wrap leading-relaxed">{inq.message}</p>
+                                        <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">
+                                            {inq.type === 'feedback' ? 'Feedback Category' : inq.type === 'grievance' ? 'Formal Complaint' : 'Interest'}:{' '}
+                                            <span className="text-slate-700">{inq.serviceOfInterest}</span>
+                                        </p>
+                                        {inq.type === 'grievance' && inq.dateOfIncident && (
+                                            <p className="text-xs font-bold text-red-500 uppercase tracking-widest mb-3">
+                                                Date of Incident: <span className="font-semibold text-slate-700">{inq.dateOfIncident}</span>
+                                            </p>
+                                        )}
+                                        <p className="text-slate-700 text-sm whitespace-pre-wrap leading-relaxed">
+                                            {inq.type === 'grievance' && inq.message.includes('Description:') ? inq.message.split('Description:\n')[1] : inq.message}
+                                        </p>
                                     </div>
                                 </div>
 
