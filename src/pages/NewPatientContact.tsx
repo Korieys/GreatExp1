@@ -171,9 +171,6 @@ const NewPatientContact = () => {
                                         className="w-full bg-white border border-slate-200 rounded-2xl px-6 py-4 outline-none focus:border-primary transition-colors font-medium appearance-none"
                                     >
                                         <option value="">Select a Pathway</option>
-                                        <option value="Pediatric Development">Pediatric Development</option>
-                                        <option value="Speech & Language">Speech & Language</option>
-                                        <option value="Occupational Therapy">Occupational Therapy</option>
                                         <option value="Family Dynamics">Family Dynamics</option>
                                         <option value="Traditional Outpatient Services">Traditional Outpatient Services</option>
                                         <option value="Partial Hospitalization Program">Partial Hospitalization Program</option>
