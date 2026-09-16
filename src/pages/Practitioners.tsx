@@ -74,7 +74,20 @@ const Practitioners = () => {
                         >
                             {/* Image side */}
                             <div className="w-full lg:w-1/3 aspect-square lg:aspect-[4/5] rounded-[2rem] md:rounded-[3rem] overflow-hidden shadow-2xl relative group">
-                                <img src={member.imageUrl || 'https://images.unsplash.com/photo-1559839734-2b71f1536783?auto=format&fit=crop&q=80&w=800'} alt={member.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" />
+                                <img
+                                    src={member.imageUrl || 'https://images.unsplash.com/photo-1559839734-2b71f1536783?auto=format&fit=crop&q=80&w=800'}
+                                    alt={member.name}
+                                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                                    loading="lazy"
+                                    onError={(e) => {
+                                        const target = e.currentTarget;
+                                        if (target.src.endsWith('.jpeg')) {
+                                            target.src = target.src.replace(/\.jpeg$/, '.jpg');
+                                        } else if (target.src.endsWith('.jpg')) {
+                                            target.src = target.src.replace(/\.jpg$/, '.png');
+                                        }
+                                    }}
+                                />
                                 <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-8">
                                     <div className="flex gap-4">
                                         <Award className="text-white w-6 h-6" />
@@ -152,6 +165,14 @@ const Practitioners = () => {
                                     src={selectedPractitioner.imageUrl || 'https://images.unsplash.com/photo-1559839734-2b71f1536783?auto=format&fit=crop&q=80&w=800'}
                                     alt={selectedPractitioner.name}
                                     className="w-full h-full object-cover"
+                                    onError={(e) => {
+                                        const target = e.currentTarget;
+                                        if (target.src.endsWith('.jpeg')) {
+                                            target.src = target.src.replace(/\.jpeg$/, '.jpg');
+                                        } else if (target.src.endsWith('.jpg')) {
+                                            target.src = target.src.replace(/\.jpg$/, '.png');
+                                        }
+                                    }}
                                 />
                             </div>
                             <div className="text-center md:text-left">
