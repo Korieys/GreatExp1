@@ -355,18 +355,18 @@ const Home = () => {
                                 </h3>
                                 
                                 <p className="text-slate-500 font-light text-sm leading-relaxed mb-6">
-                                    A youth mental well-being film screening and interactive discussion series for parents. Hosted as part of the Back to School Wellness Retreat. Presented in partnership with <span className="font-semibold text-slate-700">Tell My Story</span>.
+                                    A FREE youth mental well-being film screening and guided conversation for parents. Presented in partnership with <span className="font-semibold text-slate-700">Tell My Story</span>.
                                 </p>
 
                                 {/* Event Metadata */}
                                 <div className="space-y-3.5 border-t border-slate-100 pt-6 mb-8 text-slate-600 text-sm">
                                     <div className="flex items-center gap-3">
                                         <Calendar className="w-5 h-5 text-primary shrink-0" />
-                                        <span className="font-semibold text-slate-700">Saturday, August 8th, 2026</span>
+                                        <span className="font-semibold text-slate-700">Saturday, October 24th, 2026</span>
                                     </div>
                                     <div className="flex items-center gap-3">
                                         <Clock className="w-5 h-5 text-primary shrink-0" />
-                                        <span className="font-semibold text-slate-700">10:00 AM – 11:00 AM</span>
+                                        <span className="font-semibold text-slate-700">12:00 PM</span>
                                     </div>
                                     <div className="flex items-center gap-3">
                                         <MapPin className="w-5 h-5 text-primary shrink-0" />
@@ -421,18 +421,18 @@ const Home = () => {
                                 </h3>
                                 
                                 <p className="text-slate-500 font-light text-sm leading-relaxed mb-6">
-                                    A FREE youth mental well-being film screening and interactive discussion series for students. Hosted as part of the Back to School Wellness Retreat. Presented in partnership with <span className="font-semibold text-slate-700">Tell My Story</span>.
+                                    A FREE youth mental well-being film screening and guided conversation for students. Presented in partnership with <span className="font-semibold text-slate-700">Tell My Story</span>.
                                 </p>
 
                                 {/* Event Metadata */}
                                 <div className="space-y-3.5 border-t border-slate-100 pt-6 mb-8 text-slate-600 text-sm">
                                     <div className="flex items-center gap-3">
                                         <Calendar className="w-5 h-5 text-primary shrink-0" />
-                                        <span className="font-semibold text-slate-700">Saturday, August 8th, 2026</span>
+                                        <span className="font-semibold text-slate-700">Saturday, October 24th, 2026</span>
                                     </div>
                                     <div className="flex items-center gap-3">
                                         <Clock className="w-5 h-5 text-primary shrink-0" />
-                                        <span className="font-semibold text-slate-700">10:00 AM – 11:00 AM</span>
+                                        <span className="font-semibold text-slate-700">12:00 PM</span>
                                     </div>
                                     <div className="flex items-center gap-3">
                                         <MapPin className="w-5 h-5 text-primary shrink-0" />
