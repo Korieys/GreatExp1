@@ -12,7 +12,6 @@ import {
     Calendar,
     Clock,
     MapPin,
-    ExternalLink,
     X
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -257,82 +256,13 @@ const Home = () => {
                         </p>
                     </div>
 
-                    <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-8 max-w-7xl mx-auto">
-                        {/* Event 1 Card: The Great Escape Summer Program */}
+                    <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+                        {/* Event 1 Card: What I Wish My Parents Knew */}
                         <motion.div
                             initial={{ opacity: 0, y: 30 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.6 }}
-                            className="group relative bg-white rounded-[2.5rem] border border-slate-100 p-8 md:p-10 shadow-[0_15px_40px_rgba(0,0,0,0.02)] hover:shadow-[0_30px_70px_rgba(0,0,0,0.08)] transition-all duration-500 flex flex-col justify-between"
-                        >
-                            <div>
-                                {/* Event Cover Image */}
-                                <div className="relative aspect-[16/10] w-full rounded-2xl overflow-hidden mb-8 bg-slate-100 shadow-inner">
-                                    <img
-                                        src="/GreatEscapeSummerProgramQR.jpg"
-                                        alt="Great Escape Summer Program Flyer"
-                                        className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500"
-                                    />
-                                    <div className="absolute inset-0 bg-slate-950/10 group-hover:bg-transparent transition-colors duration-500" />
-                                    <span className="absolute top-4 left-4 bg-primary text-white text-[10px] font-black uppercase tracking-[0.2em] px-3.5 py-1.5 rounded-full shadow-lg">
-                                        Summer Program
-                                    </span>
-                                </div>
-
-                                {/* Title & Info */}
-                                <h3 className="text-2xl md:text-3xl font-black text-slate-900 tracking-tight mb-4 group-hover:text-primary transition-colors">
-                                    The Great Escape Summer Program
-                                </h3>
-                                
-                                <p className="text-slate-500 font-light text-sm leading-relaxed mb-6">
-                                    An enriching, therapeutic summer camp focusing on peer interaction, social skills, mental health wellness, arts & crafts, and wellness demonstrations. Designed for children to build neuro-resilience and make lasting connections.
-                                </p>
-
-                                {/* Event Metadata */}
-                                <div className="space-y-3.5 border-t border-slate-100 pt-6 mb-8 text-slate-600 text-sm">
-                                    <div className="flex items-center gap-3">
-                                        <Calendar className="w-5 h-5 text-primary shrink-0" />
-                                        <span className="font-semibold text-slate-700">June 8th – August 7th, 2026</span>
-                                    </div>
-                                    <div className="flex items-center gap-3">
-                                        <Users className="w-5 h-5 text-primary shrink-0" />
-                                        <span className="font-semibold text-slate-700">Open to ages 6 – 15</span>
-                                    </div>
-                                    <div className="flex items-center gap-3">
-                                        <ShieldCheck className="w-5 h-5 text-primary shrink-0" />
-                                        <span className="font-semibold text-primary font-serif italic">$150 Per Month / Weekly Options</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* Action Buttons */}
-                            <div className="flex flex-col sm:flex-row gap-4 pt-4 border-t border-slate-100/60">
-                                <a
-                                    href="https://www.jotform.com/build/260664906622157"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="flex-grow flex"
-                                >
-                                    <button className="w-full py-4 rounded-2xl bg-slate-900 text-white font-bold text-xs uppercase tracking-widest hover:bg-primary transition-all duration-300 shadow-lg shadow-slate-900/10 flex items-center justify-center gap-2 cursor-pointer">
-                                        Register Online <ExternalLink className="w-3.5 h-3.5" />
-                                    </button>
-                                </a>
-                                <button
-                                    onClick={() => setActiveFlyer("/GreatEscapeSummerProgram.png")}
-                                    className="py-4 px-6 rounded-2xl border border-slate-200 text-slate-700 font-bold text-xs uppercase tracking-widest hover:bg-slate-50 transition-all duration-300 cursor-pointer"
-                                >
-                                    View Flyer
-                                </button>
-                            </div>
-                        </motion.div>
-
-                        {/* Event 2 Card: What I Wish My Parents Knew */}
-                        <motion.div
-                            initial={{ opacity: 0, y: 30 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.6, delay: 0.15 }}
                             className="group relative bg-white rounded-[2.5rem] border border-slate-100 p-8 md:p-10 shadow-[0_15px_40px_rgba(0,0,0,0.02)] hover:shadow-[0_30px_70px_rgba(0,0,0,0.08)] transition-all duration-500 flex flex-col justify-between"
                         >
                             <div>
@@ -393,12 +323,12 @@ const Home = () => {
                             </div>
                         </motion.div>
 
-                        {/* Event 3 Card: SHIFT: Do What Moves You */}
+                        {/* Event 2 Card: SHIFT: Do What Moves You */}
                         <motion.div
                             initial={{ opacity: 0, y: 30 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
-                            transition={{ duration: 0.6, delay: 0.3 }}
+                            transition={{ duration: 0.6, delay: 0.15 }}
                             className="group relative bg-white rounded-[2.5rem] border border-slate-100 p-8 md:p-10 shadow-[0_15px_40px_rgba(0,0,0,0.02)] hover:shadow-[0_30px_70px_rgba(0,0,0,0.08)] transition-all duration-500 flex flex-col justify-between"
                         >
                             <div>
