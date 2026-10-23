@@ -50,7 +50,7 @@ const Article = () => {
             "name": "Great Expectations",
             "logo": {
                 "@type": "ImageObject",
-                "url": "https://greatexpectations.clinic/hero.jpg"
+                "url": "https://www.gexpectations.com/favicon.png"
             }
         },
         "datePublished": post.publishedAt?.seconds ? new Date(post.publishedAt.seconds * 1000).toISOString() : new Date().toISOString()
@@ -62,7 +62,7 @@ const Article = () => {
                 title={`${post.title} | Great Expectations`}
                 description={post.excerpt}
                 keywords={post.tags?.join(', ') || 'blog, article'}
-                url={`https://greatexpectations.clinic/blog/${post.slug}`}
+                url={`https://www.gexpectations.com/blog/${post.slug}`}
                 image={post.coverImage || undefined}
                 schema={schemaData}
             />

@@ -34,7 +34,7 @@ const Practitioners = () => {
             "name": member.name,
             "jobTitle": member.role,
             "description": member.summary || member.bio?.substring(0, 150),
-            "image": member.imageUrl || "https://greatexpectations.clinic/hero.jpg",
+            "image": member.imageUrl || "https://www.gexpectations.com/favicon.png",
             "affiliation": {
                 "@type": "MedicalClinic",
                 "name": "Great Expectations"
@@ -48,7 +48,7 @@ const Practitioners = () => {
                 title="Our Practitioners | Great Expectations"
                 description="Meet our team of elite practitioners dedicated to clinical excellence and compassionate care."
                 keywords="team, practitioners, psychologists, therapists, speech pathology, occupational therapy"
-                url="https://greatexpectations.clinic/practitioners"
+                url="https://www.gexpectations.com/practitioners"
                 schema={team.length > 0 ? schemaData : undefined}
             />
             <section className="max-w-[1400px] mx-auto px-8">

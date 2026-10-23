@@ -41,8 +41,8 @@ const NewPatientContact = () => {
         "@context": "https://schema.org",
         "@type": "MedicalClinic",
         "name": "Great Expectations",
-        "image": "https://greatexpectations.clinic/hero.jpg",
-        "url": "https://greatexpectations.clinic/new-patient",
+        "image": "https://www.gexpectations.com/favicon.png",
+        "url": "https://www.gexpectations.com/new-patient",
         "telephone": content.contactPhone,
         "address": {
             "@type": "PostalAddress",
@@ -58,7 +58,7 @@ const NewPatientContact = () => {
                 title="New Patient Inquiry | Great Expectations"
                 description="Get in touch with Great Expectations. We are currently accepting new patient inquiries."
                 keywords="contact, new patient, potential customer, appointment, consultation"
-                url="https://greatexpectations.clinic/new-patient"
+                url="https://www.gexpectations.com/new-patient"
                 schema={clinicSchema}
             />
             <section className="max-w-[1400px] mx-auto px-8">

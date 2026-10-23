@@ -3,4 +3,4 @@ Disallow: /admin
 Disallow: /portal
 Allow: /
 
-Sitemap: https://greatexpectations.clinic/sitemap.xml
+Sitemap: https://www.gexpectations.com/sitemap.xml

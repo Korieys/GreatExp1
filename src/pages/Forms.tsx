@@ -9,7 +9,7 @@ const Forms = () => {
                 title="Patient Forms | Great Expectations"
                 description="Complete your intake paperwork securely online."
                 keywords="forms, intake, patient forms, secure, hipaa, valant"
-                url="https://greatexpectations.clinic/forms"
+                url="https://www.gexpectations.com/forms"
             />
             <section className="max-w-[1200px] mx-auto px-8">
                 <div className="text-center mb-24">

@@ -88,8 +88,8 @@ const Home = () => {
         "@context": "https://schema.org",
         "@type": "MedicalClinic",
         "name": "Great Expectations",
-        "image": "https://greatexpectations.clinic/hero.jpg",
-        "url": "https://greatexpectations.clinic/",
+        "image": "https://www.gexpectations.com/favicon.png",
+        "url": "https://www.gexpectations.com/",
         "telephone": content.contactPhone,
         "address": {
             "@type": "PostalAddress",

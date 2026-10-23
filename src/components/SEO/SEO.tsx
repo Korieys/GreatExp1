@@ -17,8 +17,8 @@ export default function SEO({
     name = "Great Expectations", 
     type = "website", 
     keywords,
-    image = "https://greatexpectations.clinic/hero.jpg",
-    url = "https://greatexpectations.clinic",
+    image = "https://www.gexpectations.com/favicon.png",
+    url = "https://www.gexpectations.com",
     schema
 }: SEOProps) {
     return (
