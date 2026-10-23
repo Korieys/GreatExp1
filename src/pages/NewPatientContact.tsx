@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { Phone, Mail, MapPin, Send, ShieldCheck } from 'lucide-react';
 import SEO from '../components/SEO/SEO';
 import { contactService } from '../services/contactService';
@@ -23,6 +24,7 @@ const NewPatientContact = () => {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        if (loading) return;
         setLoading(true);
         setError('');
 
@@ -32,7 +34,7 @@ const NewPatientContact = () => {
             setFormData({ parentName: '', email: '', serviceOfInterest: '', message: '' });
         } catch (err) {
             console.error(err);
-            setError('Failed to send message. Please try again later.');
+            setError('Your request could not be confirmed. Your entries are still here. Please try again or call the practice.');
         } finally {
             setLoading(false);
         }
@@ -83,7 +85,7 @@ const NewPatientContact = () => {
                                 </div>
                                 <div>
                                     <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Direct Line</p>
-                                    <p className="text-xl font-bold text-slate-900">{content.contactPhone}</p>
+                                    <a className="text-xl font-bold text-slate-900 underline underline-offset-4" href={`tel:${content.contactPhone.replace(/[^+\d]/g, '')}`}>{content.contactPhone}</a>
                                 </div>
                             </div>
 
@@ -93,7 +95,7 @@ const NewPatientContact = () => {
                                 </div>
                                 <div>
                                     <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Clinical Desk</p>
-                                    <p className="text-xl font-bold text-slate-900">{content.contactEmail}</p>
+                                    <a className="text-xl font-bold text-slate-900 break-all underline underline-offset-4" href={`mailto:${content.contactEmail}`}>{content.contactEmail}</a>
                                 </div>
                             </div>
 
@@ -115,8 +117,8 @@ const NewPatientContact = () => {
                                     <ShieldCheck className="w-6 h-6" />
                                 </div>
                                 <div>
-                                    <p className="text-[10px] font-black uppercase tracking-widest opacity-60">HIPAA Secure Portal</p>
-                                    <p className="text-sm font-bold">End-to-End Encryption Enabled</p>
+                                    <p className="text-[10px] font-black uppercase tracking-widest opacity-60">General inquiries</p>
+                                    <p className="text-sm font-bold">Use the patient intake portal for clinical details</p>
                                 </div>
                             </div>
                         </div>
@@ -127,8 +129,8 @@ const NewPatientContact = () => {
                         <h2 className="text-2xl font-black text-slate-900 mb-10">New Patient Form</h2>
                         {submitted ? (
                             <div className="bg-green-100 border border-green-200 text-green-800 rounded-2xl p-8 text-center">
-                                <h3 className="text-xl font-bold mb-2">Message Sent!</h3>
-                                <p>Thank you for reaching out. Our intake desk will review your information and contact you shortly.</p>
+                                <h3 className="text-xl font-bold mb-2">Request received</h3>
+                                <p>Your request has been saved for the intake desk. This does not book an appointment.</p>
                                 <button
                                     onClick={() => setSubmitted(false)}
                                     className="mt-6 text-sm font-bold underline hover:text-primary transition-colors"
@@ -137,11 +139,13 @@ const NewPatientContact = () => {
                                 </button>
                             </div>
                         ) : (
-                            <form className="space-y-8" onSubmit={handleSubmit}>
+                            <form className="space-y-8" onSubmit={handleSubmit} aria-describedby="contact-privacy">
+                                <p id="contact-privacy" className="text-sm text-slate-600 leading-relaxed">Share only your contact details and a brief general question. Please leave out diagnoses, medical history, insurance details, and other sensitive information. For clinical paperwork, use the <Link to="/forms" className="font-semibold underline underline-offset-4">patient intake portal</Link>.</p>
                                 <div className="grid sm:grid-cols-2 gap-8">
                                     <div className="space-y-4">
-                                        <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2">Name</label>
+                                        <label htmlFor="contact-name" className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2">Your name</label>
                                         <input
+                                            id="contact-name" name="name" autoComplete="name" maxLength={120}
                                             type="text"
                                             required
                                             value={formData.parentName}
@@ -151,8 +155,9 @@ const NewPatientContact = () => {
                                         />
                                     </div>
                                     <div className="space-y-4">
-                                        <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2">Email</label>
+                                        <label htmlFor="contact-email" className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2">Email address</label>
                                         <input
+                                            id="contact-email" name="email" autoComplete="email" maxLength={254}
                                             type="email"
                                             required
                                             value={formData.email}
@@ -164,8 +169,8 @@ const NewPatientContact = () => {
                                 </div>
 
                                 <div className="space-y-4">
-                                    <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2">Service of Interest</label>
-                                    <select
+                                    <label htmlFor="contact-service" className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2">Service of interest (optional)</label>
+                                    <select id="contact-service" name="service"
                                         value={formData.serviceOfInterest}
                                         onChange={(e) => setFormData({ ...formData, serviceOfInterest: e.target.value })}
                                         className="w-full bg-white border border-slate-200 rounded-2xl px-6 py-4 outline-none focus:border-primary transition-colors font-medium appearance-none"
@@ -182,19 +187,19 @@ const NewPatientContact = () => {
                                 </div>
 
                                 <div className="space-y-4">
-                                    <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2">Message</label>
-                                    <textarea
+                                    <label htmlFor="contact-message" className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2">General question</label>
+                                    <textarea id="contact-message" name="message" maxLength={2000} aria-describedby="contact-privacy"
                                         rows={6}
                                         required
                                         value={formData.message}
                                         onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                                         className="w-full bg-white border border-slate-200 rounded-2xl px-6 py-4 outline-none focus:border-primary transition-colors font-medium resize-none"
-                                        placeholder="How can we help?"
+                                        placeholder="For example: Please contact me about availability."
                                     ></textarea>
                                 </div>
 
                                 {error && (
-                                    <div className="p-4 bg-red-50 text-red-600 rounded-xl text-sm font-medium">
+                                    <div role="alert" className="p-4 bg-red-50 text-red-600 rounded-xl text-sm font-medium">
                                         {error}
                                     </div>
                                 )}
@@ -206,7 +211,7 @@ const NewPatientContact = () => {
                                     {loading ? 'Sending...' : 'Submit Request'} <Send className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
                                 </button>
 
-                                <p className="text-[10px] text-center text-slate-400 font-medium">By submitting, you agree to our private clinical policy.</p>
+                                <p className="text-[10px] text-center text-slate-400 font-medium">We use these details to respond to your request. <Link to="/privacy" className="underline underline-offset-4">Read the privacy policy</Link>.</p>
                             </form>
                         )}
                     </div>

@@ -33,10 +33,12 @@ export const contentService = {
         const docSnap = await getDoc(docRef);
 
         if (docSnap.exists()) {
-            return docSnap.data() as SiteContent;
+            const saved = docSnap.data();
+            return Object.fromEntries(Object.entries(defaultSiteContent).map(([key, fallback]) => [
+                key, typeof saved[key] === typeof fallback ? saved[key] : fallback,
+            ])) as unknown as SiteContent;
         } else {
-            // Seed defaults if nothing exists
-            await setDoc(docRef, defaultSiteContent);
+            // Public reads must never attempt an administrative write.
             return defaultSiteContent;
         }
     },

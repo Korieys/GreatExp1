@@ -7,8 +7,8 @@ const Forms = () => {
         <div className="pt-48 pb-40">
             <SEO
                 title="Patient Forms | Great Expectations"
-                description="Complete your intake paperwork securely online."
-                keywords="forms, intake, patient forms, secure, hipaa, valant"
+                description="Open the practice’s patient intake portal."
+                keywords="forms, intake, patient forms, valant"
                 url="https://www.gexpectations.com/forms"
             />
             <section className="max-w-[1200px] mx-auto px-8">
@@ -17,7 +17,7 @@ const Forms = () => {
                         Patient <span className="font-serif italic font-light text-primary">Intake.</span>
                     </h1>
                     <p className="text-xl text-slate-500 max-w-2xl mx-auto leading-relaxed">
-                        We have streamlined our intake process. Please complete your registration and intake forms securely online through our patient portal.
+                        Complete registration and clinical intake through the practice’s patient portal.
                     </p>
                 </div>
 
@@ -31,9 +31,9 @@ const Forms = () => {
                             <ClipboardCheck className="w-12 h-12 text-primary" />
                         </div>
                         
-                        <h2 className="text-3xl font-black text-slate-900 mb-6">Secure Online Intake</h2>
+                        <h2 className="text-3xl font-black text-slate-900 mb-6">Patient Intake Portal</h2>
                         <p className="text-slate-600 mb-12 text-lg leading-relaxed max-w-xl mx-auto">
-                            To provide you with the best possible care, we use a secure, HIPAA-compliant patient intake process. Clicking the button below will take you to our dedicated prospective patient portal.
+                            The button below opens the practice’s prospective patient form on Valant in a new tab. Use that portal for clinical paperwork.
                         </p>
 
                         <a 
@@ -48,7 +48,7 @@ const Forms = () => {
 
                         <div className="mt-14 flex items-center justify-center gap-3 text-sm text-slate-500 font-bold bg-white/60 py-4 px-6 rounded-2xl border border-slate-200/50 inline-flex mx-auto">
                             <ShieldCheck className="w-6 h-6 text-green-500" />
-                            <span>100% Secure & HIPAA Compliant</span>
+                            <span>Clinical intake through Valant</span>
                         </div>
                     </motion.div>
                 </div>

@@ -1,5 +1,6 @@
 import React, { useContext, useState, useEffect, type ReactNode } from "react";
-import { auth } from "../firebase";
+import { auth, db } from "../firebase";
+import { doc, getDoc } from 'firebase/firestore';
 import {
     onAuthStateChanged,
     type User,
@@ -36,10 +37,12 @@ export function AuthProvider({ children }: AuthProviderProps) {
     const [userPermissions, setUserPermissions] = useState<string[] | null>(null);
     const [loading, setLoading] = useState(true);
 
-    const ADMIN_EMAILS = ['korieydixon@yahoo.com', 'denean24@hotmail.com', 'southernlpc@yahoo.com'];
-
     useEffect(() => {
+        let generation = 0;
         const unsubscribe = onAuthStateChanged(auth, async (user) => {
+            const request = ++generation;
+            setIsAdmin(false);
+            setUserPermissions(null);
             if (user) {
                 setLoading(true); // IMPORTANT: Set loading to true while checking Firestore
                 setCurrentUser(user);
@@ -47,27 +50,18 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
                 // Check if user has admin role in Firestore
                 try {
-                    const { doc, getDoc } = await import('firebase/firestore');
-                    const { db } = await import('../firebase');
                     const userDocRef = doc(db, 'users', user.uid);
                     const userDoc = await getDoc(userDocRef);
+                    if (request !== generation) return;
 
                     if (userDoc.exists()) {
                         const data = userDoc.data();
 
-                        if (data.role === 'admin') {
-                            setIsAdmin(true);
-                        } else {
-                            // Fallback to hardcoded list for initial setup/safety
-                            setIsAdmin(user.email ? ADMIN_EMAILS.includes(user.email.toLowerCase()) : false);
-                        }
-
-                        setUserPermissions(data.permissions || null); // null indicates SuperAdmin with all access
-                    } else {
-                        // Fallback if no Firestore user document exists at all
-                        setIsAdmin(user.email ? ADMIN_EMAILS.includes(user.email.toLowerCase()) : false);
+                        setIsAdmin(data.role === 'admin');
+                        setUserPermissions(data.role === 'admin' ? data.permissions || null : null);
                     }
                 } catch (error) {
+                    if (request !== generation) return;
                     console.error("Error checking admin status:", error);
                     setIsAdmin(false);
                 }
@@ -76,10 +70,10 @@ export function AuthProvider({ children }: AuthProviderProps) {
                 setUserLoggedIn(false);
                 setIsAdmin(false);
             }
-            setLoading(false);
+            if (request === generation) setLoading(false);
         });
 
-        return unsubscribe;
+        return () => { generation++; unsubscribe(); };
     }, []);
 
     async function logout() {
