@@ -15,12 +15,12 @@ service cloud.firestore {
     // Role and permission changes require an existing administrator.
     match /users/{userId} {
       allow read: if isAuthenticated() && (request.auth.uid == userId || isAdmin());
-      allow create: if isAdmin() || (isAuthenticated() && request.auth.uid == userId
+      allow create: if isAuthenticated() && request.auth.uid == userId
         && request.resource.data.keys().hasOnly(['uid', 'email', 'firstName', 'lastName', 'role', 'createdAt'])
         && request.resource.data.uid == userId
         && request.resource.data.email == request.auth.token.email
         && request.resource.data.role == 'user'
-        && request.resource.data.createdAt == request.time);
+        && request.resource.data.createdAt == request.time;
       allow update: if isAdmin() || (isAuthenticated() && request.auth.uid == userId
         && request.resource.data.diff(resource.data).affectedKeys().hasOnly([
           'firstName', 'lastName', 'phoneNumber', 'dateOfBirth', 'address'

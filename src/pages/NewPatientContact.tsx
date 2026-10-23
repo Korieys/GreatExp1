@@ -126,7 +126,7 @@ const NewPatientContact = () => {
 
                     {/* Form Side */}
                     <div className="bg-slate-50 rounded-[2.5rem] md:rounded-[4rem] p-8 lg:p-16">
-                        <h2 className="text-2xl font-black text-slate-900 mb-10">New Patient Form</h2>
+                        <h2 className="text-2xl font-black text-slate-900 mb-10">Send a general inquiry</h2>
                         {submitted ? (
                             <div className="bg-green-100 border border-green-200 text-green-800 rounded-2xl p-8 text-center">
                                 <h3 className="text-xl font-bold mb-2">Request received</h3>

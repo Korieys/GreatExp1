@@ -57,7 +57,8 @@ test('self-promotion cannot unlock inquiries, appointments or published site con
 test('an existing administrator retains profile and inquiry management',async()=>{
  const admin=randomUUID(),uid=randomUUID(),db=client(admin);
  await seed('users/'+admin,{...profile(admin),role:'admin'});
- await assertSucceeds(setDoc(doc(db,'users',uid),profile(uid)));
+ await assertFails(setDoc(doc(db,'users',uid),profile(uid)));
+ await seed('users/'+uid,profile(uid));
  await assertSucceeds(updateDoc(doc(db,'users',uid),{role:'practitioner'}));
  await assertSucceeds(getDocs(collection(db,'users')));
  await seed('inquiries/'+uid,{message:'Synthetic test only',status:'new'});

@@ -16,7 +16,7 @@ The repository's prior Firestore policy allowed a customer to write `role: admin
 
 The frontend reads the stored role without an email allowlist fallback. It clears administrative state during account changes and ignores an older account lookup that completes after a new session arrives. Existing staff need their legitimate `role: admin` profile in the database; an email match alone is no longer sufficient to display administration.
 
-The rules file is a proposed source change only. Live policy must be inspected and the reviewed repair explicitly approved before applying it. Existing profiles were not inspected or altered. Existing administrators retain their current management permissions; this does not implement finer per-staff authorization.
+The rules file is a proposed source change only. The live policy was inspected on October 23, 2026 and contains the same unrestricted customer role writes. The reviewed repair needs explicit approval before applying it. Existing profiles were not inspected or altered. Existing administrators retain their current management permissions; this does not implement finer per-staff authorization or add permission to create other users' profiles.
 
 ## Verification
 
@@ -36,4 +36,4 @@ Compatible dependency updates remove both critical advisory entries. Four high e
 - Review the practice's actual privacy notice, provider agreements, retention and deletion process. Feedback, grievance and appointment document workflows need a separate sensitive-data review.
 - Verify mobile navigation, appointment workflow/ownership, file access and remaining dependency advisories.
 
-No application merge, production deployment, live policy change, patient-data access, inquiry submission or customer-record deletion is included.
+No application merge, production deployment, live policy change, patient-record modification or export, inquiry submission or customer-record deletion is included.
