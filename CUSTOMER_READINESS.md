@@ -26,7 +26,7 @@ Run `firebase emulators:exec --config firebase.emulators.json --project demo-gre
 
 The production build includes TypeScript. The existing React 19/react-helmet-async peer mismatch uses `npm ci --legacy-peer-deps`, matching dependency installation. The existing AuthContext hook export triggers the fast-refresh lint rule; the other edited UI files pass targeted lint. Large application bundles remain a performance follow-up.
 
-Compatible dependency updates remove both critical advisory entries. Four high entries remain in the Firebase/Firestore gRPC chain; the audit's suggested Firebase downgrade was not applied. Advisory counts are dependency findings, not a claim of demonstrated exploitability in this browser app.
+Compatible dependency updates remove both critical advisory entries. The scoped Firestore transport override now uses gRPC 1.14.6 while retaining Firebase 12.9.0 and Firestore 4.11.0. The current production and full dependency audits report no advisories. CI rejects high production advisories and exercises the Firebase SDK through the six emulator groups above. See DEPENDENCY_READINESS.md for the exact dependency scope; an empty audit does not establish application-wide security or replace the pending live policy repair.
 
 ## Before customer release
 

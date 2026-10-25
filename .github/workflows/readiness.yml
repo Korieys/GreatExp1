@@ -16,6 +16,8 @@ jobs:
           cache: npm
       # Existing React 19 / react-helmet-async peer range requires legacy resolution.
       - run: npm ci --legacy-peer-deps
+      - name: Reject high production dependency advisories
+        run: npm audit --omit=dev --audit-level=high
       - run: npm run build
       - uses: actions/setup-java@cf277c60eb25467037889841efdb72551f06f6c3 # reviewed v4
         with:
