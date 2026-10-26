@@ -88,8 +88,8 @@ const Home = () => {
         "@context": "https://schema.org",
         "@type": "MedicalClinic",
         "name": "Great Expectations",
-        "image": "https://greatexpectations.clinic/hero.jpg",
-        "url": "https://greatexpectations.clinic/",
+        "image": "https://www.gexpectations.com/favicon.png",
+        "url": "https://www.gexpectations.com/",
         "telephone": content.contactPhone,
         "address": {
             "@type": "PostalAddress",
@@ -151,8 +151,8 @@ const Home = () => {
                                             <ShieldCheck className="w-6 h-6" />
                                         </div>
                                         <div>
-                                            <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-0.5">HIPAA Compliant</p>
-                                            <p className="font-bold text-slate-700 text-sm italic">Patient Privacy Assured</p>
+                                            <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-0.5">Patient information</p>
+                                            <p className="font-bold text-slate-700 text-sm italic">Read our privacy policy</p>
                                         </div>
                                     </div>
                                 </div>

@@ -77,6 +77,7 @@ const AdminInquiries = () => {
                         <input
                             type="text"
                             placeholder="Search messages..."
+                            aria-label="Search messages"
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
                             className="bg-white border border-slate-200 rounded-xl pl-10 pr-4 py-2 text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary w-full md:w-64 shadow-sm"
@@ -90,8 +91,10 @@ const AdminInquiries = () => {
                 {['all', 'new', 'read', 'archived'].map((f) => (
                     <button
                         key={f}
+                        type="button"
+                        aria-pressed={filter === f}
                         onClick={() => setFilter(f as any)}
-                        className={`capitalize px-4 py-1.5 text-sm font-bold rounded-lg transition-all ${filter === f ? 'bg-white text-primary shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
+                        className={`capitalize px-4 py-1.5 text-sm font-bold rounded-lg transition-all cursor-pointer ${filter === f ? 'bg-white text-primary shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
                     >
                         {f}
                         {f === 'new' && inquiries.filter(i => i.status === 'new').length > 0 && (
@@ -169,23 +172,29 @@ const AdminInquiries = () => {
                                 <div className="flex md:flex-col gap-2 justify-start md:justify-center border-t md:border-t-0 md:border-l pl-0 md:pl-6 pt-4 md:pt-0 border-slate-100">
                                     {inq.status !== 'read' && inq.status !== 'archived' && (
                                         <button
+                                            type="button"
+                                            aria-label="Mark inquiry as read"
                                             onClick={() => handleStatusChange(inq.id, 'read')}
-                                            className="p-2 md:px-4 md:py-2 bg-emerald-50 text-emerald-600 hover:bg-emerald-100 rounded-xl transition-colors font-bold text-sm flex items-center gap-2"
+                                            className="p-2 md:px-4 md:py-2 bg-emerald-50 text-emerald-600 hover:bg-emerald-100 rounded-xl transition-colors font-bold text-sm flex items-center gap-2 cursor-pointer"
                                         >
                                             <CheckCircle className="w-4 h-4" /> <span className="hidden md:inline">Mark Read</span>
                                         </button>
                                     )}
                                     {inq.status !== 'archived' && (
                                         <button
+                                            type="button"
+                                            aria-label="Archive inquiry"
                                             onClick={() => handleStatusChange(inq.id, 'archived')}
-                                            className="p-2 md:px-4 md:py-2 bg-slate-50 text-slate-600 hover:bg-slate-100 rounded-xl transition-colors font-bold text-sm flex items-center gap-2"
+                                            className="p-2 md:px-4 md:py-2 bg-slate-50 text-slate-600 hover:bg-slate-100 rounded-xl transition-colors font-bold text-sm flex items-center gap-2 cursor-pointer"
                                         >
                                             <Archive className="w-4 h-4" /> <span className="hidden md:inline">Archive</span>
                                         </button>
                                     )}
                                     <button
+                                        type="button"
+                                        aria-label="Delete inquiry permanently"
                                         onClick={() => handleDelete(inq.id)}
-                                        className="p-2 md:px-4 md:py-2 text-red-400 hover:bg-red-50 hover:text-red-600 rounded-xl transition-colors font-bold text-sm flex items-center gap-2"
+                                        className="p-2 md:px-4 md:py-2 text-red-400 hover:bg-red-50 hover:text-red-600 rounded-xl transition-colors font-bold text-sm flex items-center gap-2 cursor-pointer"
                                     >
                                         <Trash2 className="w-4 h-4" /> <span className="hidden md:inline">Delete</span>
                                     </button>

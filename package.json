@@ -3,11 +3,17 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "overrides": {
+    "@firebase/firestore": {
+      "@grpc/grpc-js": "1.14.6"
+    }
+  },
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test:database": "node --test tests/database/*.test.mjs"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.18",
@@ -24,6 +30,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
+    "@firebase/rules-unit-testing": "^5.0.2",
     "@types/node": "^24.12.2",
     "@types/react": "^19.2.5",
     "@types/react-dom": "^19.2.3",

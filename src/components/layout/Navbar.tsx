@@ -10,7 +10,7 @@ const Navbar = () => {
     const [scrolled, setScrolled] = useState(false);
     const location = useLocation();
     const navigate = useNavigate();
-    const { userLoggedIn, logout } = useAuth();
+    const { userLoggedIn, isAdmin, logout } = useAuth();
 
     useEffect(() => {
         const handleScroll = () => {
@@ -31,6 +31,7 @@ const Navbar = () => {
         { name: 'Blog', path: '/blog' },
         { name: 'Resources', path: '/resources' },
         { name: 'New Patient', path: '/new-patient' },
+        { name: 'Contact', path: '/contact' },
     ];
 
     return (
@@ -82,9 +83,18 @@ const Navbar = () => {
                         </motion.button>
                     </Link>
 
-                    {userLoggedIn && (
+                    {userLoggedIn ? (
                         <>
-                            {useAuth().isAdmin && (
+                            <Link
+                                to="/portal"
+                                className={`text-[11px] font-bold uppercase tracking-[0.15em] transition-colors relative group ${scrolled
+                                    ? (location.pathname === '/portal' ? 'text-primary' : 'text-slate-500 hover:text-primary')
+                                    : (location.pathname === '/portal' ? 'text-secondary' : 'text-white hover:text-secondary')
+                                    }`}
+                            >
+                                Portal
+                            </Link>
+                            {isAdmin && (
                                 <Link
                                     to="/admin"
                                     className={`text-[11px] font-bold uppercase tracking-[0.15em] transition-colors relative group ${scrolled
@@ -104,16 +114,33 @@ const Navbar = () => {
                                         console.error("Logout failed", e);
                                     }
                                 }}
-                                className={`text-[11px] font-bold uppercase tracking-[0.15em] transition-colors ${scrolled ? 'text-slate-500 hover:text-red-500' : 'text-white hover:text-red-300'}`}
+                                className={`text-[11px] font-bold uppercase tracking-[0.15em] transition-colors cursor-pointer ${scrolled ? 'text-slate-500 hover:text-red-500' : 'text-white hover:text-red-300'}`}
                             >
                                 Logout
                             </button>
                         </>
+                    ) : (
+                        <Link
+                            to="/login"
+                            className={`text-[11px] font-bold uppercase tracking-[0.15em] transition-colors relative group ${scrolled
+                                ? (location.pathname === '/login' ? 'text-primary' : 'text-slate-500 hover:text-primary')
+                                : (location.pathname === '/login' ? 'text-secondary' : 'text-white hover:text-secondary')
+                                }`}
+                        >
+                            Sign In
+                        </Link>
                     )}
                 </div>
 
-                <button className="lg:hidden" onClick={() => setIsMenuOpen(!isMenuOpen)}>
-                    {isMenuOpen ? <X className="w-8 h-8" /> : <Menu className={`w-8 h-8 transition-colors ${scrolled ? 'text-slate-900' : 'text-white'}`} />}
+                <button
+                    type="button"
+                    className="lg:hidden p-2 rounded-xl focus:outline-none focus:ring-2 focus:ring-secondary"
+                    onClick={() => setIsMenuOpen(!isMenuOpen)}
+                    aria-label={isMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+                    aria-expanded={isMenuOpen}
+                    aria-controls="mobile-navigation"
+                >
+                    {isMenuOpen ? <X className="w-8 h-8 text-slate-900" /> : <Menu className={`w-8 h-8 transition-colors ${scrolled ? 'text-slate-900' : 'text-white'}`} />}
                 </button>
             </div>
 
@@ -121,6 +148,7 @@ const Navbar = () => {
             <AnimatePresence>
                 {isMenuOpen && (
                     <motion.div
+                        id="mobile-navigation"
                         initial={{ opacity: 0, height: 0 }}
                         animate={{ opacity: 1, height: 'auto' }}
                         exit={{ opacity: 0, height: 0 }}
@@ -142,9 +170,16 @@ const Navbar = () => {
                                     Schedule an Assessment
                                 </button>
                             </Link>
-                            {userLoggedIn && (
+                            {userLoggedIn ? (
                                 <>
-                                    {useAuth().isAdmin && (
+                                    <Link
+                                        to="/portal"
+                                        onClick={() => setIsMenuOpen(false)}
+                                        className="text-sm font-bold uppercase tracking-widest text-slate-600 hover:text-primary transition-colors"
+                                    >
+                                        Patient Portal
+                                    </Link>
+                                    {isAdmin && (
                                         <Link
                                             to="/admin"
                                             onClick={() => setIsMenuOpen(false)}
@@ -159,11 +194,19 @@ const Navbar = () => {
                                             await logout();
                                             navigate('/login');
                                         }}
-                                        className="text-sm font-bold uppercase tracking-widest text-left text-red-500 hover:text-red-700 transition-colors"
+                                        className="text-sm font-bold uppercase tracking-widest text-left text-red-500 hover:text-red-700 transition-colors cursor-pointer"
                                     >
                                         Logout
                                     </button>
                                 </>
+                            ) : (
+                                <Link
+                                    to="/login"
+                                    onClick={() => setIsMenuOpen(false)}
+                                    className="text-sm font-bold uppercase tracking-widest text-slate-600 hover:text-primary transition-colors"
+                                >
+                                    Client Sign In
+                                </Link>
                             )}
                         </div>
                     </motion.div>
