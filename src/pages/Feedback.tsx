@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Send, MessageSquarePlus } from 'lucide-react';
-import { db } from '../firebase';
-import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { Send, MessageSquarePlus, ShieldCheck } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import SEO from '../components/SEO/SEO';
+import { contactService } from '../services/contactService';
 
 const Feedback = () => {
     const [name, setName] = useState('');
@@ -19,14 +19,12 @@ const Feedback = () => {
         setError('');
 
         try {
-            await addDoc(collection(db, 'inquiries'), {
-                parentName: name || 'Anonymous',
-                email: email || 'N/A',
+            await contactService.createInquiry({
+                parentName: name.trim() || 'Anonymous',
+                email: email.trim() || 'N/A',
                 serviceOfInterest: 'Feedback',
-                message: suggestion,
+                message: suggestion.trim(),
                 type: 'feedback',
-                status: 'new',
-                createdAt: serverTimestamp()
             });
             setSubmitted(true);
             setName('');
@@ -34,7 +32,7 @@ const Feedback = () => {
             setSuggestion('');
         } catch (err) {
             console.error("Error submitting feedback:", err);
-            setError('Failed to submit feedback. Please try again later.');
+            setError('Your feedback could not be submitted right now. Your entries are preserved. Please try again or call the practice.');
         } finally {
             setLoading(false);
         }
@@ -80,26 +78,41 @@ const Feedback = () => {
                     </div>
                 ) : (
                     <div className="bg-white p-10 md:p-14 rounded-[3rem] shadow-2xl shadow-slate-200/50 border border-slate-100">
-                        <form className="space-y-8" onSubmit={handleSubmit}>
+                        <form className="space-y-8" onSubmit={handleSubmit} aria-describedby="feedback-notice">
+                            <div id="feedback-notice" className="p-4 bg-slate-50 rounded-2xl border border-slate-200 flex items-start gap-3">
+                                <ShieldCheck className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
+                                <p className="text-xs text-slate-600 leading-relaxed">
+                                    Please share general feedback only. Do not submit sensitive health records, diagnoses, or urgent clinical matters through this form. For clinical records, use the <Link to="/forms" className="font-bold underline underline-offset-4">patient portal</Link>.
+                                </p>
+                            </div>
+
                             <div className="grid md:grid-cols-2 gap-8">
                                 <div className="space-y-2">
-                                    <label className="text-xs font-black uppercase tracking-wider text-slate-500 pl-4">Name (Optional)</label>
+                                    <label htmlFor="feedback-name" className="text-xs font-black uppercase tracking-wider text-slate-500 pl-4">Name (Optional)</label>
                                     <input
+                                        id="feedback-name"
+                                        name="name"
                                         type="text"
+                                        autoComplete="name"
+                                        maxLength={120}
                                         value={name}
                                         onChange={(e) => setName(e.target.value)}
-                                        className="w-full h-14 px-6 rounded-2xl bg-slate-50 border-none focus:ring-2 focus:ring-primary/20 outline-none transition-all placeholder:text-slate-400 font-medium"
+                                        className="w-full h-14 px-6 rounded-2xl bg-slate-50 border border-slate-200 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all placeholder:text-slate-400 font-medium"
                                         placeholder="Your Name"
                                         disabled={loading}
                                     />
                                 </div>
                                 <div className="space-y-2">
-                                    <label className="text-xs font-black uppercase tracking-wider text-slate-500 pl-4">Email (Optional)</label>
+                                    <label htmlFor="feedback-email" className="text-xs font-black uppercase tracking-wider text-slate-500 pl-4">Email (Optional)</label>
                                     <input
+                                        id="feedback-email"
+                                        name="email"
                                         type="email"
+                                        autoComplete="email"
+                                        maxLength={254}
                                         value={email}
                                         onChange={(e) => setEmail(e.target.value)}
-                                        className="w-full h-14 px-6 rounded-2xl bg-slate-50 border-none focus:ring-2 focus:ring-primary/20 outline-none transition-all placeholder:text-slate-400 font-medium"
+                                        className="w-full h-14 px-6 rounded-2xl bg-slate-50 border border-slate-200 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all placeholder:text-slate-400 font-medium"
                                         placeholder="name@example.com"
                                         disabled={loading}
                                     />
@@ -107,19 +120,22 @@ const Feedback = () => {
                             </div>
 
                             <div className="space-y-2">
-                                <label className="text-xs font-black uppercase tracking-wider text-slate-500 pl-4">Your Suggestion</label>
+                                <label htmlFor="feedback-suggestion" className="text-xs font-black uppercase tracking-wider text-slate-500 pl-4">Your Suggestion</label>
                                 <textarea
+                                    id="feedback-suggestion"
+                                    name="suggestion"
                                     required
+                                    maxLength={2000}
                                     value={suggestion}
                                     onChange={(e) => setSuggestion(e.target.value)}
-                                    className="w-full h-40 px-6 py-6 rounded-3xl bg-slate-50 border-none focus:ring-2 focus:ring-primary/20 outline-none transition-all placeholder:text-slate-400 resize-none font-medium"
+                                    className="w-full h-40 px-6 py-4 rounded-3xl bg-slate-50 border border-slate-200 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all placeholder:text-slate-400 resize-none font-medium"
                                     placeholder="What's on your mind?"
                                     disabled={loading}
                                 ></textarea>
                             </div>
 
                             {error && (
-                                <div className="p-4 bg-red-50 text-red-600 rounded-xl text-sm font-medium">
+                                <div role="alert" className="p-4 bg-red-50 text-red-600 rounded-xl text-sm font-medium border border-red-100">
                                     {error}
                                 </div>
                             )}

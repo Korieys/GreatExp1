@@ -1,39 +1,67 @@
 # Great Expectations customer readiness
 
-This draft is not a production release. It retains the corrected live-domain metadata and adds the following repairs.
+This draft is not a production release. It retains the corrected live-domain metadata, dependency updates, and access repairs.
 
-## Contact and intake
+## Contact, intake and inquiries
 
-The general contact and new-patient inquiry pages no longer claim end-to-end encryption or present the inquiry form as a HIPAA portal. They ask for contact details and a brief general question, direct clinical paperwork to the existing Valant intake link, and link the existing privacy policy. A successful database write is described as a saved request rather than a booked appointment. Failed submissions preserve the customer's entries.
+The general contact, new-patient inquiry, feedback, and grievance workflows are structured around truthful disclosures and secure routing:
 
-Fields have associated labels, autocomplete and length limits. Phone and email details are actionable links. Generic Facebook and Instagram destinations are removed. The home and intake pages replace blanket security claims with descriptions of the actual portal destination. The existing privacy notice still needs practice review; this patch does not establish legal compliance or a provider agreement.
+- **Truthful intake routing**: Forms no longer claim end-to-end encryption or present public website fields as a HIPAA portal. Clinical paperwork and prospective patient intake are routed directly to the practice's secure portal on Valant EHR (`https://valant.io/prospectivepatient/GreatExpectationsTherapeutic`).
+- **Data boundaries & sensitive health disclosures**: Contact, feedback, and grievance forms explicitly advise users to share only general questions, contact information, or administrative concerns, and to leave out protected health information (PHI), diagnoses, and insurance details.
+- **Form accessibility & failure recovery**: All inputs feature accessible label associations (`htmlFor` / `id`), character length bounds (`maxLength`), and standard autocomplete hints. If a network or database failure occurs, customer entries are preserved in the form, and accessible error banners (`role="alert"`) provide recovery guidance.
+- **Direct communication links**: Practice telephone (`832.399.6141`) and clinical desk email (`hello@greatexpectations.com`) are actionable links (`tel:` / `mailto:`). Generic social media links are removed.
+- **CMS safety**: Public CMS reads return validated defaults for absent or partial settings and never attempt administrative database writes.
+- **Patient form uploads deprecated**: The legacy unstructured `patientFormService` file upload path is deprecated and annotated; clinical records are handled exclusively through the Valant EHR workflow.
 
-Public CMS reads now return validated defaults for absent/partial settings and never attempt to seed the database. Administrative writes remain in the existing editor.
+## Account access & staff authorization
 
-## Account access
+- **Role enforcement**: In the prior configuration, a customer could write `role: admin` to their own profile and access administrative data. The proposed policy permits signup only as an authenticated `user` with matching identity and request-time creation. Updates are restricted to contact/profile fields; role, permissions, identity, and creation time remain administrator-controlled. Profile deletion is denied to prevent recreation attacks.
+- **Dynamic staff verification**:
+  - `AdminLogin.tsx` verifies the authenticated user's Firestore record for `role === 'admin'`. If an account without administrator privileges signs in, it immediately terminates the session (`signOut`) and displays an explicit access denial rather than granting dashboard access.
+  - `Portal.tsx` removes the legacy hardcoded email allowlist (`korieydixon@yahoo.com`) in favor of dynamic `isAdmin` role evaluation from `AuthContext`.
+  - `Navbar.tsx` provides accessible navigation: a `Portal` link for signed-in patients, an `Admin` link for verified staff, and accessible mobile controls (`aria-label`, `aria-expanded`, `aria-controls="mobile-navigation"`).
+- **Legitimate staff identities**: Practice administration recognizes three primary staff identities for role verification:
+  1. `korieydixon@yahoo.com` (Owner / Practice Administrator)
+  2. `denean24@hotmail.com` (Clinical Director)
+  3. `southernlpc@yahoo.com` (Lead Clinician / Supervisor)
+  These accounts must have `role: 'admin'` in their Firestore profile documents before rule deployment to ensure continuous access.
+- **Pending live rule approval**: The reviewed rules file (`firestore.rules` / `greatexp-reviewed.rules`) remains unapplied to the live Firebase project `greatexp-a3b99` pending owner approval.
 
-The repository's prior Firestore policy allowed a customer to write `role: admin` to their own profile, then use that role to access inquiries, other profiles and site administration. The proposed policy permits signup only as the authenticated `user`, with matching identity and request-time creation. Customer updates are restricted to contact/profile fields; role, permissions, identity and creation time remain administrator-controlled. Customer profile deletion is denied so deletion/recreation cannot bypass the policy.
+## Appointment & document ownership
 
-The frontend reads the stored role without an email allowlist fallback. It clears administrative state during account changes and ignores an older account lookup that completes after a new session arrives. Existing staff need their legitimate `role: admin` profile in the database; an email match alone is no longer sufficient to display administration.
-
-The rules file is a proposed source change only. The live policy was inspected on October 23, 2026 and contains the same unrestricted customer role writes. The reviewed repair needs explicit approval before applying it. Existing profiles were not inspected or altered. Existing administrators retain their current management permissions; this does not implement finer per-staff authorization or add permission to create other users' profiles.
+- **Scoped storage uploads**: In `BookAppointment.tsx`, document uploads (insurance cards, IDs, referral notes) are scoped strictly to `appointments/${currentUser.uid}/${timestamp}_${sanitizedFilename}`.
+- **File validation**: File size is strictly enforced up to 10 MB, and file types are restricted to safe document formats (PDF, PNG, JPEG, WebP).
+- **Failure recovery**: In case of submission errors, user form fields are retained so clients do not lose scheduling details.
+- **Access rules**: Storage rules permit appointment document read/write access solely to the authenticated owner (`request.auth.uid == userId`) and verified administrators.
 
 ## Verification
 
-Six disposable Firestore emulator groups cover normal signup; role/permission and identity forgery; protected updates; cross-account profile denial; self-promotion followed by private reads or a batch write; legitimate administrator operations; and public inquiry creation without public retrieval. Tests refuse any emulator host other than `127.0.0.1:8188` and use project `demo-greatexp-readiness`. CI provisions Java 21 and Firebase CLI 15.34.0. No live records are used.
+- **Database emulator suite**: Eight automated test groups in `tests/database/customer-access.test.mjs` exercise:
+  1. Legitimate user signup with matching identity and rejection of forged initial roles or permissions.
+  2. Customer profile updates restricted to contact fields, denying role, identity, or creation time tampering.
+  3. Strict isolation between customer profiles (cross-account read, update, and delete rejection).
+  4. Prevention of self-promotion attacks unlocking inquiries, appointments, or CMS content (including batch commits).
+  5. Administrator management of user roles, practitioner listings, inquiries, and site content.
+  6. Public submission of inquiries without public retrieval or modification.
+  7. Appointment ownership: customers can create and view only their own appointments; forged IDs and cross-account access are blocked; administrators can view, confirm, and update all appointments.
+  8. Inquiry lifecycle: public submissions across inquiry, feedback, and grievance types are recorded as `new`; administrators can view all categories, update status (`read`, `archived`), and perform authorized cleanup.
+- **Dependency audit**: Production audit (`npm audit --omit=dev --audit-level=high`) reports 0 vulnerabilities. The scoped `@grpc/grpc-js` override (1.14.6) eliminates high advisory entries while maintaining Firebase 12.9.0 and Firestore 4.11.0 compatibility.
+- **Production build**: TypeScript type-checking and Vite bundling build cleanly with zero errors.
 
-Run `firebase emulators:exec --config firebase.emulators.json --project demo-greatexp-readiness --only firestore "npm run test:database"`. See [Firebase's testing documentation](https://firebase.google.com/docs/firestore/security/test-rules-emulator).
+## Prepared fictional inquiry test
 
-The production build includes TypeScript. The existing React 19/react-helmet-async peer mismatch uses `npm ci --legacy-peer-deps`, matching dependency installation. The existing AuthContext hook export triggers the fast-refresh lint rule; the other edited UI files pass targeted lint. Large application bundles remain a performance follow-up.
+A fictional inquiry test protocol has been prepared for execution once live rules and staff access are approved. See `outputs/greatexp-fictional-inquiry-test-review.html`.
+- **Payload**: Marked with `parentName: 'Portfolio QA — Fictional Inquiry Test'`, `email: 'fictional-inquiry@example.com'`, `serviceOfInterest: 'Pediatric Development'`, and clear non-clinical inquiry message.
+- **Verification steps**: Staff signs in at `/admin/login`, locates the fictional inquiry in `/admin/inquiries`, advances status from `new` to `read` to `archived`, and performs verified record removal.
+- **Zero clinical impact**: No actual patient data, real email delivery, or modification of existing practice records.
 
-Compatible dependency updates remove both critical advisory entries. The scoped Firestore transport override now uses gRPC 1.14.6 while retaining Firebase 12.9.0 and Firestore 4.11.0. The current production and full dependency audits report no advisories. CI rejects high production advisories and exercises the Firebase SDK through the six emulator groups above. See DEPENDENCY_READINESS.md for the exact dependency scope; an empty audit does not establish application-wide security or replace the pending live policy repair.
+## Remaining owner decisions & launch gates
 
-## Before customer release
-
-- Inspect and apply approved live rules, verify existing staff roles, and test signed-in owner/staff isolation.
-- Confirm contact details and real inquiry receipt in the staff workflow. No test inquiry has been sent.
-- Verify the Valant destination and operational intake process without submitting patient information.
-- Review the practice's actual privacy notice, provider agreements, retention and deletion process. Feedback, grievance and appointment document workflows need a separate sensitive-data review.
-- Verify mobile navigation, appointment workflow/ownership, file access and remaining dependency advisories.
-
-No application merge, production deployment, live policy change, patient-record modification or export, inquiry submission or customer-record deletion is included.
+1. **Live rule approval**: Authorize application of reviewed Firestore rules to Firebase project `greatexp-a3b99`.
+2. **Staff role verification**: Verify that `korieydixon@yahoo.com`, `denean24@hotmail.com`, and `southernlpc@yahoo.com` have `role: 'admin'` in their Firestore user documents.
+3. **Contact details confirmation**: Confirm accuracy of published contact details (`832.399.6141`, `hello@greatexpectations.com`, `1500 S. Dairy Ashford Rd. Suite 295, Houston TX 77077`).
+4. **Valant workflow confirmation**: Confirm practice operation of the prospective patient intake workflow via Valant without transmitting PHI through website contact channels.
+5. **Legal & compliance policies**:
+   - Legal review of practice privacy policy and Notice of Privacy Practices (NPP).
+   - Execution of Business Associate Agreements (BAAs) with technology vendors (Firebase, Google Cloud, Valant, hosting provider).
+   - Formal data retention, archive, and deletion schedules for general website inquiries, feedback, and grievance logs.

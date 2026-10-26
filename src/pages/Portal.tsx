@@ -17,7 +17,7 @@ interface Appointment {
 }
 
 const Portal = () => {
-    const { currentUser, logout } = useAuth();
+    const { currentUser, isAdmin, logout } = useAuth();
     const navigate = useNavigate();
     const [appointments, setAppointments] = useState<Appointment[]>([]);
     const [loading, setLoading] = useState(true);
@@ -79,14 +79,13 @@ const Portal = () => {
                             <PlusCircle className="mr-2 h-4 w-4" />
                             New Appointment
                         </Link>
-                        {/* Temporary Admin Link for testing/demo */}
-                        {currentUser?.email && ['korieydixon@yahoo.com'].includes(currentUser.email.toLowerCase()) && (
+                        {isAdmin && (
                             <Link to="/admin" className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-lg shadow-sm text-xs font-bold uppercase tracking-wider text-gray-700 bg-white hover:bg-gray-50 transition-all">
                                 <Shield className="mr-2 h-4 w-4" />
                                 Admin Panel
                             </Link>
                         )}
-                        <button onClick={handleLogout} className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-lg shadow-sm text-xs font-bold uppercase tracking-wider text-red-700 bg-white hover:bg-red-50 transition-all">
+                        <button onClick={handleLogout} className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-lg shadow-sm text-xs font-bold uppercase tracking-wider text-red-700 bg-white hover:bg-red-50 transition-all cursor-pointer">
                             <LogOut className="mr-2 h-4 w-4" />
                             Logout
                         </button>

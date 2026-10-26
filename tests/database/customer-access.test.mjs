@@ -72,3 +72,110 @@ test('public inquiry submission stays available without public retrieval or modi
  await assertSucceeds(setDoc(ref,{parentName:'Synthetic QA',email:'fictional@example.com',serviceOfInterest:'General',message:'Fictional test only',status:'new',createdAt:serverTimestamp()}));
  await assertFails(getDoc(ref));await assertFails(updateDoc(ref,{status:'read'}));await assertFails(deleteDoc(ref));
 });
+
+test('appointment ownership: customers manage only their own appointments; cross-account access and forgery are denied',async()=>{
+ const clientA=randomUUID(),clientB=randomUUID(),admin=randomUUID(),appId=randomUUID();
+ const dbA=client(clientA),dbB=client(clientB),dbAdmin=client(admin),guest=env.unauthenticatedContext().firestore();
+ await seed('users/'+clientA,profile(clientA));
+ await seed('users/'+clientB,profile(clientB));
+ await seed('users/'+admin,{...profile(admin),role:'admin'});
+
+ // Client A creates appointment for self -> succeeds
+ await assertSucceeds(setDoc(doc(dbA,'appointments',appId),{
+  userId:clientA,
+  userEmail:clientA+'@example.com',
+  serviceType:'Consultation',
+  date:'2026-11-01',
+  time:'10:00',
+  status:'pending',
+  createdAt:serverTimestamp()
+ }));
+
+ // Client A cannot create appointment under Client B's userId
+ const forgedAppId=randomUUID();
+ await assertFails(setDoc(doc(dbA,'appointments',forgedAppId),{
+  userId:clientB,
+  userEmail:clientB+'@example.com',
+  serviceType:'Consultation',
+  status:'pending',
+  createdAt:serverTimestamp()
+ }));
+
+ // Guest cannot create appointment
+ await assertFails(setDoc(doc(guest,'appointments',randomUUID()),{
+  userId:clientA,
+  status:'pending'
+ }));
+
+ // Client A can read their own appointment
+ await assertSucceeds(getDoc(doc(dbA,'appointments',appId)));
+
+ // Client B cannot read Client A's appointment
+ await assertFails(getDoc(doc(dbB,'appointments',appId)));
+
+ // Client B cannot update or delete Client A's appointment
+ await assertFails(updateDoc(doc(dbB,'appointments',appId),{notes:'Unauthorized change'}));
+ await assertFails(deleteDoc(doc(dbB,'appointments',appId)));
+
+ // Admin can read, update, and manage the appointment
+ await assertSucceeds(getDoc(doc(dbAdmin,'appointments',appId)));
+ await assertSucceeds(updateDoc(doc(dbAdmin,'appointments',appId),{status:'confirmed',assignedMember:'Tonya Haynes'}));
+ await assertSucceeds(deleteDoc(doc(dbAdmin,'appointments',appId)));
+});
+
+test('inquiry receipt and status lifecycle: staff can view, update, and archive submissions across categories',async()=>{
+ const admin=randomUUID(),guest=env.unauthenticatedContext().firestore(),dbAdmin=client(admin);
+ await seed('users/'+admin,{...profile(admin),role:'admin'});
+
+ // 1. General inquiry submission
+ const inqId=randomUUID();
+ await assertSucceeds(setDoc(doc(guest,'inquiries',inqId),{
+  parentName:'Portfolio QA — Fictional Inquiry Test',
+  email:'fictional-inquiry@example.com',
+  serviceOfInterest:'Pediatric Development',
+  message:'Synthetic general inquiry receipt test',
+  type:'inquiry',
+  status:'new',
+  createdAt:serverTimestamp()
+ }));
+
+ // 2. Feedback submission
+ const fbId=randomUUID();
+ await assertSucceeds(setDoc(doc(guest,'inquiries',fbId),{
+  parentName:'Portfolio QA — Fictional Feedback',
+  email:'fictional-fb@example.com',
+  serviceOfInterest:'Feedback',
+  message:'Synthetic feedback test',
+  type:'feedback',
+  status:'new',
+  createdAt:serverTimestamp()
+ }));
+
+ // 3. Grievance submission
+ const grId=randomUUID();
+ await assertSucceeds(setDoc(doc(guest,'inquiries',grId),{
+  parentName:'Portfolio QA — Fictional Grievance',
+  email:'N/A',
+  phoneNumber:'832-555-0199',
+  dateOfIncident:'2026-10-20',
+  serviceOfInterest:'Grievance',
+  message:'Synthetic grievance procedure test',
+  type:'grievance',
+  status:'new',
+  createdAt:serverTimestamp()
+ }));
+
+ // Admin can read all three
+ await assertSucceeds(getDoc(doc(dbAdmin,'inquiries',inqId)));
+ await assertSucceeds(getDoc(doc(dbAdmin,'inquiries',fbId)));
+ await assertSucceeds(getDoc(doc(dbAdmin,'inquiries',grId)));
+
+ // Admin can update status (new -> read -> archived)
+ await assertSucceeds(updateDoc(doc(dbAdmin,'inquiries',inqId),{status:'read'}));
+ await assertSucceeds(updateDoc(doc(dbAdmin,'inquiries',inqId),{status:'archived'}));
+
+ // Admin can clean up fictional test records
+ await assertSucceeds(deleteDoc(doc(dbAdmin,'inquiries',inqId)));
+ await assertSucceeds(deleteDoc(doc(dbAdmin,'inquiries',fbId)));
+ await assertSucceeds(deleteDoc(doc(dbAdmin,'inquiries',grId)));
+});
